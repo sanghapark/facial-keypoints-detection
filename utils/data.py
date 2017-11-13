@@ -91,11 +91,11 @@ def output_for_kaggle_submission(Y_pred, filename):
     
     merged.to_csv(filename, index=0, columns = ['RowId','Location'] )
 
-def batch_output_for_kaggle_submission(Y_pred, batch_index, batch_size):
+def batch_output_for_kaggle_submission(Y_pred, start, end):
     nImages = Y_pred.shape[0]
     ImageId = []
     FeatureName = []
-    for i in range((batch_index-1)*batch_size, batch_index*batch_size):
+    for i in range(start, end):
         for j in range(0, 2*15):
             ImageId.append(i+1)
             if j == 0:
