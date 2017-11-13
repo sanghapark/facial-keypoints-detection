@@ -16,7 +16,7 @@ img_height = 96
 
 # learning_rate = 0.001
 batch_size = 100
-n_epoch = 100
+n_epoch = 10
 
 initial_learning_rate = 0.01
 decay_steps = 1000
@@ -217,7 +217,6 @@ with open('./output/{}/validation_error.csv'.format(datetime), 'w') as file:
 
 # AWS GPU memory 부족으로 모든 데이터를 한번에 불러서 처리 할 수가 앖다.
 # X_test, _ = ud.load(test=True)
-# Y_predicted = sess.run(Y_hat, feed_dict={X: X_test})
 # Y_predicted = m1.predict(X_test, keep_prop=1.0)
 # ud.show_predictions_on_test_data(X_test, Y_predicted)
 # ud.output_for_kaggle_submission(Y_predicted, "./output/{}/kaggle_submission_CNN_TF".format(datetime))
@@ -226,6 +225,7 @@ X_test, _ = ud.load(test=True)
 total_output = pd.DataFrame()
 for i in range(int(X_test.shape[0]/100)):
     Y_predicted = m1.predict(X_test[:i*100,], keep_prop=1.0)
+    print(Y_predicted)
     partial_output = ud.batch_output_for_kaggle_submission(Y_predicted)
     total_output = pd.concat([total_output, partial_output])
 total_output.to_csv("./output/{}/kaggle_submission_CNN_TF".format(datetime), index=0, columns = ['RowId','Location'] )
