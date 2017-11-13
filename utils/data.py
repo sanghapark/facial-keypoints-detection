@@ -91,11 +91,11 @@ def output_for_kaggle_submission(Y_pred, filename):
     
     merged.to_csv(filename, index=0, columns = ['RowId','Location'] )
 
-def batch_output_for_kaggle_submission(Y_pred, start, end):
+def batch_output_for_kaggle_submission(Y_pred, start, count):
     nImages = Y_pred.shape[0]
     ImageId = []
     FeatureName = []
-    for i in range(start, end):
+    for i in range(start, start+count):
         for j in range(0, 2*15):
             ImageId.append(i+1)
             if j == 0:
@@ -158,8 +158,7 @@ def batch_output_for_kaggle_submission(Y_pred, start, end):
                 FeatureName.append('mouth_center_bottom_lip_x')
             if j == 29:
                 FeatureName.append('mouth_center_bottom_lip_y')
-
-    print(len(ImageId), len(FeatureName), len(Y_pred.reshape(-1, 1)))
+                
     df1= pd.DataFrame()
     df1['ImageId']= ImageId
     df1['FeatureName']= FeatureName
