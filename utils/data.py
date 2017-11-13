@@ -91,6 +91,90 @@ def output_for_kaggle_submission(Y_pred, filename):
     
     merged.to_csv(filename, index=0, columns = ['RowId','Location'] )
 
+def batch_output_for_kaggle_submission(Y_pred):
+    nImages = Y_pred.shape[0]
+    ImageId = []
+    FeatureName = []
+    for i in range(0, nImages):
+        for j in range(0, 2*15):
+            ImageId.append(i+1)
+            if j == 0:
+                FeatureName.append('left_eye_center_x')
+            if j == 1:
+                FeatureName.append('left_eye_center_y')
+            if j == 2:
+                FeatureName.append('right_eye_center_x')
+            if j == 3:
+                FeatureName.append('right_eye_center_y')
+            if j == 4:
+                FeatureName.append('left_eye_inner_corner_x')
+            if j == 5:
+                FeatureName.append('left_eye_inner_corner_y')
+            if j == 6:
+                FeatureName.append('left_eye_outer_corner_x')
+            if j == 7:
+                FeatureName.append('left_eye_outer_corner_y')
+            if j == 8:
+                FeatureName.append('right_eye_inner_corner_x')
+            if j == 9:
+                FeatureName.append('right_eye_inner_corner_y')
+            if j == 10:
+                FeatureName.append('right_eye_outer_corner_x')
+            if j == 11:
+                FeatureName.append('right_eye_outer_corner_y')
+            if j == 12:
+                FeatureName.append('left_eyebrow_inner_end_x')
+            if j == 13:
+                FeatureName.append('left_eyebrow_inner_end_y')
+            if j == 14:
+                FeatureName.append('left_eyebrow_outer_end_x')
+            if j == 15:
+                FeatureName.append('left_eyebrow_outer_end_y')
+            if j == 16:
+                FeatureName.append('right_eyebrow_inner_end_x')
+            if j == 17:
+                FeatureName.append('right_eyebrow_inner_end_y')
+            if j == 18:
+                FeatureName.append('right_eyebrow_outer_end_x')
+            if j == 19:
+                FeatureName.append('right_eyebrow_outer_end_y')
+            if j == 20:
+                FeatureName.append('nose_tip_x')
+            if j == 21:
+                FeatureName.append('nose_tip_y')
+            if j == 22:
+                FeatureName.append('mouth_left_corner_x')
+            if j == 23:
+                FeatureName.append('mouth_left_corner_y')
+            if j == 24:
+                FeatureName.append('mouth_right_corner_x')
+            if j == 25:
+                FeatureName.append('mouth_right_corner_y')
+            if j == 26:
+                FeatureName.append('mouth_center_top_lip_x')
+            if j == 27:
+                FeatureName.append('mouth_center_top_lip_y')
+            if j == 28:
+                FeatureName.append('mouth_center_bottom_lip_x')
+            if j == 29:
+                FeatureName.append('mouth_center_bottom_lip_y')
+
+    df1= pd.DataFrame()
+    df1['ImageId']= ImageId
+    df1['FeatureName']= FeatureName
+    df1["Location"]= Y_pred.reshape(-1,1)
+    df1["Location"] = (df1["Location"]*48) + 48
+    
+    df1.loc[df1.Location > 96, 'Location'] = 95
+    df1.loc[df1.Location < 0, 'Location'] = 0
+
+    df_b = pd.read_csv('../data/IdLookupTable.csv',header=0)
+
+    df_b = df_b.drop('Location',axis=1)
+    merged = df_b.merge(df1, on=['ImageId','FeatureName'] )
+    
+    # merged.to_csv(filename, index=0, columns = ['RowId','Location'] )
+    return merged
 
 def show_predictions_on_test_data(X, Y_predicted):
     def plot_sample(x, y, axis):
