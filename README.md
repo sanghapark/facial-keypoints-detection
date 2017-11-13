@@ -9,6 +9,10 @@ $ screen
 ```shell
 $ python3 find_facial_keypoints.py; echo "Done" | mail -s "Training Finished!" havenpark@gmail.com
 ```
+or
+```shell
+$ python3 find_facial_keypoints.py; echo "Done" | mail -s "Training Finished!" havenpark@gmail.com; sudo shutdown now
+```
 
 # 가상 스크린에서 나오기
 * control + a + d
