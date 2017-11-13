@@ -16,12 +16,14 @@ img_width = 96
 img_height = 96
 
 # learning_rate = 0.001
-batch_size = 300
+batch_size = 100
 n_epoch = 100
 
-initial_learning_rate = 0.01
+initial_learning_rate = 0.001
 decay_steps = 1000
-decay_rate = 1/10
+decay_rate = 0.95
+
+adam_reg_param = 0.95
 
 class FacialKeypointsCnnModel:
     def __init__(self, sess, name):
@@ -139,7 +141,7 @@ class FacialKeypointsCnnModel:
             self.hypothesis = tf.matmul(L5_flat, W6) + b6
 
         global_step = tf.Variable(0, trainable=False, name='global_step')
-        learning_rate = tf.train.exponential_decay(initial_learning_rate, global_step, decay_steps, decay_rate)
+        learning_rate = tf.train.exponential_decay(initial_learning_rate, global_step*batch_index, decay_steps, decay_rate)
         
         # define cost/loss & optimizer
         # self.cost = tf.reduce_mean(tf.square(tf.subtract(self.hypothesis, self.Y)), name="cost")
