@@ -1,5 +1,10 @@
 # aws-facial-keypoints-detection
 
+# AWS GPU server 접속
+```shell
+$ ssh -i sanghapark-ml-seoul.pem ubuntu@13.124.236.226
+```
+
 # 가상 스크린 생성
 ```shell
 $ screen
