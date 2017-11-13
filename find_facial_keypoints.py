@@ -16,7 +16,7 @@ img_height = 96
 
 # learning_rate = 0.001
 batch_size = 100
-n_epoch = 100
+n_epoch = 10
 
 initial_learning_rate = 0.01
 decay_steps = 1000
@@ -49,6 +49,9 @@ class FacialKeypointsCnnModel:
             # 100개의 3x3x1 filters
             # Maybe initi with Xavier??
             W1 = tf.Variable(tf.random_normal([3, 3, 1, 100], stddev=0.01))
+            # W1 = tf.get_variable("W1", shape[3, 3, 1, 100], initializer=initializer=tf.contrib.layers.xavier_initializer())
+            # ex) W4 = tf.get_variable("W4", shape=[400*12*12, 1000], initializer=tf.contrib.layers.xavier_initializer())
+
 
             # Conv 사이즈는 이미지 사이즈와 같게 만들어 보자 (?, 96, 96, 32)
             # stride 양옆 위아래고 두개씩 더해지므로 96 -> 96 + 2
@@ -221,15 +224,15 @@ with open('./output/{}/validation_error.csv'.format(datetime), 'w') as file:
 # ud.show_predictions_on_test_data(X_test, Y_predicted)
 # ud.output_for_kaggle_submission(Y_predicted, "./output/{}/kaggle_submission_CNN_TF".format(datetime))
 
-print('Testing...')
+print('Predicting Test Data...')
 X_test, _ = ud.load(test=True)
 total_output = pd.DataFrame()
-for i in range(1, int(X_test.shape[0]/100) + 1):
-    Y_predicted = m1.predict(X_test[(i-1)*100:i*100,], keep_prop=1.0)
-    partial_output = ud.batch_output_for_kaggle_submission(Y_predicted)
+for batch_index in range(1, int(X_test.shape[0]/batch_size) + 1):
+    Y_predicted = m1.predict(X_test[(batch_index-1)*batch_size:batch_index*batch_size,], keep_prop=1.0)
+    partial_output = ud.batch_output_for_kaggle_submission(Y_predicted, batch_index, batch_size)
     total_output = pd.concat([total_output, partial_output])
 total_output.to_csv("./output/{}/kaggle_submission_CNN_TF.csv".format(datetime), index=0, columns = ['RowId','Location'] )
-print('Finished testing! Checkout output for Kaggle Submission.')
+print('Finished Predicting Test data! Checkout the output file for Kaggle submission.')
 
 
 sess.close()

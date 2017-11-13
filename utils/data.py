@@ -91,11 +91,11 @@ def output_for_kaggle_submission(Y_pred, filename):
     
     merged.to_csv(filename, index=0, columns = ['RowId','Location'] )
 
-def batch_output_for_kaggle_submission(Y_pred):
+def batch_output_for_kaggle_submission(Y_pred, batch_index, batch_size):
     nImages = Y_pred.shape[0]
     ImageId = []
     FeatureName = []
-    for i in range(0, nImages):
+    for i in range((batch_index-1)*batch_size, batch_index*batch_size):
         for j in range(0, 2*15):
             ImageId.append(i+1)
             if j == 0:
@@ -204,6 +204,7 @@ def load_data_with_image_in_1D(test=False):
     else:
         y = None
     return X, y
+
 
 def load(test=False, cols=None):
     fname = test_data if test else train_data
