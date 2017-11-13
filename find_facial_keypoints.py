@@ -224,7 +224,7 @@ with open('./output/{}/validation_error.csv'.format(datetime), 'w') as file:
 X_test, _ = ud.load(test=True)
 total_output = pd.DataFrame()
 for i in range(1, int(X_test.shape[0]/100) + 1):
-    Y_predicted = m1.predict(X_test[:i*100,], keep_prop=1.0)
+    Y_predicted = m1.predict(X_test[(i-1)*100:i*100,], keep_prop=1.0)
     partial_output = ud.batch_output_for_kaggle_submission(Y_predicted)
     total_output = pd.concat([total_output, partial_output])
 total_output.to_csv("./output/{}/kaggle_submission_CNN_TF".format(datetime), index=0, columns = ['RowId','Location'] )
