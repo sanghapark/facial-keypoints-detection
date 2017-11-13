@@ -159,6 +159,7 @@ def batch_output_for_kaggle_submission(Y_pred, start, end):
             if j == 29:
                 FeatureName.append('mouth_center_bottom_lip_y')
 
+    print(len(ImageId), len(FeatureName), len(Y_pred.reshape(-1, 1)))
     df1= pd.DataFrame()
     df1['ImageId']= ImageId
     df1['FeatureName']= FeatureName
