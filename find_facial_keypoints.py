@@ -187,11 +187,11 @@ rmse_valid_vals = []
 print('Start Learning...')
 for epoch in range(n_epoch):
     print('Epoch: {:04d} of {}'.format(epoch+1, n_epoch))
-    for batch_index in range(np.ceil(X_train.shape[0]/batch_size)):
+    for batch_index in range(int(np.ceil(X_train.shape[0]/batch_size))):
         X_batch, Y_batch = ud.fetch_batch(X_train, Y_train, batch_index*batch_size, batch_size)
         rmse_val, _ = m1.train(X_batch, Y_batch)
         rmse_batch_vals.append(rmse_val)
-        print('\t Batch: {:04d} of {}, RMSE: {:.9f}'.format(batch_index+1, np.ceil(X_train.shape[0]/batch_size), rmse_val))
+        print('\t Batch: {:04d} of {}, RMSE: {:.9f}'.format(batch_index+1, int(np.ceil(X_train.shape[0]/batch_size)), rmse_val))
         
 #     mse_val = sess.run(m1.cost, feed_dict={X: X_train, Y: Y_train})
     rmse_valid_val = m1.validate(X_valid, Y_valid)
@@ -228,7 +228,7 @@ with open('./output/{}/validation_error.csv'.format(datetime), 'w') as file:
 print('Predicting Test Data...')
 X_test, _ = ud.load(test=True)
 total_output = pd.DataFrame()
-for batch_index in range(1, np.ceil(X_test.shape[0]/batch_size) + 1):
+for batch_index in range(1, int(np.ceil(X_test.shape[0]/batch_size) + 1)):
     Y_predicted = m1.predict(X_test[(batch_index-1)*batch_size:batch_index*batch_size,], keep_prop=1.0)
     partial_output = ud.batch_output_for_kaggle_submission(Y_predicted, batch_index, batch_size)
     total_output = pd.concat([total_output, partial_output])
