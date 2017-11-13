@@ -84,7 +84,7 @@ def output_for_kaggle_submission(Y_pred, filename):
     df1.loc[df1.Location > 96, 'Location'] = 95
     df1.loc[df1.Location < 0, 'Location'] = 0
 
-    df_b = pd.read_csv('../data/IdLookupTable.csv',header=0)
+    df_b = pd.read_csv(lookup_data,header=0)
 
     df_b = df_b.drop('Location',axis=1)
     merged = df_b.merge(df1, on=['ImageId','FeatureName'] )
@@ -168,7 +168,7 @@ def batch_output_for_kaggle_submission(Y_pred):
     df1.loc[df1.Location > 96, 'Location'] = 95
     df1.loc[df1.Location < 0, 'Location'] = 0
 
-    df_b = pd.read_csv('../data/IdLookupTable.csv',header=0)
+    df_b = pd.read_csv(lookup_data,header=0)
 
     df_b = df_b.drop('Location',axis=1)
     merged = df_b.merge(df1, on=['ImageId','FeatureName'] )
