@@ -141,7 +141,7 @@ class FacialKeypointsCnnModel:
             self.hypothesis = tf.matmul(L5_flat, W6) + b6
 
         global_step = tf.Variable(0, trainable=False, name='global_step')
-        learning_rate = tf.train.exponential_decay(initial_learning_rate, global_step*batch_index, decay_steps, decay_rate)
+        learning_rate = tf.train.exponential_decay(initial_learning_rate, global_step*batch_size, decay_steps, decay_rate)
         
         # define cost/loss & optimizer
         # self.cost = tf.reduce_mean(tf.square(tf.subtract(self.hypothesis, self.Y)), name="cost")
