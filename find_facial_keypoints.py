@@ -51,9 +51,7 @@ class FacialKeypointsCnnModel:
             # Filter Size = [3, 3, 1, 100] 
             # 100개의 3x3x1 filters
             # Maybe initi with Xavier??
-            # W1 = tf.Variable(tf.random_normal([3, 3, 1, 100], stddev=0.01))
-            W1 = tf.get_variable("W1", shape=[3, 3, 1, 100], initializer=tf.contrib.layers.xavier_initializer())
-            # ex) W4 = tf.get_variable("W4", shape=[400*12*12, 1000], initializer=tf.contrib.layers.xavier_initializer())
+            W1 = tf.Variable(tf.random_normal([3, 3, 1, 100], stddev=0.01))
 
 
             # Conv 사이즈는 이미지 사이즈와 같게 만들어 보자 (?, 96, 96, 32)
@@ -84,8 +82,7 @@ class FacialKeypointsCnnModel:
             '''
 
             # L2 ImgIn shape=(?, 48, 48, 100)
-            # W2 = tf.Variable(tf.random_normal([3, 3, 100, 200], stddev=0.01))
-            W2 = tf.get_variable("W2", shape=[3, 3, 100, 200], initializer=tf.contrib.layers.xavier_initializer())
+            W2 = tf.Variable(tf.random_normal([3, 3, 100, 200], stddev=0.01))
             L2 = tf.nn.conv2d(L1, W2, strides=[1, 1, 1, 1], padding='SAME')
             L2 = tf.nn.relu(L2)
             L2 = tf.nn.max_pool(L2, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
@@ -98,8 +95,7 @@ class FacialKeypointsCnnModel:
             '''
 
             # L3 ImgIn shape=(?, 24, 24, 200)
-            # W3 = tf.Variable(tf.random_normal([3, 3, 200, 400], stddev=0.01))
-            W3 = tf.get_variable("W3", shape=[3, 3, 200, 400], initializer=tf.contrib.layers.xavier_initializer())
+            W3 = tf.Variable(tf.random_normal([3, 3, 200, 400], stddev=0.01))
             L3 = tf.nn.conv2d(L2, W3, strides=[1, 1, 1, 1], padding='SAME')
             L3 = tf.nn.relu(L3)
             L3 = tf.nn.max_pool(L3, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
