@@ -221,12 +221,15 @@ with open('./output/{}/validation_error.csv'.format(datetime), 'w') as file:
 # ud.show_predictions_on_test_data(X_test, Y_predicted)
 # ud.output_for_kaggle_submission(Y_predicted, "./output/{}/kaggle_submission_CNN_TF".format(datetime))
 
+print('Testing...')
 X_test, _ = ud.load(test=True)
 total_output = pd.DataFrame()
 for i in range(1, int(X_test.shape[0]/100) + 1):
     Y_predicted = m1.predict(X_test[(i-1)*100:i*100,], keep_prop=1.0)
     partial_output = ud.batch_output_for_kaggle_submission(Y_predicted)
     total_output = pd.concat([total_output, partial_output])
-total_output.to_csv("./output/{}/kaggle_submission_CNN_TF".format(datetime), index=0, columns = ['RowId','Location'] )
+total_output.to_csv("./output/{}/kaggle_submission_CNN_TF.csv".format(datetime), index=0, columns = ['RowId','Location'] )
+print('Finished testing! Checkout output for Kaggle Submission.')
+
 
 sess.close()
