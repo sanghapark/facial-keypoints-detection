@@ -233,7 +233,7 @@ for batch_index in range(1, int(np.ceil(X_test.shape[0]/batch_size)+1)):
     start = (batch_index-1)*batch_size
     end = batch_index*batch_size
     Y_predicted = m1.predict(X_test[start:end,], keep_prop=1.0)
-    print("Predicting {} ~ {} test images ({}, {})".format(start, end, len(X_test[start:end,], len(Y_predicted))))
+    print("Predicting {} ~ {} test images ({}, {})".format(start, end, len(X_test[start:end,]), len(Y_predicted)))
     partial_output = ud.batch_output_for_kaggle_submission(Y_predicted, batch_index, batch_size)
     total_output = pd.concat([total_output, partial_output])
 total_output.to_csv("./output/{}/kaggle_submission_CNN_TF.csv".format(datetime), index=0, columns = ['RowId','Location'] )
