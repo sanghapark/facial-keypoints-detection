@@ -144,7 +144,7 @@ class FacialKeypointsCnnModel:
         # define cost/loss & optimizer
         # self.cost = tf.reduce_mean(tf.square(tf.subtract(self.hypothesis, self.Y)), name="cost")
         self.cost = tf.sqrt(tf.reduce_mean(tf.square(tf.subtract(self.hypothesis, self.Y))), name="cost")
-        self.optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(self.cost, global_step=global_step)
+        self.optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(self.cost)
 
     def predict(self, x_test, keep_prop=1.0):
         feed_dict = {
