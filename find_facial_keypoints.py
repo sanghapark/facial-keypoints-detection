@@ -17,7 +17,7 @@ img_height = 96
 
 # learning_rate = 0.001
 batch_size = 100
-n_epoch = 10
+n_epoch = 100
 
 initial_learning_rate = 0.01
 decay_steps = 1000
