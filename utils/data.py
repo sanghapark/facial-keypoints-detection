@@ -215,6 +215,7 @@ def load(test=False, cols=None):
     if cols:  # get a subset of columns
         df = df[list(cols) + ['Image']]
 
+    # test에서 하면 안됨. 하지만 테스트 파일은 null이 없어서 dropna 할게 없음
     df = df.dropna()
 
     X = np.vstack(df['Image'].values) / 255.  # scale pixel values to [0, 1]
