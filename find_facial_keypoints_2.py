@@ -63,7 +63,11 @@ for epoch in range(start_from, N_EPOCH):
         X_batch, Y_batch = ud.fetch_batch(X_train, Y_train, batch_index*BATCH_SIZE, BATCH_SIZE)
         cost_val, _ = cnnmodel01.train(X_batch, Y_batch, keep_prop=0.5)
         cost_batch_vals.append(cost_val)
-        print('\t batch: {:04d} of {}, cost: {:.9f}'.format(batch_index, n_batches, cost_val))
+        print('\t batch: {:04d} of {}, cost (SSE): {:.9f}'.format(batch_index, n_batches, cost_val))
+
+        s = sess.run(summary, feed_dict={X: X_batch, Y: Y_batch, keep_prob: 0.5})
+        writer.add_summary(s, global_step=global_step)
+        global_step += 1
         
     cost_valid_val = cnnmodel01.validate(X_valid, Y_valid)
     cost_valid_vals.append(cost_valid_val)
@@ -75,7 +79,7 @@ for epoch in range(start_from, N_EPOCH):
     sess.run(last_epoch.assign(epoch + 1))
     if not os.path.exists(CHECK_POINT_DIR):
         os.makedirs(CHECK_POINT_DIR)
-    saver.save(sess, CHECK_POINT_DIR + "/model", global_step=i)
+    saver.save(sess, CHECK_POINT_DIR + "/model", global_step=batch_index)
     
     print('='*100)
     if epoch > N_PAST_COST_VALS and np.mean(cost_valid_vals[-(N_PAST_COST_VALS+1):-1]) < cost_valid_val:

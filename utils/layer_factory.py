@@ -33,6 +33,8 @@ def create_convolutional_layer(layer_count,
         # drop out regularization
         L = tf.nn.dropout(L, keep_prob=dropout_rate)
 
+        tf.summary.histogram("weights", W)
+        tf.summary.histogram("layer", L)
         print("="*50)
         return L
 
@@ -49,6 +51,10 @@ def create_dense_layer(layer_count,
         bias = tf.Variable(tf.random_normal([flat_depth]))
         L = tf.nn.relu(tf.matmul(input_vector, W) + bias)
         L = tf.nn.dropout(L, keep_prob=dropout_rate)
+
+        tf.summary.histogram("weights", W)
+        tf.summary.histogram("bias", bias)
+        tf.summary.histogram("layer", L)
         print("L.shape: ", L.shape)
         print("="*50)
         return L
@@ -64,6 +70,10 @@ def create_last_layer(layer_count,
         W = tf.get_variable('W{:02d}'.format(layer_count), shape=shape, initializer=init)
         bias = tf.Variable(tf.random_normal([flat_depth]))
         hypothesis = tf.matmul(input_vector, W) + bias
+
+        tf.summary.histogram("weights", W)
+        tf.summary.histogram("bias", bias)
+        tf.summary.histogram("hypothesis", hypothesis)
         print("hypothesis.shape: ", hypothesis.shape)
         print("="*50)
         return hypothesis
