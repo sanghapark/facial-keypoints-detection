@@ -23,8 +23,10 @@ print("# of Training Images: {}, # of Validation Images: {} \nStart Learning..."
 for epoch in range(N_EPOCH):
     print('Epoch: {} of {}'.format(epoch+1, N_EPOCH))
     n_batches = int(np.ceil(X_train.shape[0]/BATCH_SIZE))
+    print("Total # of Batches: {}".format(n_batches))
     for batch_index in range(n_batches):
         X_batch, Y_batch = ud.fetch_batch(X_train, Y_train, batch_index*BATCH_SIZE, BATCH_SIZE)
+        print("Batch Data Size: {}".format(X_batch.shape[0]))
         rmse_val, _ = cnnmodel01.train(X_batch, Y_batch, keep_prop=0.5)
         rmse_batch_vals.append(rmse_val)
         print('\t Batch: {:04d} of {}, RMSE: {:.9f}'.format(batch_index, n_batches, rmse_val))
