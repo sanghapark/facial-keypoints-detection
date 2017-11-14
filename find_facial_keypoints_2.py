@@ -37,10 +37,9 @@ for epoch in range(N_EPOCH):
     print('RMSE validation: {:.9f}'.format(rmse_valid_val))
     print('='*100)
 
-    if epoch > EARLY_STOP_PAST_RMSE_VAL_SIZE:
-        if np.mean(rmse_valid_vals[-(EARLY_STOP_PAST_RMSE_VAL_SIZE+1):-1]) < rmse_valid_val:
-            print("Eearly Stopped!! Hardly getting better performance")
-            break
+    if epoch > N_PAST_RMSE_VALS and np.mean(rmse_valid_vals[-(N_PAST_RMSE_VALS+1):-1]) < rmse_valid_val:
+        print("Eearly Stopped!! Hardly getting better performance")
+        break
 
 
 
