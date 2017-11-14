@@ -176,20 +176,6 @@ def batch_output_for_kaggle_submission(Y_pred, start, count):
     # merged.to_csv(filename, index=0, columns = ['RowId','Location'] )
     return merged
 
-def show_predictions_on_test_data(X, Y_predicted):
-    def plot_sample(x, y, axis):
-        img = x.reshape(96, 96)
-        axis.imshow(img, cmap='gray')
-        axis.scatter(y[0::2] * 48 + 48, y[1::2] * 48 + 48, marker='x', s=10)
-
-    fig = plt.figure(figsize=(12, 12))
-    fig.subplots_adjust(left=0, right=1, bottom=0, top=1, hspace=0.05, wspace=0.05)
-
-    for i in range(49):
-        ax = fig.add_subplot(7, 7, i + 1, xticks=[], yticks=[])
-        plot_sample(X[i], Y_predicted[i], ax)
-
-    plt.show()
 
 def load_data_with_image_in_1D(test=False):
     fname = test_data if test else train_data
@@ -206,33 +192,29 @@ def load_data_with_image_in_1D(test=False):
     return X, y
 
 
-def load(test=False, cols=None):
-    fname = test_data if test else train_data
-    df = pd.read_csv(fname)
-
-    df['Image'] = df['Image'].apply(lambda im: np.fromstring(im, sep=' '))
-
-    if cols:  # get a subset of columns
-        df = df[list(cols) + ['Image']]
-
-    # test에서 하면 안됨. 하지만 테스트 파일은 null이 없어서 dropna 할게 없음
-    df = df.dropna()
-
-    X = np.vstack(df['Image'].values) / 255.  # scale pixel values to [0, 1]
-    X = X.astype(np.float32)
-
-    if not test:  # only train_data has any target columns
-        y = df[df.columns[:-1]].values
-        y = (y - 48) / 48  # scale target coordinates to [-1, 1]
-        # X, y = shuffle(X, y, random_state=42)  # shuffle train data
-        X, y = shuffle(X, y) 
-        y = y.astype(np.float32)
-    else:
-        y = None
-
-    return X, y
-
 def fetch_batch(total_data, total_target, batch_index, batch_size):
     X_batch = total_data[batch_index:batch_index + batch_size]
     y_batch = total_target[batch_index:batch_index + batch_size,]
     return X_batch.astype(np.float32), y_batch.astype(np.float32)
+
+
+
+# def load(test=False, cols=None):
+#     fname = test_data if test else train_data
+#     df = pd.read_csv(fname)
+#     df['Image'] = df['Image'].apply(lambda im: np.fromstring(im, sep=' '))
+#     if cols:  # get a subset of columns
+#         df = df[list(cols) + ['Image']]
+#     # test에서 하면 안됨. 하지만 테스트 파일은 null이 없어서 dropna 할게 없음
+#     df = df.dropna()
+#     X = np.vstack(df['Image'].values) / 255.  # scale pixel values to [0, 1]
+#     X = X.astype(np.float32)
+#     if not test:  # only train_data has any target columns
+#         y = df[df.columns[:-1]].values
+#         y = (y - 48) / 48  # scale target coordinates to [-1, 1]
+#         # X, y = shuffle(X, y, random_state=42)  # shuffle train data
+#         X, y = shuffle(X, y) 
+#         y = y.astype(np.float32)
+#     else:
+#         y = None
+#     return X, y

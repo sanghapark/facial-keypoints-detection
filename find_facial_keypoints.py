@@ -216,12 +216,12 @@ with open('./output/{}/validation_error.csv'.format(datetime), 'w') as file:
 
 
 # AWS GPU memory 부족으로 모든 데이터를 한번에 불러서 처리 할 수가 앖다.
-# X_test, _ = ud.load(test=True)
+# X_test, _ = ud.load_data_with_image_in_1D(test=True)
 # Y_predicted = m1.predict(X_test, keep_prop=1.0)
 # ud.show_predictions_on_test_data(X_test, Y_predicted)
 # ud.output_for_kaggle_submission(Y_predicted, "./output/{}/kaggle_submission_CNN_TF".format(datetime))
 
-X_test, _ = ud.load(test=True)
+X_test, _ = ud.load_data_with_image_in_1D(test=True)
 print('Predicting {} Test Data...'.format(X_test.shape[0]))
 total_output = pd.DataFrame()
 for batch_index in range(1, int(np.ceil(X_test.shape[0]/batch_size)+1)):

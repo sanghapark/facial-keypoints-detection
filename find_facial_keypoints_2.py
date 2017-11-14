@@ -8,7 +8,6 @@ from sklearn.cross_validation import train_test_split
 from utils.constants import *
 from utils.cnnmodel_general import CnnModel
 
-early_stop_diff = 0.01 
 
 X_total, Y_total = ud.load_data_with_image_in_1D()
 X_train, X_valid, Y_train, Y_valid = train_test_split(X_total, Y_total, test_size=VALIDATION_DATA_RATIO)
@@ -34,8 +33,8 @@ for epoch in range(N_EPOCH):
     cost_valid_val = cnnmodel01.validate(X_valid, Y_valid)
     cost_valid_vals.append(cost_valid_val)
 
-    print('validation cost (Sum Squared Error): {:.9f}'.format(cost_valid_val))
-    print('validation cost (Root Mean Square Error): {:.9f}'.format(np.sqrt(cost_valid_val/float(X_valid.shape[0]))))
+    print('validation cost (SSE): {:.9f}'.format(cost_valid_val))
+    print('validation cost (RMSE): {:.9f}'.format(np.sqrt(cost_valid_val/float(X_valid.shape[0]))))
     print('='*100)
 
     if epoch > N_PAST_COST_VALS and np.mean(cost_valid_vals[-(N_PAST_COST_VALS+1):-1]) < cost_valid_val:
@@ -59,7 +58,7 @@ with open('./output/{}/validation_error.csv'.format(datetime), 'w') as file:
         file.write("%s\n" % err)
 
 
-X_test, _ = ud.load(test=True)
+X_test, _ = ud.load_data_with_image_in_1D(test=True)
 print('Predicting {} Test Data...'.format(X_test.shape[0]))
 total_output = pd.DataFrame()
 for batch_index in range(1, int(np.ceil(X_test.shape[0]/BATCH_SIZE)+1)):
