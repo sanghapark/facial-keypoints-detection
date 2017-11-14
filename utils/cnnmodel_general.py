@@ -54,7 +54,7 @@ class CnnModel:
                                                maxpool_filter_stride,
                                                maxpool_padding[1],
                                                dropout_rate,
-                                               batch_size,
+                                               cnn_batch_size,
                                                n_channel,
                                                conv2_depth)
                 layer_count += 1

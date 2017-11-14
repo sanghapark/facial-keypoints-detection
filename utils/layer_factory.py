@@ -9,7 +9,7 @@ def create_convolutional_layer(layer_count,
                                maxpool_filter_stride,
                                maxpool_padding,
                                dropout_rate,
-                               batch_size,
+                               cnn_batch_size,
                                color_channel,
                                conv2_depth):
     with tf.variable_scope('Conv2DLayer{:02d}'.format(layer_count)) as scope:
@@ -17,7 +17,7 @@ def create_convolutional_layer(layer_count,
         print("Input: ", input_mat.shape)
         # conv2d
         conv2_size = [conv2_filter_size, conv2_filter_size, int(input_mat.shape[3]), conv2_depth]
-        conv2_strides = [batch_size, conv2_filter_stride, conv2_filter_stride, color_channel]
+        conv2_strides = [cnn_batch_size, conv2_filter_stride, conv2_filter_stride, color_channel]
         W = tf.Variable(tf.random_normal(conv2_size, stddev=0.01), name='W{:02d}'.format(layer_count))
         L = tf.nn.conv2d(input_mat, W, strides=conv2_strides, padding=conv2_padding)
         print("After Conv2: ", L.shape)
@@ -25,8 +25,8 @@ def create_convolutional_layer(layer_count,
         # relu activation
         L = tf.nn.relu(L)
 
-        mp_ksize = [batch_size, maxpool_filter_size, maxpool_filter_size, color_channel]
-        mp_strides = [batch_size, maxpool_filter_stride, maxpool_filter_stride, color_channel]
+        mp_ksize = [cnn_batch_size, maxpool_filter_size, maxpool_filter_size, color_channel]
+        mp_strides = [cnn_batch_size, maxpool_filter_stride, maxpool_filter_stride, color_channel]
         L = tf.nn.max_pool(L, ksize=mp_ksize, strides=mp_strides, padding=maxpool_padding)
         print("After Max Pooling: ", L.shape)
 
