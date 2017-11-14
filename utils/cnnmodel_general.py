@@ -13,15 +13,15 @@ learning_rate = 0.001
 conv2_filter_size = 2
 conv2_filter_stride = 1
 conv2_padding = "VALID"
-conv2_starting_depth = 15
+conv2_starting_depth = 100
 conv2_depth_exp_multiple = 3
 
-maxpool_decline = 8
+maxpool_decline = 16
 maxpool_filter_size = maxpool_decline+1
 maxpool_filter_stride = 1
 maxpool_padding = "VALID"
 
-flat_starting_depth = 500
+flat_starting_depth = 100
 flat_decay_rate = 0.7
 
 cnn_batch_size = 1
