@@ -64,7 +64,7 @@ class CnnModel:
                 conv2_depth = int(np.ceil(int(L.shape[3])*(1+(maxpool_decline/IMG_SIZE))**conv2_depth_exp_multiple))
 
 
-            L_flat = tf.reshape(L, [-1, L.shape[1] * L.shape[2] * L.shape[3]])
+            L_flat = tf.reshape(L, [-1, int(L.shape[1] * L.shape[2] * L.shape[3])])
 
             layer_count += 1
             flat_depth = int(L_flat.shape[1])
