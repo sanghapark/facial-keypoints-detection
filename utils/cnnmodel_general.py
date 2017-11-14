@@ -55,7 +55,7 @@ class CnnModel:
                                                maxpool_padding[1],
                                                dropout_rate,
                                                cnn_batch_size,
-                                               n_channel,
+                                               N_CHANNELS,
                                                conv2_depth)
                 layer_count += 1
                 if L.shape[1] <= maxpool_decline:
