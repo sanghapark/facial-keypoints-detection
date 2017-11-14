@@ -85,6 +85,7 @@ class CnnModel:
         # self.cost = tf.reduce_mean(tf.square(tf.subtract(self.hypothesis, self.Y)), name="cost")
         self.cost = tf.reduce_sum(tf.squared_difference(self.hypothesis, self.Y), name="cost")
         self.optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(self.cost)
+        self.summary = tf.summary.merge_all()
 
         tf.summary.scalar("loss", self.cost)
 
@@ -111,3 +112,11 @@ class CnnModel:
             self.keep_prob: keep_prop
         }
         return self.sess.run([self.cost, self.optimizer], feed_dict=feed_dict)
+
+    def summarize(self, X, Y, keep_prop=0.5):
+        feed_dict = {
+            self.X: X,
+            self.Y: Y,
+            self.keep_prob: keep_prop
+        }
+        return self.sess.run(self.summary, feed_dict=feed_dict)
