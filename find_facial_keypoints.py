@@ -23,7 +23,6 @@ n_epoch = 100
 # decay_steps = 1000
 # decay_rate = 0.95
 
-adam_reg_param = 0.95
 
 class FacialKeypointsCnnModel:
     def __init__(self, sess, name):
@@ -172,7 +171,7 @@ class FacialKeypointsCnnModel:
 
 
 X_total, Y_total = ud.load_data_with_image_in_1D()
-X_train, X_valid, Y_train, Y_valid = train_test_split(X_total, Y_total, test_size=0.1)
+X_train, X_valid, Y_train, Y_valid = train_test_split(X_total, Y_total, test_size=0.05)
 
 sess = tf.Session()
 m1 = FacialKeypointsCnnModel(sess, 'm1')
@@ -184,23 +183,19 @@ rmse_batch_vals = []
 rmse_train_vals = []
 rmse_valid_vals = []
 
-print("# of Images: ", X_total.shape[0])
+print("# of Training Images: {}, # of Validation Images: {}".format(X_train.shape[0], X_valid.shape[0]))
 print('Start Learning...')
 for epoch in range(n_epoch):
-    print('Epoch: {:04d} of {}'.format(epoch+1, n_epoch))
-    for batch_index in range(int(np.ceil(X_train.shape[0]/batch_size))):
+    print('Epoch: {} of {}'.format(epoch+1, n_epoch))
+    n_batches = int(np.ceil(X_train.shape[0]/batch_size))
+    for batch_index in range(n_batches):
         X_batch, Y_batch = ud.fetch_batch(X_train, Y_train, batch_index*batch_size, batch_size)
         rmse_val, _ = m1.train(X_batch, Y_batch, keep_prop=0.5)
         rmse_batch_vals.append(rmse_val)
-        print('\t Batch: {:04d} of {}, RMSE: {:.9f}'.format(batch_index+1, int(np.ceil(X_train.shape[0]/batch_size)), rmse_val))
+        print('\t Batch: {:04d} of {}, RMSE: {:.9f}'.format(batch_index, n_batches, rmse_val))
         
-#     mse_val = sess.run(m1.cost, feed_dict={X: X_train, Y: Y_train})
     rmse_valid_val = m1.validate(X_valid, Y_valid)
     rmse_valid_vals.append(rmse_valid_val)
-    
-    # rmse_train_val = m1.validate(X_train, Y_train)
-    # rmse_train_vals.append(rmse_train_val)
-    # print('RMSE train: {:.9f}, RMSE valid: {:.9f}'.format(rmse_train_val, rmse_valid_val))
 
     print('RMSE valid: {:.9f}'.format(rmse_valid_val))
     print('='*100)
