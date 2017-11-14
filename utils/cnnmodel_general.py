@@ -5,9 +5,10 @@ from utils.layer_factory import *
 
 
 # Hyperparameters
-initial_learning_rate = 0.001
-decay_steps = 1000
-decay_rate = 0.95
+# initial_learning_rate = 0.001
+# decay_steps = 1000
+# decay_rate = 0.95
+learning_rate = 0.001
 
 conv2_filter_size = 2
 conv2_filter_stride = 1
@@ -77,8 +78,8 @@ class CnnModel:
 
             self.hypothesis = create_last_layer(layer_count, L_flat, N_KEYPOINTS)
 
-        global_step = tf.Variable(0, trainable=False, name='global_step')
-        learning_rate = tf.train.exponential_decay(initial_learning_rate, global_step*BATCH_SIZE, decay_steps, decay_rate)
+        # global_step = tf.Variable(0, trainable=False, name='global_step')
+        # learning_rate = tf.train.exponential_decay(initial_learning_rate, global_step*BATCH_SIZE, decay_steps, decay_rate)
   
         # define cost/loss & optimizer
         # self.cost = tf.reduce_mean(tf.square(tf.subtract(self.hypothesis, self.Y)), name="cost")
