@@ -85,6 +85,9 @@ class CnnModel:
         self.cost = tf.reduce_sum(tf.squared_difference(self.hypothesis, self.Y), name="cost")
         self.optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(self.cost)
 
+        tf.summary.scalar("loss", cost)
+
+
     def predict(self, x_test, keep_prop=1.0):
         feed_dict = {
             self.X: x_test,

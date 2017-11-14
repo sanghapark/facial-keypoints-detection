@@ -8,19 +8,55 @@ from sklearn.cross_validation import train_test_split
 from utils.constants import *
 from utils.cnnmodel_general import CnnModel
 
+CHECK_POINT_DIR = TB_SUMMARY_DIR = './output/tf'
+
+tf.set_random_seed(777)  # reproducibility
 
 X_total, Y_total = ud.load_data_with_image_in_1D()
 X_train, X_valid, Y_train, Y_valid = train_test_split(X_total, Y_total, test_size=VALIDATION_DATA_RATIO)
 
-sess = tf.Session()
+
+
 cnnmodel01 = CnnModel(sess, 'CnnModel01')
+
+last_epoch = tf.Variable(0, name='last_epoch')
+
+# Summary
+summary = tf.summary.merge_all()
+
+sess = tf.Session()
 sess.run(tf.global_variables_initializer())
+
+# Create summary writer
+writer = tf.summary.FileWriter(TB_SUMMARY_DIR)
+writer.add_graph(sess.graph)
+global_step = 0
+
+# Saver and Restore
+saver = tf.train.Saver()
+checkpoint = tf.train.get_checkpoint_state(CHECK_POINT_DIR)
+
+if checkpoint and checkpoint.model_checkpoint_path:
+    try:
+        saver.restore(sess, checkpoint.model_checkpoint_path)
+        print("Successfully loaded:", checkpoint.model_checkpoint_path)
+    except:
+        print("Error on loading old network weights")
+else:
+    print("Could not find old network weights")
+
+
+start_from = sess.run(last_epoch)
+
+
+# train my model
+print('Start learning from:', start_from)
 
 cost_batch_vals = []
 cost_valid_vals = []
 
 print("# of Training Images: {}, # of Validation Images: {} \nStart Learning...".format(X_train.shape[0], X_valid.shape[0]))
-for epoch in range(N_EPOCH):
+for epoch in range(start_from, N_EPOCH):
     print('EPOCH: {} of {}'.format(epoch+1, N_EPOCH))
     n_batches = int(np.ceil(X_train.shape[0]/BATCH_SIZE))
     print("Total # of batches: {}".format(n_batches))
@@ -35,12 +71,18 @@ for epoch in range(N_EPOCH):
 
     print('validation cost (SSE): {:.9f}'.format(cost_valid_val))
     print('validation cost (RMSE): {:.9f}'.format(np.sqrt(cost_valid_val/float(X_valid.shape[0]))))
+    
+    print("Saving network...")
+    sess.run(last_epoch.assign(epoch + 1))
+    if not os.path.exists(CHECK_POINT_DIR):
+        os.makedirs(CHECK_POINT_DIR)
+    saver.save(sess, CHECK_POINT_DIR + "/model", global_step=i)
+    
     print('='*100)
-
     if epoch > N_PAST_COST_VALS and np.mean(cost_valid_vals[-(N_PAST_COST_VALS+1):-1]) < cost_valid_val:
         print("Eearly Stopped!! Hardly getting better performance")
         break
-
+print('Learning Finished!')
 
 
 if not os.path.exists('output'):
