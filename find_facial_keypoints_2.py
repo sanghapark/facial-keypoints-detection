@@ -16,7 +16,7 @@ X_total, Y_total = ud.load_data_with_image_in_1D()
 X_train, X_valid, Y_train, Y_valid = train_test_split(X_total, Y_total, test_size=VALIDATION_DATA_RATIO)
 
 
-
+sess = tf.Session()
 cnnmodel01 = CnnModel(sess, 'CnnModel01')
 
 last_epoch = tf.Variable(0, name='last_epoch')
@@ -24,7 +24,6 @@ last_epoch = tf.Variable(0, name='last_epoch')
 # Summary
 summary = tf.summary.merge_all()
 
-sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
 # Create summary writer
