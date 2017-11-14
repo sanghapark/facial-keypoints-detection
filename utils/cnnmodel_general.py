@@ -72,7 +72,7 @@ class CnnModel:
                 L_flat = create_dense_layer(layer_count, L_flat, flat_depth, dropout_rate)
                 layer_count += 1
                 flat_depth = int(int(L_flat.shape[1]) ** flat_decay_rate)
-                if flat_depth <= n_keypoints:
+                if flat_depth <= N_KEYPOINTS:
                     break
 
             self.hypothesis = create_last_layer(layer_count, L_flat, N_KEYPOINTS)
