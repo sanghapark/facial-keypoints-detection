@@ -34,11 +34,12 @@ for epoch in range(N_EPOCH):
     rmse_valid_val = cnnmodel01.validate(X_valid, Y_valid)
     rmse_valid_vals.append(rmse_valid_val)
 
+    print(rmse_valid_val, rmse_valid_vals)
     print('RMSE valid: {:.9f}'.format(rmse_valid_val))
     print('='*100)
 
     if epoch > 1 and (float(rmse_valid_vals[-1]) - float(rmse_valid_val)) < EARLY_STOP_DIFF:
-        print("Gor better: {}".format(rmse_valid_vals[-1] - rmse_valid_val))
+        print("Got better: {}".format(rmse_valid_vals[-1] - rmse_valid_val))
         print("Eearly Stopped!! Hardly getting better performance")
         break
 
