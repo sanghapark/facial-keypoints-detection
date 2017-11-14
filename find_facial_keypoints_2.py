@@ -38,6 +38,7 @@ for epoch in range(N_EPOCH):
     print('='*100)
 
     if epoch > 1 and (rmse_valid_vals[-1] - rmse_valid_val) < EARLY_STOP_DIFF:
+        print("Gor better: {}".format(rmse_valid_vals[-1] - rmse_valid_val))
         print("Eearly Stopped!! Hardly getting better performance")
         break
 
