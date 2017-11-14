@@ -8,6 +8,7 @@ from sklearn.cross_validation import train_test_split
 from utils.constants import *
 from utils.cnnmodel_general import CnnModel
 
+early_stop_diff = 0.01 
 
 X_total, Y_total = ud.load_data_with_image_in_1D()
 X_train, X_valid, Y_train, Y_valid = train_test_split(X_total, Y_total, test_size=VALIDATION_DATA_RATIO)
@@ -33,8 +34,13 @@ for epoch in range(N_EPOCH):
     rmse_valid_val = cnnmodel01.validate(X_valid, Y_valid)
     rmse_valid_vals.append(rmse_valid_val)
 
+    if (rmse_valid_vals[-1] - rmse_valid_val) < EARLY_STOP_DIFF:
+        print("Eearly Stopped!! Hardly getting better performance")
+        break
+
     print('RMSE valid: {:.9f}'.format(rmse_valid_val))
     print('='*100)
+
 
 if not os.path.exists('output'):
     os.makedirs('output')
