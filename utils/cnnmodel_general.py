@@ -11,8 +11,8 @@ decay_rate = 0.95
 
 conv2_filter_size = 2
 conv2_filter_stride = 1
-conv2_padding = "SAME"
-conv2_starting_depth = 100
+conv2_padding = "VALID"
+conv2_starting_depth = 50
 conv2_depth_exp_multiple = 3
 
 maxpool_decline = 8
