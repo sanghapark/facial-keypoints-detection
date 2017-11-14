@@ -10,20 +10,16 @@ from utils.cnnmodel_general import CnnModel
 
 
 X_total, Y_total = ud.load_data_with_image_in_1D()
-X_train, X_valid, Y_train, Y_valid = train_test_split(X_total, Y_total, test_size=0.05)
+X_train, X_valid, Y_train, Y_valid = train_test_split(X_total, Y_total, test_size=VALIDATION_DATA_RATIO)
 
 sess = tf.Session()
 cnnmodel01 = CnnModel(sess, 'CnnModel01')
 sess.run(tf.global_variables_initializer())
 
-saver = tf.train.Saver()
-
 rmse_batch_vals = []
-rmse_train_vals = []
 rmse_valid_vals = []
 
-print("# of Training Images: {}, # of Validation Images: {}".format(X_train.shape[0], X_valid.shape[0]))
-print('Start Learning...')
+print("# of Training Images: {}, # of Validation Images: {} \nStart Learning...".format(X_train.shape[0], X_valid.shape[0]))
 for epoch in range(N_EPOCH):
     print('Epoch: {} of {}'.format(epoch+1, N_EPOCH))
     n_batches = int(np.ceil(X_train.shape[0]/BATCH_SIZE))
@@ -47,7 +43,7 @@ datetime = dt.datetime.now().strftime("%Y%m%d_%H%M")
 if not os.path.exists('output/{}'.format(datetime)):
     os.makedirs('output/{}'.format(datetime))
 
-save_path = saver.save(sess, "./output/{}/cnn_model_by_tensorflow.ckpt".format(datetime))
+save_path = tf.train.Saver().save(sess, "./output/{}/cnn_model_by_tensorflow.ckpt".format(datetime))
 
 with open('./output/{}/validation_error.csv'.format(datetime), 'w') as file:
     for err in rmse_valid_vals:
@@ -65,7 +61,6 @@ for batch_index in range(1, int(np.ceil(X_test.shape[0]/BATCH_SIZE)+1)):
     partial_output = ud.batch_output_for_kaggle_submission(Y_predicted, start, len(Y_predicted))
     total_output = pd.concat([total_output, partial_output])
 total_output.to_csv("./output/{}/kaggle_submission_CNN_TF.csv".format(datetime), index=0, columns = ['RowId','Location'] )
-print('Finished Predicting Test data! Checkout the output file for Kaggle submission.')
-
 
 sess.close()
+print('Finished Predicting Test data! Checkout the output file for Kaggle submission.')
