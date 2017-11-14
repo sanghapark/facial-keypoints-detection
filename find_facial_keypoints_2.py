@@ -17,27 +17,27 @@ sess = tf.Session()
 cnnmodel01 = CnnModel(sess, 'CnnModel01')
 sess.run(tf.global_variables_initializer())
 
-rmse_batch_vals = []
-rmse_valid_vals = []
+cost_batch_vals = []
+cost_valid_vals = []
 
 print("# of Training Images: {}, # of Validation Images: {} \nStart Learning...".format(X_train.shape[0], X_valid.shape[0]))
 for epoch in range(N_EPOCH):
-    print('Epoch: {} of {}'.format(epoch+1, N_EPOCH))
+    print('EPOCH: {} of {}'.format(epoch+1, N_EPOCH))
     n_batches = int(np.ceil(X_train.shape[0]/BATCH_SIZE))
-    print("Total # of Batches: {}".format(n_batches))
+    print("Total # of batches: {}".format(n_batches))
     for batch_index in range(n_batches):
         X_batch, Y_batch = ud.fetch_batch(X_train, Y_train, batch_index*BATCH_SIZE, BATCH_SIZE)
-        rmse_val, _ = cnnmodel01.train(X_batch, Y_batch, keep_prop=0.5)
-        rmse_batch_vals.append(rmse_val)
-        print('\t Batch: {:04d} of {}, RMSE: {:.9f}'.format(batch_index, n_batches, rmse_val))
+        cost_val, _ = cnnmodel01.train(X_batch, Y_batch, keep_prop=0.5)
+        cost_batch_vals.append(cost_val)
+        print('\t batch: {:04d} of {}, cost: {:.9f}'.format(batch_index, n_batches, cost_val))
         
-    rmse_valid_val = cnnmodel01.validate(X_valid, Y_valid)
-    rmse_valid_vals.append(rmse_valid_val)
+    cost_valid_val = cnnmodel01.validate(X_valid, Y_valid)
+    cost_valid_vals.append(cost_valid_val)
 
-    print('RMSE validation: {:.9f}'.format(rmse_valid_val))
+    print('cost validation: {:.9f}'.format(cost_valid_val))
     print('='*100)
 
-    if epoch > N_PAST_RMSE_VALS and np.mean(rmse_valid_vals[-(N_PAST_RMSE_VALS+1):-1]) < rmse_valid_val:
+    if epoch > N_PAST_COST_VALS and np.mean(cost_valid_vals[-(N_PAST_COST_VALS+1):-1]) < cost_valid_val:
         print("Eearly Stopped!! Hardly getting better performance")
         break
 
@@ -54,7 +54,7 @@ if not os.path.exists('output/{}'.format(datetime)):
 save_path = tf.train.Saver().save(sess, "./output/{}/cnn_model_by_tensorflow.ckpt".format(datetime))
 
 with open('./output/{}/validation_error.csv'.format(datetime), 'w') as file:
-    for err in rmse_valid_vals:
+    for err in cost_valid_vals:
         file.write("%s\n" % err)
 
 

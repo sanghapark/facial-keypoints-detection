@@ -5,24 +5,24 @@ from utils.layer_factory import *
 
 
 # Hyperparameters
-# initial_learning_rate = 0.001
-# decay_steps = 1000
-# decay_rate = 0.95
-learning_rate = 0.001
+initial_learning_rate = 0.001
+decay_steps = 1000
+decay_rate = 0.95
+# learning_rate = 0.001
 
 conv2_filter_size = 2
 conv2_filter_stride = 1
 conv2_padding = "VALID"
-conv2_starting_depth = 100
+conv2_starting_depth = 20
 conv2_depth_exp_multiple = 3
 
-maxpool_decline = 24
+maxpool_decline = 12
 maxpool_filter_size = maxpool_decline+1
 maxpool_filter_stride = 1
 maxpool_padding = "VALID"
 
 flat_starting_depth = 500
-flat_decay_rate = 0.5
+flat_decay_rate = 0.8
 
 cnn_batch_size = 1
 dropout_rate = 0.5
@@ -77,12 +77,12 @@ class CnnModel:
 
             self.hypothesis = create_last_layer(layer_count, L_flat, N_KEYPOINTS)
 
-        # global_step = tf.Variable(0, trainable=False, name='global_step')
-        # learning_rate = tf.train.exponential_decay(initial_learning_rate, global_step*BATCH_SIZE, decay_steps, decay_rate)
+        global_step = tf.Variable(0, trainable=False, name='global_step')
+        learning_rate = tf.train.exponential_decay(initial_learning_rate, global_step*BATCH_SIZE, decay_steps, decay_rate)
   
         # define cost/loss & optimizer
         # self.cost = tf.reduce_mean(tf.square(tf.subtract(self.hypothesis, self.Y)), name="cost")
-        self.cost = tf.sqrt(tf.reduce_mean(tf.square(tf.subtract(self.hypothesis, self.Y))), name="cost")
+        self.cost = tf.reduce_sum(tf.squared_difference(self.hypothesis, self.Y), name="cost")
         self.optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(self.cost)
 
     def predict(self, x_test, keep_prop=1.0):
