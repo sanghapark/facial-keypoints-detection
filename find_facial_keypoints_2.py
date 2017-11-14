@@ -34,7 +34,8 @@ for epoch in range(N_EPOCH):
     cost_valid_val = cnnmodel01.validate(X_valid, Y_valid)
     cost_valid_vals.append(cost_valid_val)
 
-    print('cost validation: {:.9f}'.format(cost_valid_val))
+    print('validation cost (Sum Squared Error): {:.9f}'.format(cost_valid_val))
+    print('validation cost (Root Mean Square Error): {:.9f}'.format(np.sqrt(cost_valid_val/float(X_valid.shape[0]))))
     print('='*100)
 
     if epoch > N_PAST_COST_VALS and np.mean(cost_valid_vals[-(N_PAST_COST_VALS+1):-1]) < cost_valid_val:
