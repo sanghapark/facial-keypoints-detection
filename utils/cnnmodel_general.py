@@ -1,3 +1,4 @@
+import numpy as np
 import tensorflow as tf
 from utils.constants import *
 from utils.layer_factory import *
