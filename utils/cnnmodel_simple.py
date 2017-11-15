@@ -25,7 +25,7 @@ class CnnModel:
 
             self.keep_prob = tf.placeholder(tf.float32)
             self.X = tf.placeholder(tf.float32, [None, 96*96])
-            X_img = tf.reshape(X, [-1, 96, 96, 1])
+            X_img = tf.reshape(self.X, [-1, 96, 96, 1])
             tf.summary.image('input', X_img, 3)
             self.Y = tf.placeholder(tf.float32, [None, 30])
 
