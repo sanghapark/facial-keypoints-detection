@@ -46,7 +46,7 @@ class CnnModel:
 
             with tf.variable_scope('conv2d01') as scope:
                 conv1 = tf.layers.conv2d(inputs=X_img, 
-                                        filters=96, 
+                                        filters=100, 
                                         kernel_size=[3, 3], 
                                         padding='SAME', 
                                         activation=tf.nn.elu,
@@ -58,7 +58,7 @@ class CnnModel:
 
             with tf.variable_scope('conv2d02') as scope:
                 conv2 = tf.layers.conv2d(inputs=dropout1, 
-                                        filters=192, 
+                                        filters=200, 
                                         kernel_size=[3, 3], 
                                         padding='SAME', 
                                         activation=tf.nn.elu, 
@@ -70,7 +70,7 @@ class CnnModel:
 
             with tf.variable_scope('conv2d03') as scope:
                 conv3 = tf.layers.conv2d(inputs=dropout2,
-                                        filters=288,
+                                        filters=400,
                                         kernel_size=[2, 2],
                                         padding='SAME',
                                         activation=tf.nn.elu,
@@ -81,7 +81,7 @@ class CnnModel:
                 print(conv3.shape, pool3.shape, dropout3.shape)
 
             with tf.variable_scope('dense04') as scope:
-                flat1 = tf.reshape(dropout3, [-1, 288*22*22])
+                flat1 = tf.reshape(dropout3, [-1, 400*22*22])
                 dense4 = tf.layers.dense(inputs=flat1,
                                         units=1000,
                                         activation=tf.nn.elu,
