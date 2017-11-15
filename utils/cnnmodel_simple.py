@@ -58,13 +58,14 @@ class CnnModel:
                 L2 = tf.nn.relu(L2)
                 L2 = tf.nn.max_pool(L2, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
                 L2 = tf.nn.dropout(L2, keep_prob=self.keep_prob)
+                L2_flat = tf.reshape(L3, [-1, 400*24*24])
                 print("L2: ", L2.shape)
 
             with tf.variable_scope('DenseLayer01') as scope:
                 # L4 Fully Connected 12x12x400 -> 1000 outputs
                 W3 = tf.get_variable("W3", shape=[400*24*24, 1000], initializer=tf.contrib.layers.xavier_initializer())
                 b3 = tf.Variable(tf.random_normal([1000]))
-                L3_flat = tf.nn.relu(tf.matmul(L2, W3) + b3)
+                L3_flat = tf.nn.relu(tf.matmul(L2_flat, W3) + b3)
                 L3_flat = tf.nn.dropout(L3_flat, keep_prob=self.keep_prob)
                 print("L3_flat: ", L3_flat.shape)
 
