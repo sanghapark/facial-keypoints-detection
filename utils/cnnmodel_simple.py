@@ -30,7 +30,7 @@ class CnnModel:
             self.Y = tf.placeholder(tf.float32, [None, 30])
 
             self.global_step = tf.Variable(0, trainable=False, name='global_step')
-            learning_rate = tf.train.exponential_decay(initial_learning_rate, global_step*BATCH_SIZE, decay_steps, decay_rate)
+            learning_rate = tf.train.exponential_decay(initial_learning_rate, self.global_step*BATCH_SIZE, decay_steps, decay_rate)
 
             with tf.variable_scope('conv2d01') as scope:
                 conv1 = tf.layers.conv2d(inputs=X_img, filters=96, kernel_size=[3, 3], padding='SAME', activation=tf.nn.relu)
