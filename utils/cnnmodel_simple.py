@@ -45,30 +45,30 @@ class CnnModel:
             reg = reg_l1
 
             with tf.variable_scope('conv2d01') as scope:
-                conv1 = tf.layers.conv2d(inputs=X_img, filters=96, kernel_size=[3, 3], padding='SAME', activation=tf.nn.relu, regularizer=reg)
+                conv1 = tf.layers.conv2d(inputs=X_img, filters=96, kernel_size=[3, 3], padding='SAME', activation=tf.nn.relu, kernel_regularizer=reg)
                 pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[3, 3], padding='VALID', strides=2)
                 dropout1 = tf.layers.dropout(inputs=pool1, rate=self.keep_prob, training=self.training)
                 print(conv1.shape, pool1.shape, dropout1.shape)
 
             with tf.variable_scope('conv2d02') as scope:
-                conv2 = tf.layers.conv2d(inputs=dropout1, filters=192, kernel_size=[3, 3], padding='SAME', activation=tf.nn.relu, regularizer=reg)
+                conv2 = tf.layers.conv2d(inputs=dropout1, filters=192, kernel_size=[3, 3], padding='SAME', activation=tf.nn.relu, kernel_regularizer=reg)
                 pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[3, 3], padding='VALID', strides=2)
                 dropout2 = tf.layers.dropout(inputs=pool2, rate=self.keep_prob, training=self.training)
                 print(conv2.shape, pool2.shape, dropout2.shape)
 
             with tf.variable_scope('conv2d03') as scope:
-                conv3 = tf.layers.conv2d(inputs=dropout2, filters=288, kernel_size=[2, 2], padding='SAME', activation=tf.nn.relu, regularizer=reg)
+                conv3 = tf.layers.conv2d(inputs=dropout2, filters=288, kernel_size=[2, 2], padding='SAME', activation=tf.nn.relu, kernel_regularizer=reg)
                 pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=[2, 2], padding='VALID', strides=1)
                 dropout3 = tf.layers.dropout(inputs=pool3, rate=self.keep_prob, training=self.training)
                 print(conv3.shape, pool3.shape, dropout3.shape)
 
             with tf.variable_scope('dense04') as scope:
                 flat1 = tf.reshape(dropout3, [-1, 288*22*22])
-                dense4 = tf.layers.dense(inputs=flat1, units=1000, activation=tf.nn.relu, regularizer=reg)
+                dense4 = tf.layers.dense(inputs=flat1, units=1000, activation=tf.nn.relu, kernel_regularizer=reg)
                 dropout4 = tf.layers.dropout(inputs=dense4, rate=self.keep_prob, training=self.training)
 
             with tf.variable_scope('dense05') as scope:
-                self.hypothesis = tf.layers.dense(inputs=dropout4, units=30, activation=None, regularizer=reg)
+                self.hypothesis = tf.layers.dense(inputs=dropout4, units=30, activation=None, kernel_regularizer=reg)
                 print("hypothesis shape: ", self.hypothesis.shape)
 
         self.cost = tf.reduce_sum(tf.squared_difference(self.hypothesis, self.Y), name="cost")
