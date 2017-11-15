@@ -10,19 +10,19 @@ decay_steps = 1000
 decay_rate = 0.95
 # learning_rate = 0.001
 
-conv2_filter_size = 2
+conv2_filter_size = 3
 conv2_filter_stride = 1
 conv2_padding = "VALID"
-conv2_starting_depth = 20
+conv2_starting_depth = 32
 conv2_depth_exp_multiple = 3
 
-maxpool_decline = 12
+maxpool_decline = 27
 maxpool_filter_size = maxpool_decline+1
 maxpool_filter_stride = 1
 maxpool_padding = "VALID"
 
 flat_starting_depth = 500
-flat_decay_rate = 0.8
+flat_decay_rate = 0.5
 
 cnn_batch_size = 1
 dropout_rate = 0.5
