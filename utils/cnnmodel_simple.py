@@ -81,7 +81,7 @@ class CnnModel:
                 b5 = tf.Variable(tf.random_normal([30]))
                 print("W5: ", W5.shape, "b5: ", b5.shape)
 
-            self.hypothesis = tf.matmul(L4_flat, W6) + b6
+            self.hypothesis = tf.matmul(L4_flat, W5) + b5
 
         global_step = tf.Variable(0, trainable=False, name='global_step')
         learning_rate = tf.train.exponential_decay(initial_learning_rate, global_step*BATCH_SIZE, decay_steps, decay_rate)
