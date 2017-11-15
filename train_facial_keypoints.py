@@ -66,8 +66,9 @@ for epoch in range(start_from, N_EPOCH):
         cost_val, _ = cnnmodel01.train(X_batch, Y_batch, global_step, keep_prop=0.5)
         rmse = np.sqrt(cost_val/float(X_batch.shape[0]))
         cost_batch_vals.append(cost_val)
-        s = cnnmodel01.summarize(X_batch, Y_batch, keep_prop=0.5)
-        writer.add_summary(s, global_step=global_step)
+
+        # s = cnnmodel01.summarize(X_batch, Y_batch, keep_prop=0.5)
+        # writer.add_summary(s, global_step=global_step)
         global_step += 1
         print('\t batch #: {:04d} of {}, batch size: {}, SSE: {:.9f}, RMSE: {:.9f}'.format(batch_index, n_batches, X_batch.shape[0], cost_val, rmse))
     
@@ -77,10 +78,10 @@ for epoch in range(start_from, N_EPOCH):
     print('validation cost (RMSE): {:.9f}'.format(np.sqrt(cost_valid_val/float(X_valid.shape[0]))))
     
     print("Saving network...")
-    sess.run(last_epoch.assign(epoch + 1))
-    if not os.path.exists(CHECK_POINT_DIR):
-        os.makedirs(CHECK_POINT_DIR)
-    saver.save(sess, CHECK_POINT_DIR + "/model", global_step=batch_index)
+    # sess.run(last_epoch.assign(epoch + 1))
+    # if not os.path.exists(CHECK_POINT_DIR):
+    #     os.makedirs(CHECK_POINT_DIR)
+    # saver.save(sess, CHECK_POINT_DIR + "/model", global_step=batch_index)
     
     print('='*100)
 
