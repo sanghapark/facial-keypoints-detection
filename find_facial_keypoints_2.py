@@ -63,7 +63,7 @@ for epoch in range(start_from, N_EPOCH):
     print("Total # of batches: {}".format(n_batches))
     for batch_index in range(n_batches):
         X_batch, Y_batch = ud.fetch_batch(X_train, Y_train, batch_index*BATCH_SIZE, BATCH_SIZE)
-        cost_val, _ = cnnmodel01.train(X_batch, Y_batch, keep_prop=0.5)
+        cost_val, _ = cnnmodel01.train(X_batch, Y_batch, global_step, keep_prop=0.5)
 
         rmse = np.sqrt(cost_val/float(X_batch.shape[0]))
         print('\t batch: {:04d} of {}, data size: {}, SSE: {:.9f}, RMSE: {:.9f}'.format(batch_index, n_batches, X_batch.shape[0], cost_val, rmse))

@@ -80,10 +80,11 @@ class CnnModel:
         }
         return self.sess.run(self.cost, feed_dict=feed_dict)
 
-    def train(self, x_data, y_data, training=True, keep_prop=0.5):
+    def train(self, x_data, y_data, global_step, training=True, keep_prop=0.5):
         feed_dict = {
             self.X: x_data,
             self.Y: y_data,
+            self.global_step: global_step,
             self.keep_prob: keep_prop,
             self.training: training
         }
