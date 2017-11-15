@@ -29,6 +29,9 @@ class CnnModel:
             tf.summary.image('input', X_img, 3)
             self.Y = tf.placeholder(tf.float32, [None, 30])
 
+            self.global_step = tf.Variable(0, trainable=False, name='global_step')
+            learning_rate = tf.train.exponential_decay(initial_learning_rate, global_step*BATCH_SIZE, decay_steps, decay_rate)
+
             with tf.variable_scope('conv2d01') as scope:
                 conv1 = tf.layers.conv2d(inputs=X_img, filters=96, kernel_size=[3, 3], padding='SAME', activation=tf.nn.relu)
                 pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[3, 3], padding='VALID', strides=2)
@@ -55,9 +58,6 @@ class CnnModel:
             with tf.variable_scope('dense05') as scope:
                 self.hypothesis = tf.layers.dense(inputs=dropout4, units=30, activation=None)
                 print("hypothesis shape: ", self.hypothesis.shape)
-
-        global_step = tf.Variable(0, trainable=False, name='global_step')
-        learning_rate = tf.train.exponential_decay(initial_learning_rate, global_step*BATCH_SIZE, decay_steps, decay_rate)
 
         self.cost = tf.reduce_sum(tf.squared_difference(self.hypothesis, self.Y), name="cost")
         self.optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(self.cost)
