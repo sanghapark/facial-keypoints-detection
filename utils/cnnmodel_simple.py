@@ -42,7 +42,7 @@ class CnnModel:
 
             reg_l1 = tf.contrib.layers.l1_regularizer(scale=0.01)
             reg_l2 = tf.contrib.layers.l2_regularizer(scale=0.01)
-            reg = None
+            reg = reg_l1
 
             with tf.variable_scope('conv2d01') as scope:
                 conv1 = tf.layers.conv2d(inputs=X_img, 
