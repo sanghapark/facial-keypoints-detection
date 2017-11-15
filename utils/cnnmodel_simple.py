@@ -32,19 +32,19 @@ class CnnModel:
             with tf.variable_scope('conv2d01') as scope:
                 conv1 = tf.layers.conv2d(inputs=X_img, filters=96, kernel_size=[3, 3], padding='SAME', activation=tf.nn.relu)
                 pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[3, 3], padding='VALID', strides=2)
-                dropout1 = tf.layers.dropout(inputs=pool1, rate=0.7, training=training)
+                dropout1 = tf.layers.dropout(inputs=pool1, rate=0.7, training=self.training)
                 print(conv1.shape, pool1.shape, dropout1.shape)
 
             with tf.variable_scope('conv2d02') as scope:
                 conv2 = tf.layers.conv2d(inputs=dropout1, filters=192, kernel_size=[3, 3], padding='SAME', activation=tf.nn.relu)
                 pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[3, 3], padding='VALID', strides=2)
-                dropout2 = tf.layers.dropout(inputs=pool2, rate=0.7, training=training)
+                dropout2 = tf.layers.dropout(inputs=pool2, rate=0.7, training=self.training)
                 print(conv2.shape, pool2.shape, dropout2.shape)
 
             with tf.variable_scope('conv2d03') as scope:
                 conv3 = tf.layers.conv2d(inputs=dropout2, filters=288, kernel_size=[2, 2], padding='SAME', activation=tf.nn.relu)
                 pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=[2, 2], padding='VALID', strides=1)
-                dropout3 = tf.layers.dropout(inputs=pool3, rate=0.7, training=training)
+                dropout3 = tf.layers.dropout(inputs=pool3, rate=0.7, training=self.training)
                 print(conv3.shape, pool3.shape, dropout3.shape)
 
             with tf.variable_scope('dense04') as scope:
