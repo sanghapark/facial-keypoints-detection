@@ -58,24 +58,21 @@ cost_valid_vals = []
 
 print("# of Training Images: {}, # of Validation Images: {} \nStart Learning...".format(X_train.shape[0], X_valid.shape[0]))
 for epoch in range(start_from, N_EPOCH):
-    print('EPOCH: {} of {}'.format(epoch+1, N_EPOCH))
     n_batches = int(np.ceil(X_train.shape[0]/BATCH_SIZE))
+    print('EPOCH: {} of {}'.format(epoch+1, N_EPOCH))
     print("Total # of batches: {}".format(n_batches))
     for batch_index in range(n_batches):
         X_batch, Y_batch = ud.fetch_batch(X_train, Y_train, batch_index*BATCH_SIZE, BATCH_SIZE)
         cost_val, _ = cnnmodel01.train(X_batch, Y_batch, global_step, keep_prop=0.5)
-
         rmse = np.sqrt(cost_val/float(X_batch.shape[0]))
-        print('\t batch: {:04d} of {}, data size: {}, SSE: {:.9f}, RMSE: {:.9f}'.format(batch_index, n_batches, X_batch.shape[0], cost_val, rmse))
         cost_batch_vals.append(cost_val)
-        
         s = cnnmodel01.summarize(X_batch, Y_batch, keep_prop=0.5)
         writer.add_summary(s, global_step=global_step)
         global_step += 1
-        
+        print('\t batch #: {:04d} of {}, batch size: {}, SSE: {:.9f}, RMSE: {:.9f}'.format(batch_index, n_batches, X_batch.shape[0], cost_val, rmse))
+    
     cost_valid_val = cnnmodel01.validate(X_valid, Y_valid)
     cost_valid_vals.append(cost_valid_val)
-
     print('validation cost (SSE): {:.9f}'.format(cost_valid_val))
     print('validation cost (RMSE): {:.9f}'.format(np.sqrt(cost_valid_val/float(X_valid.shape[0]))))
     
@@ -86,21 +83,17 @@ for epoch in range(start_from, N_EPOCH):
     saver.save(sess, CHECK_POINT_DIR + "/model", global_step=batch_index)
     
     print('='*100)
+
+    # 성능 향상이 없을시 Early Stopping 적용
     if epoch > N_PAST_COST_VALS and np.mean(cost_valid_vals[-(N_PAST_COST_VALS+1):-1]) < cost_valid_val:
         print("Eearly Stopped!! Hardly getting better performance")
         break
 print('Learning Finished!')
 
-
-if not os.path.exists('output'):
-    os.makedirs('output')
-
 datetime = dt.datetime.now().strftime("%Y%m%d_%H%M")
 
 if not os.path.exists('output/{}'.format(datetime)):
     os.makedirs('output/{}'.format(datetime))
-
-save_path = tf.train.Saver().save(sess, "./output/{}/cnn_model_by_tensorflow.ckpt".format(datetime))
 
 with open('./output/{}/validation_error.csv'.format(datetime), 'w') as file:
     for err in cost_valid_vals:
