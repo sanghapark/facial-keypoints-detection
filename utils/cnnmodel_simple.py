@@ -37,16 +37,12 @@ class CnnModel:
 
     def _build_net(self):
         with tf.variable_scope(self.name):
-            # dropout rate
-            # 0 < dropoutrate < 1.0 for training
-            # 1 for testing
+
             self.keep_prob = tf.placeholder(tf.float32)
-
-            # input placeholders
-            self.X = tf.placeholder(tf.float32, [None, img_width*img_height])
-
-            X_img = tf.reshape(self.X, [-1, img_width, img_width, 1])
-            self.Y = tf.placeholder(tf.float32, [None, n_features])
+            self.X = tf.placeholder(tf.float32, [None, IMG_SIZE*IMG_SIZE])
+            X_img = tf.reshape(self.X, [-1, IMG_SIZE, IMG_SIZE, 1])
+            tf.summary.image('input', X_img, 3)
+            self.Y = tf.placeholder(tf.float32, [None, N_KEYPOINTS])
 
             with tf.variable_scope('Conv2DLayer01'.format(layer_count)) as scope:
                 W1 = tf.Variable(tf.random_normal([3, 3, 1, 100], stddev=0.01))
