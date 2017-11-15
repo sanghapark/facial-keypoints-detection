@@ -66,9 +66,9 @@ for epoch in range(start_from, N_EPOCH):
         X_batch, Y_batch = ud.fetch_batch(X_train, Y_train, batch_index*BATCH_SIZE, BATCH_SIZE)
         print(X_batch.shape, Y_batch.shape)
         cost_val, _ = cnnmodel01.train(X_batch, Y_batch, keep_prop=0.5)
-        cost_batch_vals.append(cost_val)
         print('\t batch: {:04d} of {}, cost (SSE): {:.9f}'.format(batch_index, n_batches, cost_val))
-
+        cost_batch_vals.append(cost_val)
+        
         # s = cnnmodel01.summarize(X_batch, Y_batch, keep_prop=0.5)
         # writer.add_summary(s, global_step=global_step)
         # global_step += 1
