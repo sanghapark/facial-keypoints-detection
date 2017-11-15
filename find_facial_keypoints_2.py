@@ -7,8 +7,10 @@ import os
 from sklearn.cross_validation import train_test_split
 from utils.constants import *
 from utils.cnnmodel_general import CnnModel
+from utils.cnnmodel_simple import CnnModel as simple_cnn_model
 
 CHECK_POINT_DIR = TB_SUMMARY_DIR = './output/tf'
+SAVE_MODEL = False
 
 tf.set_random_seed(777)  # reproducibility
 
@@ -17,12 +19,13 @@ X_train, X_valid, Y_train, Y_valid = train_test_split(X_total, Y_total, test_siz
 
 
 sess = tf.Session()
-cnnmodel01 = CnnModel(sess, 'CnnModel01')
+# cnnmodel01 = CnnModel(sess, 'CnnModel01')
+cnnmodel01 = simple_cnn_model(sess, 'SimpleCnnModel01')
+cnnmodel01.summary = tf.summary.merge_all()
 
+tf.summary.scalar("loss", cnnmodel01.cost)
 last_epoch = tf.Variable(0, name='last_epoch')
 
-# Summary
-summary = tf.summary.merge_all()
 
 sess.run(tf.global_variables_initializer())
 
