@@ -49,7 +49,7 @@ class CnnModel:
 
             with tf.variable_scope('dense04') as scope:
                 flat1 = tf.reshape(dropout3, [-1, 288*22*22])
-                dense4 = tf.layers.dense(inputs=flat, units=1000, activation=tf.nn.relu)
+                dense4 = tf.layers.dense(inputs=flat1, units=1000, activation=tf.nn.relu)
                 dropout4 = tf.layers.dropout(inputs=dense4, rate=0.5, training=self.training)
 
             with tf.variable_scope('dense05') as scope:
