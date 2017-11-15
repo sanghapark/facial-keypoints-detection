@@ -58,7 +58,7 @@ class CnnModel:
                 L2 = tf.nn.relu(L2)
                 L2 = tf.nn.max_pool(L2, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
                 L2 = tf.nn.dropout(L2, keep_prob=self.keep_prob)
-                L2_flat = tf.reshape(L3, [-1, 400*24*24])
+                L2_flat = tf.reshape(L2, [-1, 400*24*24])
                 print("L2: ", L2.shape)
 
             with tf.variable_scope('DenseLayer01') as scope:
