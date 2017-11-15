@@ -54,7 +54,7 @@ class CnnModel:
                 L1 = tf.nn.relu(L1)
                 L1 = tf.nn.max_pool(L1, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
                 L1 = tf.nn.dropout(L1, keep_prob=self.keep_prob)
-                print("L1: "L1.shape)
+                print("L1: ", L1.shape)
 
             with tf.variable_scope('Conv2DLayer02'.format(layer_count)) as scope:
                 W2 = tf.Variable(tf.random_normal([3, 3, 100, 200], stddev=0.01))
@@ -62,7 +62,7 @@ class CnnModel:
                 L2 = tf.nn.relu(L2)
                 L2 = tf.nn.max_pool(L2, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
                 L2 = tf.nn.dropout(L2, keep_prob=self.keep_prob)
-                print("L2: "L2.shape)
+                print("L2: ", L2.shape)
 
             with tf.variable_scope('DenseLayer01'.format(layer_count)) as scope:
                 # L4 Fully Connected 12x12x400 -> 1000 outputs
@@ -70,14 +70,14 @@ class CnnModel:
                 b3 = tf.Variable(tf.random_normal([1000]))
                 L3_flat = tf.nn.relu(tf.matmul(L2, W3) + b3)
                 L3_flat = tf.nn.dropout(L3_flat, keep_prob=self.keep_prob)
-                print("L3_flat: "L3_flat.shape)
+                print("L3_flat: ", L3_flat.shape)
 
             with tf.variable_scope('DenseLayer02'.format(layer_count)) as scope:
                 W4 = tf.get_variable("W4", shape=[1000, 500], initializer=tf.contrib.layers.xavier_initializer())
                 b4 = tf.Variable(tf.random_normal([500]))
                 L4_flat = tf.nn.relu(tf.matmul(L3_flat, W4) + b4)
                 L4_flat = tf.nn.dropout(L4_flat, keep_prob=self.keep_prob)
-                print("L4_flat: "L4_flat.shape)
+                print("L4_flat: ", L4_flat.shape)
 
             with tf.variable_scope('LastDenseLayer03'.format(layer_count)) as scope:
                 W5 = tf.get_variable("W5", shape=[500, 30], initializer=tf.contrib.layers.xavier_initializer())
