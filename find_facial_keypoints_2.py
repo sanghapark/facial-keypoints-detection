@@ -65,9 +65,9 @@ for epoch in range(start_from, N_EPOCH):
         cost_batch_vals.append(cost_val)
         print('\t batch: {:04d} of {}, cost (SSE): {:.9f}'.format(batch_index, n_batches, cost_val))
 
-        s = cnnmodel01.summarize(X_batch, Y_batch, keep_prop=0.5)
-        writer.add_summary(s, global_step=global_step)
-        global_step += 1
+        # s = cnnmodel01.summarize(X_batch, Y_batch, keep_prop=0.5)
+        # writer.add_summary(s, global_step=global_step)
+        # global_step += 1
         
     cost_valid_val = cnnmodel01.validate(X_valid, Y_valid)
     cost_valid_vals.append(cost_valid_val)
