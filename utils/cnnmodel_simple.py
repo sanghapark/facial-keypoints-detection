@@ -24,10 +24,10 @@ class CnnModel:
             self.training = tf.placeholder(tf.bool)
 
             self.keep_prob = tf.placeholder(tf.float32)
-            X = tf.placeholder(tf.float32, [None, 96*96])
+            self.X = tf.placeholder(tf.float32, [None, 96*96])
             X_img = tf.reshape(X, [-1, 96, 96, 1])
             tf.summary.image('input', X_img, 3)
-            Y = tf.placeholder(tf.float32, [None, 30])
+            self.Y = tf.placeholder(tf.float32, [None, 30])
 
             with tf.variable_scope('conv2d01') as scope:
                 conv1 = tf.layers.conv2d(inputs=X_img, filters=96, kernel_size=[3, 3], padding='SAME', activation=tf.nn.relu)
