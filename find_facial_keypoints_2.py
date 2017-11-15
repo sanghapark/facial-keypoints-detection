@@ -10,7 +10,6 @@ from utils.cnnmodel_general import CnnModel
 from utils.cnnmodel_simple import CnnModel as simple_cnn_model
 
 CHECK_POINT_DIR = TB_SUMMARY_DIR = './output/tf'
-SAVE_MODEL = False
 
 tf.set_random_seed(777)  # reproducibility
 
@@ -64,14 +63,15 @@ for epoch in range(start_from, N_EPOCH):
     print("Total # of batches: {}".format(n_batches))
     for batch_index in range(n_batches):
         X_batch, Y_batch = ud.fetch_batch(X_train, Y_train, batch_index*BATCH_SIZE, BATCH_SIZE)
-        print(X_batch.shape, Y_batch.shape)
         cost_val, _ = cnnmodel01.train(X_batch, Y_batch, keep_prop=0.5)
-        print('\t batch: {:04d} of {}, cost (SSE): {:.9f}'.format(batch_index, n_batches, cost_val))
+
+        rmse = np.sqrt(cost_val/float(X_batch.shape[0]))
+        print('\t batch: {:04d} of {}, data size: {}, SSE: {:.9f}, RMSE: {:.9f}'.format(batch_index, n_batches, X_batch.shape[0], cost_val, rmse))
         cost_batch_vals.append(cost_val)
         
-        # s = cnnmodel01.summarize(X_batch, Y_batch, keep_prop=0.5)
-        # writer.add_summary(s, global_step=global_step)
-        # global_step += 1
+        s = cnnmodel01.summarize(X_batch, Y_batch, keep_prop=0.5)
+        writer.add_summary(s, global_step=global_step)
+        global_step += 1
         
     cost_valid_val = cnnmodel01.validate(X_valid, Y_valid)
     cost_valid_vals.append(cost_valid_val)
