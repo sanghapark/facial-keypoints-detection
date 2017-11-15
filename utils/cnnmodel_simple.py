@@ -42,7 +42,7 @@ class CnnModel:
 
             reg_l1 = tf.contrib.layers.l1_regularizer(scale=0.01)
             reg_l2 = tf.contrib.layers.l2_regularizer(scale=0.01)
-            reg = reg_l1
+            reg = None
 
             with tf.variable_scope('conv2d01') as scope:
                 conv1 = tf.layers.conv2d(inputs=X_img, 
@@ -50,7 +50,7 @@ class CnnModel:
                                         kernel_size=[3, 3], 
                                         padding='SAME', 
                                         activation=tf.nn.elu,
-                                        kernel_initializer=tf.contrib.layers.xavier_initializer(),
+                                        # kernel_initializer=tf.contrib.layers.xavier_initializer(),
                                         kernel_regularizer=reg)
                 pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[3, 3], padding='VALID', strides=2)
                 dropout1 = tf.layers.dropout(inputs=pool1, rate=self.keep_prob, training=self.training)
@@ -62,7 +62,7 @@ class CnnModel:
                                         kernel_size=[3, 3], 
                                         padding='SAME', 
                                         activation=tf.nn.elu, 
-                                        kernel_initializer=tf.contrib.layers.xavier_initializer(), 
+                                        # kernel_initializer=tf.contrib.layers.xavier_initializer(), 
                                         kernel_regularizer=reg)
                 pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[3, 3], padding='VALID', strides=2)
                 dropout2 = tf.layers.dropout(inputs=pool2, rate=self.keep_prob, training=self.training)
@@ -74,7 +74,7 @@ class CnnModel:
                                         kernel_size=[2, 2],
                                         padding='SAME',
                                         activation=tf.nn.elu,
-                                        kernel_initializer=tf.contrib.layers.xavier_initializer(),
+                                        # kernel_initializer=tf.contrib.layers.xavier_initializer(),
                                         kernel_regularizer=reg)
                 pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=[2, 2], padding='VALID', strides=1)
                 dropout3 = tf.layers.dropout(inputs=pool3, rate=self.keep_prob, training=self.training)
@@ -82,11 +82,18 @@ class CnnModel:
 
             with tf.variable_scope('dense04') as scope:
                 flat1 = tf.reshape(dropout3, [-1, 288*22*22])
-                dense4 = tf.layers.dense(inputs=flat1, units=1000, activation=tf.nn.elu, kernel_initializer = tf.contrib.layers.xavier_initializer(), kernel_regularizer=reg)
+                dense4 = tf.layers.dense(inputs=flat1,
+                                        units=1000,
+                                        activation=tf.nn.elu,
+                                        # kernel_initializer=tf.contrib.layers.xavier_initializer(),
+                                        kernel_regularizer=reg)
                 dropout4 = tf.layers.dropout(inputs=dense4, rate=self.keep_prob, training=self.training)
 
             with tf.variable_scope('dense05') as scope:
-                self.hypothesis = tf.layers.dense(inputs=dropout4, units=30, activation=None, kernel_initializer = tf.contrib.layers.xavier_initializer(), kernel_regularizer=reg)
+                self.hypothesis = tf.layers.dense(inputs=dropout4,
+                                                units=30, activation=None,
+                                                # kernel_initializer=tf.contrib.layers.xavier_initializer(),
+                                                kernel_regularizer=reg)
                 print("hypothesis shape: ", self.hypothesis.shape)
 
         self.cost = tf.reduce_sum(tf.squared_difference(self.hypothesis, self.Y), name="cost")
