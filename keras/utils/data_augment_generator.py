@@ -19,7 +19,7 @@ class DataAugmentGenerator(object):
         self.flip_ratio = flip_ratio
         self.flip_indices = flip_indices
         self.rotate_ratio = rotate_ratio
-        self.constrast_ratio = constrast_ratio
+        self.contrast_ratio = contrast_ratio
     
     def _random_indices(self, ratio):
         size = int(self.actual_batchsize * ratio)
@@ -45,7 +45,7 @@ class DataAugmentGenerator(object):
         self.targets = np.clip(self.targets, -1, 1)
 
     def contrast(self):
-        indices = self._random_indices(self.constrast_ratio)
+        indices = self._random_indices(self.contrast_ratio)
         delta = np.random.uniform(0.8, 1.2)
         self.inputs[indices] = (delta*self.inputs[indices, :, :, :]) + (1-delta)*np.mean(self.inputs[indices, :, :, :])
 
