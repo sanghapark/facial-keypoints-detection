@@ -61,6 +61,7 @@ def create_cnn(n_output, activation, last_activation):
             
     dataset02
         cnn_for_dataset02_elu_tanh_adam_drop.ht
+            RMSE 1.5~1.6 after 350 epochs
 """
 def create_cnn2(n_output, activation, last_activation):
     input_shape = (IMAGE_SIZE, IMAGE_SIZE, COLOR_CHANNEL)
