@@ -1,6 +1,5 @@
 import numpy as np
 import skimage.transform as skt
-from utils.enum import dataset_type
 
 
 class DataAugmentGenerator(object):
