@@ -31,9 +31,9 @@ FLIP_INDICES = [(0, 4), (1, 5), (2, 6), (3, 7), (8, 12), (9, 13), (10, 14), (11,
 
 
 WEIGHTS_FILE_NAME = 'cnn_for_dataset02.h5'
-BATCH_SIZE = 100
+BATCH_SIZE = 128
 EPOCHS = 300
-VALIDATION_RATIO = 0.1
+VALIDATION_RATIO = 0.2
 
 ACTIVATION = 'elu'
 LAST_ACTIVATION = 'tanh'
