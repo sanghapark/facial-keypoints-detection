@@ -4,8 +4,8 @@ from pandas.io.parsers import read_csv
 from sklearn.cross_validation import train_test_split
 from sklearn.utils import shuffle
 
-FTRAIN = '../../data/training.csv'
-FTEST  = '../../data/test.csv'
+FTRAIN = '../data/training.csv'
+FTEST  = '../data/test.csv'
 
 def load_train_data(cols=None):
     """
