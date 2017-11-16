@@ -3,6 +3,7 @@ from keras.models import Sequential
 from keras.layers import Convolution2D, MaxPooling2D, Dropout, Flatten, Dense
 from keras.optimizers import SGD, RMSprop, Adagrad, Adadelta, Adam, Adamax, Nadam
 from keras.callbacks import ModelCheckpoint, EarlyStopping
+from keras.layers.advanced_activations import PReLU, LeakyReLU
 import keras.backend as K
 from utils.load import load_train_data_and_split
 from utils.metric import rmse
@@ -26,7 +27,7 @@ BATCH_SIZE = 128
 EPOCHS = 300
 VALIDATION_RATIO = 0.2
 
-ACTIVATION = 'relu'
+ACTIVATION = LeakyReLU() #'relu'
 LAST_ACTIVATION = 'tanh'
 
 FLIP = True
