@@ -49,7 +49,7 @@ X_train, X_valid, Y_train, Y_valid = load_train_data_and_split(FILEPATH_TRAIN, C
 n_output = Y_train.shape[1]
 
 print('=== BUILDING CNN ===')
-model = create_cnn3(n_output, ACTIVATION, LAST_ACTIVATION)
+model = create_cnn2(n_output, ACTIVATION, LAST_ACTIVATION)
 
 
 print('=== COMPILING ===')
