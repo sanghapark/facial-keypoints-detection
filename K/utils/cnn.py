@@ -58,6 +58,9 @@ def create_cnn(n_output, activation, last_activation):
         
         cnn_for_dataset01_elu_tahn_adam_drop.h5
             min val RMSE = 2.0817  epoch: 180 epoch부터 validation rmse가 7취솓다가 4점대 유지 시작 (오버피팅)
+
+        cnn_for_dataset01_selu_tahn_adam_drop.h5
+            min val RMSE = 4에서 계속 머뭄
             
     dataset02
         cnn_for_dataset02_elu_tanh_adam_drop.ht
