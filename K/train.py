@@ -104,12 +104,12 @@ def train(filepath, cols, flip_indices, optimizer):
 
 # Dataset01에 대한 앙상블 만들기
 for i in range(10):
-    filepath = 'cnn2_dataset01_{:02}.h5'.format(i)
+    filepath = './ensemble/cnn2_dataset01_{:02}.h5'.format(i)
     optimizer = RMSprop(0.001, 0.9, 1e-8, 0)
     train(filepath, COLS01, FLIP_INDICES01, optimizer)
 
 # Dataset02에 대한 앙상블 만들기
 for i in range(20):
-    filepath = 'cnn2_dataset02_{:02}.h5'.format(i)
+    filepath = './ensemble/cnn2_dataset02_{:02}.h5'.format(i)
     optimizer = Adam(lr=0.003, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
     train(filepath, COLS02, FLIP_INDICES02, optimizer)
