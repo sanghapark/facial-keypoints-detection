@@ -19,7 +19,7 @@ def load_train_data(cols=None):
     df['Image'] = df['Image'].apply(lambda im: np.fromstring(im, sep=' '))
 
 
-    df = df[df.columns[cols]] if cols != None else df
+    df = df[cols] if cols != None else df
     df = df.dropna()  # drop all rows that have missing values in them
 
     X = np.vstack(df['Image'].values) / 255.  # scale pixel values to [0, 1]
@@ -36,8 +36,7 @@ def load_train_data(cols=None):
 def load_test_data(cols=None):
     df = read_csv(FTEST)
     df['Image'] = df['Image'].apply(lambda im: np.fromstring(im, sep=' '))
-    if cols != None:
-        df = df[df.columns[cols]]
+    df = df[cols] if cols != None else df
     df = df.dropna()
     X = np.vstack(df['Image'].values) / 255.
     X = X.reshape(-1, 1, 96, 96)

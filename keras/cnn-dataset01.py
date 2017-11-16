@@ -26,6 +26,7 @@ FLIP_INDICES = [(0, 2), (1, 3)]
 WEIGHTS_FILE_NAME = 'model_for_dataset01.h5'
 BATCH_SIZE = 100
 EPOCHS = 500
+VALIDATION_RATIO = 0.1
 
 ACTIVATION = 'relu'
 LAST_ACTIVATION = 'tanh'
@@ -44,7 +45,7 @@ optimizer = Adam(lr=0.003, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
 
 print('=== LOADING DATA ===')
 
-X_train, X_valid, Y_train, Y_valid = load_train_data_and_split(COLS, 0.2)
+X_train, X_valid, Y_train, Y_valid = load_train_data_and_split(COLS, VALIDATION_RATIO)
 n_output = Y_train.shape[1]
 
 print('=== BUILDING CNN ===')
