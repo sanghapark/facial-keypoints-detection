@@ -22,7 +22,7 @@ COLS = [
 ]
 FLIP_INDICES = [(0, 2), (1, 3)]
 
-WEIGHTS_FILE_NAME = 'cnn_for_dataset01_elu_tanh_rmsprop.h5'
+WEIGHTS_FILE_NAME = 'cnn_for_dataset01_elu_tahn_rmsprop_drop.h5'
 BATCH_SIZE = 128
 EPOCHS = 300
 VALIDATION_RATIO = 0.2
