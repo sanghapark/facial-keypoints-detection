@@ -1,3 +1,4 @@
+import os
 from keras.models import Sequential
 from keras.layers import Convolution2D, MaxPooling2D, Dropout, Flatten, Dense
 from keras.optimizers import SGD, RMSprop, Adagrad, Adadelta, Adam, Adamax, Nadam
@@ -19,7 +20,7 @@ COLS = [
 ]
 FLIP_INDICES = [(0, 2), (1, 3)]
 
-WEIGHTS_FILE_NAME = 'model_for_dataset01.h5'
+WEIGHTS_FILE_NAME = 'cnn_for_dataset01.h5'
 BATCH_SIZE = 100
 EPOCHS = 500
 VALIDATION_RATIO = 0.1
@@ -69,7 +70,9 @@ model.compile(loss='mean_squared_error', optimizer=optimizer, metrics=metrics)
 
 print('=== LOADING PRETRAINED WEIGHTS ===')
 
-model.load_weights(WEIGHTS_FILE_NAME)
+
+model.load_weights(WEIGHTS_FILE_NAME) if os.path.exists(WEIGHTS_FILE_NAME) else None
+
 generator = DataAugmentGenerator(X_train,
                                  Y_train,
                                  batchsize=BATCH_SIZE,
