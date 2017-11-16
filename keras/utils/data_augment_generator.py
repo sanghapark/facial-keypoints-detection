@@ -9,7 +9,7 @@ class DataAugmentGenerator(object):
                  Y_train,
                  batchsize,
                  flip_indices,
-                 flit_ratio,      # 0.5
+                 flip_ratio,      # 0.5
                  rotate_ratio,    # 0.5
                  contrast_ratio): # 0.5
         self.X_train = X_train
