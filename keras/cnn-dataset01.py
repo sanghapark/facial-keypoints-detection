@@ -11,14 +11,10 @@ from utils.cnn import create_cnn
 
 # (7000, 9)
 COLS = [
-    'left_eye_center_x',
-    'left_eye_center_y',
-    'right_eye_center_x',
-    'right_eye_center_y',
-    'nose_tip_x',
-    'nose_tip_y',
-    'mouth_center_bottom_lip_x',
-    'mouth_center_bottom_lip_y',
+    'left_eye_center_x',            'left_eye_center_y',
+    'right_eye_center_x',           'right_eye_center_y',
+    'nose_tip_x',                   'nose_tip_y',
+    'mouth_center_bottom_lip_x',    'mouth_center_bottom_lip_y',
     'Image'
 ]
 FLIP_INDICES = [(0, 2), (1, 3)]

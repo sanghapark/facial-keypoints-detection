@@ -27,7 +27,7 @@ class DataAugmentGenerator(object):
 
     def flip(self):
         indices = self._random_indices(self.flip_ratio)
-        self.inputs[indices] = self.inputs[indices, :, :, ::-1]
+        self.inputs[indices] = self.inputs[indices, :, ::-1, :]
         self.targets[indices, ::2] = self.targets[indices, ::2] * -1
         for a, b in self.flip_indices:
             self.targets[indices, a], self.targets[indices, b] = self.targets[indices, b], self.targets[indices, a]
@@ -36,7 +36,7 @@ class DataAugmentGenerator(object):
         indices = self._random_indices(self.rotate_ratio)
         angle = np.random.randint(-10, 10)
         for i in indices:
-            self.inputs[i] = sk.rotate(self.inputs[i, 0, :, :], angle)
+            self.inputs[i] = sk.rotate(self.inputs[i, :, :, 0], angle)
         angle = np.radians(angle)
         R = np.array([[np.cos(angle), -np.sin(angle)], [np.sin(angle), np.cos(angle)]])
         self.targets = self.targets.reshape(len(self.targets), self.Y_train.shape[1] / 2, 2)

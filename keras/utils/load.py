@@ -24,7 +24,7 @@ def load_train_data(cols=None):
 
     X = np.vstack(df['Image'].values) / 255.  # scale pixel values to [0, 1]
     X = X.astype(np.float32)
-    X = X.reshape(-1, 1, 96, 96) # return each images as 96 x 96 x 1
+    X = X.reshape(-1, 96, 96, 1) # return each images as 96 x 96 x 1
 
     Y = df[df.columns[:-1]].values
     Y = (Y - 48) / 48  # scale target coordinates to [-1, 1]
@@ -39,7 +39,7 @@ def load_test_data(cols=None):
     df = df[cols] if cols != None else df
     df = df.dropna()
     X = np.vstack(df['Image'].values) / 255.
-    X = X.reshape(-1, 1, 96, 96)
+    X = X.reshape(-1, 96, 96, 1)
     X = X.astype(np.float32)
     return X
 

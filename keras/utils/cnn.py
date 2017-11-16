@@ -3,7 +3,7 @@ from keras.layers import Convolution2D, MaxPooling2D, Dropout, Flatten, Dense
 from utils.constant import *
 
 def create_cnn(n_output, activation, last_activation):
-    input_shape = (COLOR_CHANNEL, IMAGE_SIZE, IMAGE_SIZE)
+    input_shape = (IMAGE_SIZE, IMAGE_SIZE, COLOR_CHANNEL)
     model = Sequential()
     model.add(Convolution2D(64, (3, 3), padding='same', activation=activation, input_shape=input_shape))
     model.add(Convolution2D(64, (3, 3), padding='same', activation=activation))
