@@ -47,7 +47,8 @@ CONTRAST_RATIO = 0.5
 
 metrics = [rmse]
 
-optimizer = Adam(lr=0.003, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+# optimizer = Adam(lr=0.003, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+optimizer = RMSprop(0.001, 0.9, 1e-8, 0)
 
 
 print('=== LOADING DATA ===')
