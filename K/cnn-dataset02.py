@@ -8,7 +8,7 @@ from utils.load import load_train_data_and_split
 from utils.metric import rmse
 from utils.data_augment_generator import DataAugmentGenerator
 # from utils.visualize import plot_error_metric_history
-from utils.cnn import create_cnn
+from utils.cnn import *
 from utils.constant import *
 
 
@@ -35,7 +35,7 @@ BATCH_SIZE = 128
 EPOCHS = 300
 VALIDATION_RATIO = 0.2
 
-ACTIVATION = 'relu'
+ACTIVATION = 'elu'
 LAST_ACTIVATION = 'tanh'
 
 FLIP = True
@@ -56,7 +56,7 @@ X_train, X_valid, Y_train, Y_valid = load_train_data_and_split(FILEPATH_TRAIN, C
 n_output = Y_train.shape[1]
 
 print('=== BUILDING CNN ===')
-model = create_cnn(n_output, ACTIVATION, LAST_ACTIVATION)
+model = create_cnn2(n_output, ACTIVATION, LAST_ACTIVATION)
 
 
 print('=== COMPILING ===')

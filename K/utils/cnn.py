@@ -53,7 +53,9 @@ def create_cnn(n_output, activation, last_activation):
         cnn_for_dataset01_elu_tanh_rmsprop.h5
             RMSE arount 2.4~2.5 epoch: 300
 
-        cnn_for_dataset01_elu_tahn_adam_drop.h5
+        cnn_for_dataset01_elu_tahn_rmsprop_drop.h5
+            min val RMSE = 2.0759 epoch 300
+            
 """
 def create_cnn2(n_output, activation, last_activation):
     input_shape = (IMAGE_SIZE, IMAGE_SIZE, COLOR_CHANNEL)
