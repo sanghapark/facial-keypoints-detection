@@ -77,7 +77,7 @@ generator = DataAugmentGenerator(X_train,
                                  Y_train,
                                  batchsize=BATCH_SIZE,
                                  flip_indices=FLIP_INDICES,
-                                 flit_ratio=FLIP_RATIO,
+                                 flip_ratio=FLIP_RATIO,
                                  rotate_ratio=ROTATE_RATIO,
                                  contrast_ratio=CONTRAST_RATIO)
 
