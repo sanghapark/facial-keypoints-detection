@@ -1,15 +1,19 @@
+import os
 from keras.models import Sequential
 from keras.layers import Convolution2D, MaxPooling2D, Dropout, Flatten, Dense
 from keras.optimizers import SGD, RMSprop, Adagrad, Adadelta, Adam, Adamax, Nadam
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 import keras.backend as K
-from utils.load import load_data
-
-weights_file_name = 'model_for_dataset02.h5'
+from utils.load import load_train_data_and_split
+from utils.metric import rmse
+from utils.data_augment_generator import DataAugmentGenerator
+# from utils.visualize import plot_error_metric_history
+from utils.cnn import create_cnn
+from utils.constant import *
 
 
 # (2155, 23)
-cols = [
+COLS = [
     'left_eye_inner_corner_x',      'left_eye_inner_corner_y',
     'left_eye_outer_corner_x',      'left_eye_outer_corner_y',
     'right_eye_inner_corner_x',     'right_eye_inner_corner_y',
@@ -23,51 +27,85 @@ cols = [
     'mouth_center_top_lip_x',       'mouth_center_top_lip_y',
     'Image'
 ]
-flip_indices_dataset02 = [(0, 4), (1, 5), (2, 6), (3, 7), (8, 12), (9, 13), (10, 14), (11, 15), (16, 18), (17, 19)]
+FLIP_INDICES = [(0, 4), (1, 5), (2, 6), (3, 7), (8, 12), (9, 13), (10, 14), (11, 15), (16, 18), (17, 19)]
 
 
-# Load training set
-X_train, y_train = load_data(cols=cols, test=False)
+WEIGHTS_FILE_NAME = 'cnn_for_dataset02.h5'
+BATCH_SIZE = 100
+EPOCHS = 300
+VALIDATION_RATIO = 0.1
 
-# Load testing set
-X_test, _ = load_data(test=True)
+ACTIVATION = 'elu'
+LAST_ACTIVATION = 'tanh'
 
-model = Sequential()
-model.add(Convolution2D(64, (3, 3), padding='same', activation='relu', input_shape=(96, 96, 1)))
-model.add(Convolution2D(64, (3, 3), padding='same', activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.3))
+FLIP = True
+ROTATE = True
+CONTRAST = True
+FLIP_RATIO = 0.5
+ROTATE_RATIO = 0.5
+CONTRAST_RATIO = 0.5
 
-model.add(Convolution2D(128, (3, 3), padding='same', activation='relu'))
-model.add(Convolution2D(128, (3, 3), padding='same', activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.3))
+metrics = [rmse]
 
-model.add(Convolution2D(256, (3, 3), padding='same', activation='relu'))
-model.add(Convolution2D(256, (3, 3), padding='same', activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.3))
-
-model.add(Convolution2D(512, (3, 3), padding='same', activation='relu'))
-model.add(Convolution2D(512, (3, 3), padding='same', activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.3))
-
-model.add(Flatten())
-model.add(Dense(256, activation='relu'))
-model.add(Dropout(0.5))
-model.add(Dense(22, activation='tanh'))
-
-model.summary()
+optimizer = Adam(lr=0.003, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
 
 
-from keras.optimizers import SGD, RMSprop, Adagrad, Adadelta, Adam, Adamax, Nadam
+print('=== LOADING DATA ===')
 
-adam = Adam(lr=0.003, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
-model.compile(loss='mean_squared_error', optimizer=adam, metrics=['mae'])
+X_train, X_valid, Y_train, Y_valid = load_train_data_and_split(FILEPATH_TRAIN, COLS, VALIDATION_RATIO)
+n_output = Y_train.shape[1]
 
-## TODO: Train the model
-hist = model.fit(X_train, y_train, batch_size=256, verbose=2, epochs=100, validation_split=0.2, shuffle=True)
+print('=== BUILDING CNN ===')
+model = create_cnn(n_output, ACTIVATION, LAST_ACTIVATION)
 
-## TODO: Save the model as model.h5
-model.save(weights_file_name)
+
+print('=== COMPILING ===')
+
+# Save the model after every epoch
+checkpoint = ModelCheckpoint(WEIGHTS_FILE_NAME,
+                             monitor='val_loss',
+                             verbose=0,
+                             save_best_only=True,
+                             save_weights_only=True,
+                             mode='min')
+
+# Stop training when a monitored quantity has stopped improving.
+earlystopping = EarlyStopping(monitor='val_loss', 
+                             min_delta=0, 
+                             patience=50, 
+                             verbose=0, 
+                             mode='min')
+
+model.compile(loss='mean_squared_error', optimizer=optimizer, metrics=metrics)
+
+print('=== LOADING PRETRAINED WEIGHTS ===')
+
+
+model.load_weights(WEIGHTS_FILE_NAME) if os.path.exists(WEIGHTS_FILE_NAME) else None
+
+generator = DataAugmentGenerator(X_train,
+                                 Y_train,
+                                 batchsize=BATCH_SIZE,
+                                 flip_indices=FLIP_INDICES,
+                                 flip_ratio=FLIP_RATIO,
+                                 rotate_ratio=ROTATE_RATIO,
+                                 contrast_ratio=CONTRAST_RATIO)
+
+print('=== TRAINING ===')
+
+hist = model.fit_generator(generator.generate(batchsize=BATCH_SIZE, flip=FLIP, rotate=ROTATE, contrast=CONTRAST),
+                    steps_per_epoch=generator.size_train,
+                    epochs=EPOCHS,
+                    verbose=1,
+                    callbacks=[checkpoint, earlystopping],
+                    validation_data=[X_valid, Y_valid])
+
+print('=== FINISHED TRAINING ===')
+
+print('=== SAVING WEIGHTS ===')
+model.save_weights(WEIGHTS_FILE_NAME)
+print('Weights are saved as {}'.format(WEIGHTS_FILE_NAME))
+
+
+# Plotting
+# plot_error_metric_history(hist.history)
