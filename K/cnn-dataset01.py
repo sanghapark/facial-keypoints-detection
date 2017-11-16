@@ -22,12 +22,12 @@ COLS = [
 ]
 FLIP_INDICES = [(0, 2), (1, 3)]
 
-WEIGHTS_FILE_NAME = 'cnn_for_dataset01.h5'
+WEIGHTS_FILE_NAME = 'cnn_for_dataset01_elu_tanh_rmsprop.h5'
 BATCH_SIZE = 128
 EPOCHS = 300
 VALIDATION_RATIO = 0.2
 
-ACTIVATION = 'relu'
+ACTIVATION = 'elu'
 LAST_ACTIVATION = 'tanh'
 
 FLIP = True
@@ -39,8 +39,8 @@ CONTRAST_RATIO = 0.5
 
 metrics = [rmse]
 
-optimizer = Adam(lr=0.003, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
-# optimizer = RMSprop(0.001, 0.9, 1e-8, 0)
+# optimizer = Adam(lr=0.003, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+optimizer = RMSprop(0.001, 0.9, 1e-8, 0)
 
 
 print('=== LOADING DATA ===')
