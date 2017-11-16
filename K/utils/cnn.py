@@ -61,6 +61,9 @@ def create_cnn(n_output, activation, last_activation):
 
         cnn_for_dataset01_selu_tahn_adam_drop.h5
             min val RMSE = 4에서 계속 머뭄
+
+        cnn_for_dataset01_leakyrulu_tanh_adam_drop.h5
+            epoch 180에 2.1까지 갔다가 다시 2.4까지 올라와서 얼리스탑
             
     dataset02
         cnn_for_dataset02_elu_tanh_adam_drop.ht
