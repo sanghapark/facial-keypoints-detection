@@ -7,7 +7,7 @@ import keras.backend as K
 from utils.load import load_train_data_and_split
 from utils.metric import rmse
 from utils.data_augment_generator import DataAugmentGenerator
-from utils.visualize import plot_error_metric_history
+# from utils.visualize import plot_error_metric_history
 from utils.cnn import create_cnn
 from utils.constant import *
 
