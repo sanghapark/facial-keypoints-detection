@@ -37,7 +37,7 @@ FLIP_RATIO = 0.5
 ROTATE_RATIO = 0.5
 CONTRAST_RATIO = 0.5
 
-METRICS = [rmse]
+metrics = [rmse]
 
 optimizer = Adam(lr=0.003, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
 
@@ -68,7 +68,7 @@ earlystopping = EarlyStopping(monitor='val_loss',
                              verbose=0, 
                              mode='min')
 
-model.compile(loss='mean_squared_error', optimizer=optimizer, metrics=METRICS)
+model.compile(loss='mean_squared_error', optimizer=optimizer, metrics=metrics)
 
 print('=== LOADING PRETRAINED WEIGHTS ===')
 
