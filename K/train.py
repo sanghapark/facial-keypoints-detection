@@ -99,6 +99,8 @@ def train(filepath, cols, flip_indices, optimizer, epochs):
                                verbose=1,
                                callbacks=[checkpoint, earlystopping],
                                validation_data=[X_valid, Y_valid])
+    if not os.path.exists('./ensemble/'): 
+        os.makedirs('./ensemble/')
     model.save_weights(filepath)
     print('Weights are saved as {}'.format(filepath))
 
