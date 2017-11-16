@@ -27,7 +27,7 @@ BATCH_SIZE = 128
 EPOCHS = 300
 VALIDATION_RATIO = 0.2
 
-ACTIVATION = 'elu' # LeakyReLU: 별로다 처음에도 나아지질 않닸다.
+ACTIVATION = 'relu' # LeakyReLU: 별로다 처음에도 나아지질 않닸다. elu도 나아 지지 않는다.
 LAST_ACTIVATION = 'tanh'
 
 FLIP = True

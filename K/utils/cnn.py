@@ -11,6 +11,7 @@ from utils.constant import *
 def create_cnn(n_output, activation, last_activation):
     input_shape = (IMAGE_SIZE, IMAGE_SIZE, COLOR_CHANNEL)
     model = Sequential()
+    model.add(BatchNormalization(input_shape=input_shape))
     model.add(Convolution2D(64, (3, 3), padding='same', activation=activation, input_shape=input_shape))
     model.add(Convolution2D(64, (3, 3), padding='same', activation=activation))
     model.add(MaxPooling2D(pool_size=(2, 2)))
