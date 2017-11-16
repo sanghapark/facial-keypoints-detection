@@ -53,7 +53,8 @@ FLIP_INDICES02 = [
 ]
 
 BATCH_SIZE = 128
-EPOCHS = 500
+EPOCHS01 = 300
+EPOCHS02 = 900
 VALIDATION_RATIO = 0.2
 
 ACTIVATION = 'elu'
@@ -68,7 +69,7 @@ CONTRAST_RATIO = 0.5
 
 METRICS = [rmse]
 
-def train(filepath, cols, flip_indices, optimizer):
+def train(filepath, cols, flip_indices, optimizer, epochs):
     X_train, X_valid, Y_train, Y_valid = load_train_data_and_split(FILEPATH_TRAIN, cols, VALIDATION_RATIO)
     n_output = Y_train.shape[1]
     model = create_cnn2(n_output, ACTIVATION, LAST_ACTIVATION)
@@ -94,7 +95,7 @@ def train(filepath, cols, flip_indices, optimizer):
                                      contrast_ratio=CONTRAST_RATIO)
     model.fit_generator(generator.generate(batchsize=BATCH_SIZE, flip=FLIP, rotate=ROTATE, contrast=CONTRAST),
                                steps_per_epoch=int(generator.size_train/BATCH_SIZE),
-                               epochs=EPOCHS,
+                               epochs=epochs,
                                verbose=1,
                                callbacks=[checkpoint, earlystopping],
                                validation_data=[X_valid, Y_valid])
@@ -106,10 +107,10 @@ def train(filepath, cols, flip_indices, optimizer):
 for i in range(10):
     filepath = './ensemble/cnn2_dataset01_{:02}.h5'.format(i)
     optimizer = RMSprop(0.001, 0.9, 1e-8, 0)
-    train(filepath, COLS01, FLIP_INDICES01, optimizer)
+    train(filepath, COLS01, FLIP_INDICES01, optimizer, EPOCHS01)
 
 # Dataset02에 대한 앙상블 만들기
 for i in range(20):
     filepath = './ensemble/cnn2_dataset02_{:02}.h5'.format(i)
     optimizer = Adam(lr=0.003, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
-    train(filepath, COLS02, FLIP_INDICES02, optimizer)
+    train(filepath, COLS02, FLIP_INDICES02, optimizer, EPOCHS02)
