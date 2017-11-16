@@ -42,10 +42,19 @@ def create_cnn(n_output, activation, last_activation):
     return model
 
 
-# dataset01: min validation RMSE = 2.1115 (relu, tanh, adam) 180 epoch쯤에서 얼리스탑으로 멈춤
-# dataset01: min validation RMSE = 2.0817  (elu, tanh, adam) 170 epoch부터 validation rmse가 24취솓다가 4점대 유지 시작 (오버피팅)
-#           200 epoch에서 얼리스탑
-# dataset01: min validation RMSE =   (relu, tanh, rmsprop)
+"""
+    dataset01
+        cnn_for_dataset01_relu_tanh_adam.h5
+            min val RMSE = 2.1115, epoch: 180
+
+        cnn_for_dataset01_elu_tahn_adam.h5
+            min val RMSE = 2.0817  epoch: 170 epoch부터 validation rmse가 24취솓다가 4점대 유지 시작 (오버피팅)
+
+        cnn_for_dataset01_elu_tanh_rmsprop.h5
+            RMSE arount 2.4~2.5 epoch: 300
+
+        cnn_for_dataset01_elu_tahn_adam_drop.h5
+"""
 def create_cnn2(n_output, activation, last_activation):
     input_shape = (IMAGE_SIZE, IMAGE_SIZE, COLOR_CHANNEL)
     model = Sequential()
@@ -53,24 +62,30 @@ def create_cnn2(n_output, activation, last_activation):
     model.add(Convolution2D(24, 5, 5, border_mode='same', init='he_normal', input_shape=input_shape, dim_ordering='tf'))
     model.add(Activation(activation))
     model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), border_mode='valid'))
+    model.add(Dropout(0.3))
 
     model.add(Convolution2D(36, 5, 5))
     model.add(Activation(activation))
     model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), border_mode='valid'))
+    model.add(Dropout(0.3))
 
     model.add(Convolution2D(48, 5, 5))
     model.add(Activation(activation))
     model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), border_mode='valid'))
+    model.add(Dropout(0.3))
 
     model.add(Convolution2D(64, 3, 3))
     model.add(Activation(activation))
     model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), border_mode='valid'))
+    model.add(Dropout(0.3))
 
     model.add(Convolution2D(64, 3, 3))
     model.add(Activation(activation))
     model.add(GlobalAveragePooling2D());
+    model.add(Dropout(0.3))
 
     model.add(Dense(500, activation=activation))
+    model.add(Dropout(0.5))
     model.add(Dense(90, activation=last_activation))
     model.add(Dense(n_output))
 
