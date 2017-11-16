@@ -70,7 +70,7 @@ earlystopping = EarlyStopping(monitor='val_loss',
 
 model.compile(loss='mean_squared_error', optimizer=optimizer, metrics=METRICS)
 
-print('=== LOADING WEIGHTS ===')
+print('=== LOADING PRETRAINED WEIGHTS ===')
 
 model.load_weights(WEIGHTS_FILE_NAME)
 generator = DataAugmentGenerator(X_train,
