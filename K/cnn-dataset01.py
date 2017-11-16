@@ -86,7 +86,7 @@ generator = DataAugmentGenerator(X_train,
 print('=== TRAINING ===')
 
 hist = model.fit_generator(generator.generate(batchsize=BATCH_SIZE, flip=FLIP, rotate=ROTATE, contrast=CONTRAST),
-                    steps_per_epoch=generator.size_train,
+                    steps_per_epoch=int(generator.size_train/BATCH_SIZE),
                     epochs=EPOCHS,
                     verbose=1,
                     callbacks=[checkpoint, earlystopping],
