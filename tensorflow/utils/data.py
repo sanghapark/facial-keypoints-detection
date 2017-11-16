@@ -196,25 +196,3 @@ def fetch_batch(total_data, total_target, batch_index, batch_size):
     X_batch = total_data[batch_index:batch_index + batch_size]
     y_batch = total_target[batch_index:batch_index + batch_size,]
     return X_batch.astype(np.float32), y_batch.astype(np.float32)
-
-
-
-# def load(test=False, cols=None):
-#     fname = test_data if test else train_data
-#     df = pd.read_csv(fname)
-#     df['Image'] = df['Image'].apply(lambda im: np.fromstring(im, sep=' '))
-#     if cols:  # get a subset of columns
-#         df = df[list(cols) + ['Image']]
-#     # test에서 하면 안됨. 하지만 테스트 파일은 null이 없어서 dropna 할게 없음
-#     df = df.dropna()
-#     X = np.vstack(df['Image'].values) / 255.  # scale pixel values to [0, 1]
-#     X = X.astype(np.float32)
-#     if not test:  # only train_data has any target columns
-#         y = df[df.columns[:-1]].values
-#         y = (y - 48) / 48  # scale target coordinates to [-1, 1]
-#         # X, y = shuffle(X, y, random_state=42)  # shuffle train data
-#         X, y = shuffle(X, y) 
-#         y = y.astype(np.float32)
-#     else:
-#         y = None
-#     return X, y
