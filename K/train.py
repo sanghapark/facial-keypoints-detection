@@ -99,20 +99,18 @@ def train(filepath, cols, flip_indices, optimizer, epochs):
                                verbose=1,
                                callbacks=[checkpoint, earlystopping],
                                validation_data=[X_valid, Y_valid])
-    if not os.path.exists('ensemble/'): 
-        os.makedirs('ensemble/')
     model.save_weights(filepath)
     print('Weights are saved as {}'.format(filepath))
 
 
 # Dataset01에 대한 앙상블 만들기
 for i in range(10):
-    filepath = 'ensemble/cnn2_dataset01_{:02}.h5'.format(i)
+    filepath = 'cnn2_dataset01_{:02}.h5'.format(i)
     optimizer = RMSprop(0.001, 0.9, 1e-8, 0)
     train(filepath, COLS01, FLIP_INDICES01, optimizer, EPOCHS01)
 
 # Dataset02에 대한 앙상블 만들기
 for i in range(20):
-    filepath = 'ensemble/cnn2_dataset02_{:02}.h5'.format(i)
+    filepath = 'cnn2_dataset02_{:02}.h5'.format(i)
     optimizer = Adam(lr=0.003, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
     train(filepath, COLS02, FLIP_INDICES02, optimizer, EPOCHS02)
