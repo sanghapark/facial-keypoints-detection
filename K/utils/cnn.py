@@ -67,8 +67,10 @@ def create_cnn(n_output, activation, last_activation):
             epoch 180에 2.1까지 갔다가 다시 2.4까지 올라와서 얼리스탑
             
     dataset02
-        cnn_for_dataset02_elu_tanh_adam_drop.ht
+        cnn_for_dataset02_elu_tanh_adam_drop.h5
             RMSE 1.5~1.6 after 350 epochs
+        cnn_for_dataset02_elu_tanh_rmsprop_drop.h5
+            RMSE 1.6~1.7 after 350 epochs
 """
 def create_cnn2(n_output, activation, last_activation):
     input_shape = (IMAGE_SIZE, IMAGE_SIZE, COLOR_CHANNEL)
