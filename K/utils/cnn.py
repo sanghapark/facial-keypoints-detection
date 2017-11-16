@@ -11,24 +11,32 @@ from utils.constant import *
 def create_cnn(n_output, activation, last_activation):
     input_shape = (IMAGE_SIZE, IMAGE_SIZE, COLOR_CHANNEL)
     model = Sequential()
-    model.add(BatchNormalization(input_shape=input_shape))
+    
     model.add(Convolution2D(64, (3, 3), padding='same', activation=activation, input_shape=input_shape))
+    model.add(BatchNormalization(input_shape=(96, 96, 64)))
     model.add(Convolution2D(64, (3, 3), padding='same', activation=activation))
+    model.add(BatchNormalization(input_shape=(96, 96, 64)))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.3))
 
     model.add(Convolution2D(128, (3, 3), padding='same', activation=activation))
+    model.add(BatchNormalization(input_shape=(48, 48, 128)))
     model.add(Convolution2D(128, (3, 3), padding='same', activation=activation))
+    model.add(BatchNormalization(input_shape=(48, 48, 128)))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.3))
 
     model.add(Convolution2D(256, (3, 3), padding='same', activation=activation))
+    model.add(BatchNormalization(input_shape=(24, 24, 256)))
     model.add(Convolution2D(256, (3, 3), padding='same', activation=activation))
+    model.add(BatchNormalization(input_shape=(24, 24, 256)))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.3))
 
     model.add(Convolution2D(512, (3, 3), padding='same', activation=activation))
+    model.add(BatchNormalization(input_shape=(12, 12, 512)))
     model.add(Convolution2D(512, (3, 3), padding='same', activation=activation))
+    model.add(BatchNormalization(input_shape=(12, 12, 512)))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.3))
 
