@@ -110,8 +110,7 @@ def create_cnn2(n_output, activation, last_activation):
 def create_cnn3(n_output, activation, last_activation):
     input_shape = (IMAGE_SIZE, IMAGE_SIZE, COLOR_CHANNEL)
     model = Sequential([
-        # BatchNormalization(input_shape=input_shape),
-        Convolution2D(128, 3, 3, border_mode='valid', kernel_initializer='he_normal', input_shape=input_shape),
+        Convolution2D(128, 3, 3, border_mode='valid', input_shape=input_shape),
         Activation(activation),
         MaxPooling2D(pool_size=(2, 2)),
         Dropout(0.1),
