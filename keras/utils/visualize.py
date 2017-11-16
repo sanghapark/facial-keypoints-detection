@@ -48,3 +48,21 @@ def plot_keypoints(img_path,
                    ((landmarks[1::2] * 48 + 48)*orig_shape_crop[1]/96)+y, 
                    marker='o', c='c', s=40)
     plt.show()
+
+
+def plot_error_metric_history(history):
+    plt.plot(history['root_mean_squared_error'])
+    plt.plot(history['val_root_mean_squared_error'])
+    plt.title('model root mean squared error')
+    plt.ylabel('RMSE')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.show()
+
+    plt.plot(history['loss'])
+    plt.plot(history['val_loss'])
+    plt.title('model loss')
+    plt.ylabel('loss')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.show()

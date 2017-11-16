@@ -1,6 +1,12 @@
 from keras.models import Sequential
 from keras.layers import Convolution2D, MaxPooling2D, Dropout, Flatten, Dense
+from keras.optimizers import SGD, RMSprop, Adagrad, Adadelta, Adam, Adamax, Nadam
+from keras.callbacks import ModelCheckpoint, EarlyStopping
+import keras.backend as K
 from utils.load import load_data
+
+weights_file_name = 'model_for_dataset02.h5'
+
 
 # (2155, 23)
 cols = [
@@ -28,6 +34,8 @@ cols = [
     'mouth_center_top_lip_y',
     'Image'
 ]
+flip_indices_dataset02 = [(0, 4), (1, 5), (2, 6), (3, 7), (8, 12), (9, 13), (10, 14), (11, 15), (16, 18), (17, 19)]
+
 
 # Load training set
 X_train, y_train = load_data(cols=cols, test=False)
@@ -73,4 +81,4 @@ model.compile(loss='mean_squared_error', optimizer=adam, metrics=['mae'])
 hist = model.fit(X_train, y_train, batch_size=256, verbose=2, epochs=100, validation_split=0.2, shuffle=True)
 
 ## TODO: Save the model as model.h5
-model.save('/trained-models/model_for_dataset02.h5')
+model.save(weights_file_name)
