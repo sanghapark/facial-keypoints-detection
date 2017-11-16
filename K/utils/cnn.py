@@ -42,8 +42,10 @@ def create_cnn(n_output, activation, last_activation):
     return model
 
 
-# dataset01: min validation RMSE = 2.1115 (relu, tanh, adam)
-# dataset01: min validation RMSE = ?  (elu, tanh, adam)
+# dataset01: min validation RMSE = 2.1115 (relu, tanh, adam) 180 epoch쯤에서 얼리스탑으로 멈춤
+# dataset01: min validation RMSE = 2.0817  (elu, tanh, adam) 170 epoch부터 validation rmse가 24취솓다가 4점대 유지 시작 (오버피팅)
+#           200 epoch에서 얼리스탑
+# dataset01: min validation RMSE =   (relu, tanh, rmsprop)
 def create_cnn2(n_output, activation, last_activation):
     input_shape = (IMAGE_SIZE, IMAGE_SIZE, COLOR_CHANNEL)
     model = Sequential()
