@@ -1,11 +1,8 @@
-import os
 from os import listdir
 from os.path import isfile, join
-import matplotlib.pyplot as plt
-from keras.models import load_model
 from keras.models import model_from_yaml
 
-def load_models_with_weights(model_name):
+def load_pretrained_models_with_weights(model_name):
     path = './models/{}/weights'.format(model_name)
     weights = [join(path, w) for w in listdir(path) if isfile(join(path, w))]
     models = []
@@ -19,5 +16,8 @@ def load_models_with_weights(model_name):
         models.append(model)
     return models
 
-models01 = load_models_with_weights('cnn2_dataset01')
-models02 = load_models_with_weights('cnn2_dataset02')
+def save_pretrained_model_with_weight(dir, modelname, model):
+    model.save(dir + '/' + modelname + '.model')
+    model_yaml = model.to_yaml()
+    with open(dir + '/' + "{}.yaml".format(modelname), "w") as yaml_file:
+        yaml_file.write(model_yaml)
