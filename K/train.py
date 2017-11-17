@@ -42,20 +42,6 @@ def train(model, cnnname, submodelpath, cols, flip_indices, optimizer, epochs):
     print('Weights and Loss History are saved as {} and {}'.format(weightfile, histfile))
 
 
-# Dataset01에 대한 앙상블 만들기
-submodelpath = 'models/{}/{}'.format(modelname, 'cnn2_dataset01')
-if not os.path.exists(submodelpath):
-    os.makedirs(submodelpath)
-model = create_cnn2(8, ACTIVATION, LAST_ACTIVATION)
-optimizer = RMSprop(0.001, 0.9, 1e-8, 0)
-model.compile(loss='mean_squared_error', optimizer=optimizer, metrics=[rmse])
-save_model(submodelpath, "cnn2_dataset01", model)
-for i in range(10):
-    cnnname = 'cnn2_dataset01_{:02}'.format(i)
-    train(model, cnnname, submodelpath, COLS01, FLIP_INDICES01, optimizer, EPOCHS01)
-
-
-
 # Dataset02에 대한 앙상블 만들기
 submodelpath = 'models/{}/{}'.format(modelname, 'cnn2_dataset02')
 if not os.path.exists(submodelpath):
@@ -67,3 +53,16 @@ save_model(submodelpath, "cnn2_dataset02", model)
 for i in range(20):
     cnnname = 'cnn2_dataset02_{:02}'.format(i)
     train(model, cnnname, submodelpath, COLS02, FLIP_INDICES02, optimizer, EPOCHS02)
+
+
+# Dataset01에 대한 앙상블 만들기
+submodelpath = 'models/{}/{}'.format(modelname, 'cnn2_dataset01')
+if not os.path.exists(submodelpath):
+    os.makedirs(submodelpath)
+model = create_cnn2(8, ACTIVATION, LAST_ACTIVATION)
+optimizer = RMSprop(0.001, 0.9, 1e-8, 0)
+model.compile(loss='mean_squared_error', optimizer=optimizer, metrics=[rmse])
+save_model(submodelpath, "cnn2_dataset01", model)
+for i in range(10):
+    cnnname = 'cnn2_dataset01_{:02}'.format(i)
+    train(model, cnnname, submodelpath, COLS01, FLIP_INDICES01, optimizer, EPOCHS01)
