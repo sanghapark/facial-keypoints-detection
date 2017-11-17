@@ -1,6 +1,7 @@
 from os import listdir
 from os.path import isfile, join
 from keras.models import model_from_yaml
+import keras.backend as K
 
 def load_pretrained_models_with_weights(model_name):
     path = './models/{}/weights'.format(model_name)

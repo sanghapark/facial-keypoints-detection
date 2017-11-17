@@ -7,6 +7,8 @@ from utils.constant import FILEPATH_TEST
 ACTIVATION = 'elu'
 LAST_ACTIVATION = 'tanh'
 
+model_path = 'models/ensemble01/'
+
 X_test = load_test_data(FILEPATH_TEST)
 
 def load_models(name, n_output):
@@ -27,7 +29,6 @@ def plot_models(models):
         plt.plot(model.history['rmse'])
         plt.plot()
 
-path = 'models/ensemble01/'
 
 
 models01 = load_models('cnn2_dataset01', 8)

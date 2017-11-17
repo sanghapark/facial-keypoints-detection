@@ -1,8 +1,13 @@
+import os
+from keras.callbacks import ModelCheckpoint, EarlyStopping
 from keras.models import Sequential
 from keras.layers import Convolution2D, MaxPooling2D, Dropout, Flatten, Dense, Activation, GlobalAveragePooling2D
 from keras.layers.normalization import BatchNormalization
-import keras.backend as K
+from utils.load import load_train_data_and_split
+from utils.data_augment_generator import DataAugmentGenerator
 from utils.constant import *
+from utils.loss_history import LossHistory
+
 
 
 # Batch Normalization, Ensemble 참고
@@ -141,3 +146,24 @@ def create_cnn3(n_output, activation, last_activation):
     print(model.summary())
     return model
 
+
+def train(model, cnnname, submodelpath, cols, flip_indices, optimizer, epochs):
+    X_train, X_valid, Y_train, Y_valid = load_train_data_and_split(FILEPATH_TRAIN, cols, VALIDATION_RATIO)
+
+    weightfile = os.path.join(submodelpath, cnnname + '.h5')
+    histfile   = os.path.join(submodelpath, cnnname + '.csv')
+
+    history = LossHistory(histfile)
+    checkpoint    = ModelCheckpoint(weightfile, monitor='val_loss', verbose=0, save_best_only=True, save_weights_only=True, mode='min')
+    earlystopping = EarlyStopping(monitor='val_loss', min_delta=0, patience=50, verbose=0, mode='min')
+    
+    model.load_weights(weightfile) if os.path.exists(weightfile) else None
+    generator = DataAugmentGenerator(X_train, Y_train, BATCH_SIZE, flip_indices, FLIP_RATIO, ROTATE_RATIO, CONTRAST_RATIO)
+    model.fit_generator(generator.generate(BATCH_SIZE, FLIP, ROTATE, CONTRAST), 
+                        steps_per_epoch=int(generator.size_train/BATCH_SIZE),
+                        epochs=epochs,
+                        verbose=1,
+                        callbacks=[checkpoint, earlystopping, history],
+                        validation_data=[X_valid, Y_valid])
+    model.save_weights(weightfile)
+    print('Weights and Loss History are saved as {} and {}'.format(weightfile, histfile))
