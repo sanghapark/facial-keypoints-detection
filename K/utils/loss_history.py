@@ -2,6 +2,11 @@ import pandas as pd
 from keras.callbacks import Callback
 
 class LossHistory(Callback):
+
+    def __init__(self):
+        print('LossHistory init')
+        self.losses = pd.DataFrame(columns=['loss', 'val_loss', 'rmse', 'val_rmse'])
+
     def on_training_begin(self, logs={}):
         print('on_training_begin')
         self.losses = pd.DataFrame(columns=['loss', 'val_loss', 'rmse', 'val_rmse'])
