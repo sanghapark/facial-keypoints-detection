@@ -16,7 +16,8 @@ class LossHistory(Callback):
         print('on_epoch_begin')
 
     def on_epoch_end(self, epoch, logs=None):
-        print('on_epoch_end')
+        print('on_epoch_end\n')
+        print(logs)
         # cols = ['loss', 'val_loss', 'rmse', 'val_rmse']
         # metrics = [
         #     logs.get('loss'),
@@ -24,10 +25,6 @@ class LossHistory(Callback):
         #     logs.get('rmse'),
         #     logs.get('val_rmse')
         # ]
-        print(logs.get('loss'),
-            logs.get('val_loss'),
-            logs.get('rmse'),
-            logs.get('val_rmse'))
         # self.losses.append(pd.DataFrame(metrics, columns=cols))
 
 
