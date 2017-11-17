@@ -8,7 +8,7 @@ from utils.metric import rmse
 from utils.data_augment_generator import DataAugmentGenerator
 from utils.cnn import *
 from utils.constant import *
-from utils.models import save_pretrained_model_with_weight
+from utils.models import save_pretrained_model
 
 datetime = dt.datetime.now().strftime("%Y%m%d_%H%M")
 modelname = 'model_{}'.format(datetime)
