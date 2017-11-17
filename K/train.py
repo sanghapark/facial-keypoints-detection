@@ -8,7 +8,7 @@ from utils.metric import rmse
 from utils.data_augment_generator import DataAugmentGenerator
 from utils.cnn import *
 from utils.constant import *
-from utils.models import save_pretrained_model
+from utils.models import save_model
 
 datetime = dt.datetime.now().strftime("%Y%m%d_%H%M")
 modelname = 'model_{}'.format(datetime)
@@ -47,7 +47,7 @@ if not os.path.exists(submodelpath):
 model = create_cnn2(8, ACTIVATION, LAST_ACTIVATION)
 optimizer = RMSprop(0.001, 0.9, 1e-8, 0)
 model.compile(loss='mean_squared_error', optimizer=optimizer, metrics=[rmse])
-save_pretrained_model_with_weight(submodelpath, "cnn2_dataset01", model)
+save_model(submodelpath, "cnn2_dataset01", model)
 for i in range(10):
     cnnname = 'cnn2_dataset01_{:02}'.format(i)
     train(model, cnnname, submodelpath, COLS01, FLIP_INDICES01, optimizer, EPOCHS01)
@@ -61,7 +61,7 @@ if not os.path.exists(submodelpath):
 model = create_cnn2(22, ACTIVATION, LAST_ACTIVATION)
 optimizer = Adam(lr=0.003, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
 model.compile(loss='mean_squared_error', optimizer=optimizer, metrics=[rmse])
-save_pretrained_model_with_weight(submodelpath, "cnn2_dataset02", model)
+save_model(submodelpath, "cnn2_dataset02", model)
 for i in range(20):
     cnnname = 'cnn2_dataset02_{:02}'.format(i)
     train(model, cnnname, submodelpath, COLS02, FLIP_INDICES02, optimizer, EPOCHS02)

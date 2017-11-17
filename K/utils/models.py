@@ -16,7 +16,7 @@ def load_pretrained_models_with_weights(model_name):
         models.append(model)
     return models
 
-def save_pretrained_model(dir, modelname, model):
+def save_model(dir, modelname, model):
     model.save(dir + '/' + modelname + '.model')
     model_yaml = model.to_yaml()
     with open(dir + '/' + "{}.yaml".format(modelname), "w") as yaml_file:
