@@ -9,6 +9,7 @@ from utils.data_augment_generator import DataAugmentGenerator
 from utils.cnn import *
 from utils.constant import *
 from utils.models import save_model
+from utils.loss_history import LossHistory
 
 datetime = dt.datetime.now().strftime("%Y%m%d_%H%M")
 modelname = 'model_{}'.format(datetime)
@@ -21,6 +22,7 @@ def train(model, cnnname, submodelpath, cols, flip_indices, optimizer, epochs):
     weightfile = os.path.join(submodelpath, cnnname + '.h5')
     histfile   = os.path.join(submodelpath, cnnname + '.history')
 
+    history = LossHistory()
     checkpoint    = ModelCheckpoint(weightfile, monitor='val_loss', verbose=0, save_best_only=True, save_weights_only=True, mode='min')
     earlystopping = EarlyStopping(monitor='val_loss', min_delta=0, patience=50, verbose=0, mode='min')
     
@@ -30,12 +32,11 @@ def train(model, cnnname, submodelpath, cols, flip_indices, optimizer, epochs):
                         steps_per_epoch=int(generator.size_train/BATCH_SIZE),
                         epochs=epochs,
                         verbose=1,
-                        callbacks=[checkpoint, earlystopping],
+                        callbacks=[checkpoint, earlystopping, history],
                         validation_data=[X_valid, Y_valid])
     
-    
     with open(histfile, 'wb') as f:
-        pickle.dump(model.history, f)
+        pickle.dump(history, f)
     model.save_weights(weightfile)
     print('Weights and Loss History are saved as {} and {}'.format(weightfile, histfile))
 

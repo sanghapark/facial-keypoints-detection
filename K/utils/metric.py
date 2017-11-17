@@ -1,4 +1,3 @@
-import numpy as np
 import keras.backend as K
 
 def rmse(target, y_predicted):
