@@ -21,7 +21,7 @@ def train(model, cnnname, submodelpath, cols, flip_indices, optimizer, epochs):
     weightfile = os.path.join(submodelpath, cnnname + '.h5')
     histfile   = os.path.join(submodelpath, cnnname + '.csv')
 
-    history = LossHistory()
+    history = LossHistory(histfile)
     checkpoint    = ModelCheckpoint(weightfile, monitor='val_loss', verbose=0, save_best_only=True, save_weights_only=True, mode='min')
     earlystopping = EarlyStopping(monitor='val_loss', min_delta=0, patience=50, verbose=0, mode='min')
     
