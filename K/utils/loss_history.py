@@ -10,8 +10,5 @@ class LossHistory(Callback):
 
     def on_epoch_end(self, epoch, logs=None):
         file = open(self.modelfile, 'a+')
-        file.write(
-            ','.join(
-                [str(epoch), logs.get('loss'), logs.get('val_loss'), logs.get('rmse'), logs.get('val_rmse')]
-            )
-        )
+        row = "{},{},{},{},{}".format(epoch, logs.get('loss'), logs.get('val_loss'), logs.get('rmse'), logs.get('val_rmse'))
+        file.write(row)
