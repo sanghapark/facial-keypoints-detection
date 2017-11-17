@@ -33,7 +33,6 @@ def train(model, cnnname, submodelpath, cols, flip_indices, optimizer, epochs):
                         verbose=1,
                         callbacks=[checkpoint, earlystopping, history],
                         validation_data=[X_valid, Y_valid])
-    history.losses.to_csv(histfile)
     model.save_weights(weightfile)
     print('Weights and Loss History are saved as {} and {}'.format(weightfile, histfile))
 
