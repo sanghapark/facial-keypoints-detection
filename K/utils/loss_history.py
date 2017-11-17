@@ -15,4 +15,4 @@ class LossHistory(Callback):
             logs.get('rmse'),
             logs.get('val_rmse')
         ]]
-        self.losses.append(pd.DataFrame(metrics, columns=cols))
+        self.losses.append(pd.DataFrame(metrics, columns=cols).copy())
