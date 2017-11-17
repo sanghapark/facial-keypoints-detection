@@ -6,7 +6,7 @@ from keras.callbacks import ModelCheckpoint, EarlyStopping
 from utils.load import load_train_data_and_split
 from utils.metric import rmse
 from utils.data_augment_generator import DataAugmentGenerator
-from utils.cnn import *
+from utils.cnn import create_cnn2
 from utils.constant import *
 from utils.models import save_model
 from utils.loss_history import LossHistory
