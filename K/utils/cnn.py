@@ -1,6 +1,7 @@
 from keras.models import Sequential
 from keras.layers import Convolution2D, MaxPooling2D, Dropout, Flatten, Dense, Activation, GlobalAveragePooling2D
 from keras.layers.normalization import BatchNormalization
+import keras.backend as K
 from utils.constant import *
 
 
@@ -139,3 +140,15 @@ def create_cnn3(n_output, activation, last_activation):
     ])
     print(model.summary())
     return model
+
+
+def reset_model(model):
+    session = K.get_session()
+    for layer in model.layers: 
+        for v in layer.__dict__:
+            v_arg = getattr(layer,v)
+            if hasattr(v_arg,'initializer'):
+                initializer_method = getattr(v_arg, 'initializer')
+                initializer_method.run(session=session)
+                print('reinitializing layer {}.{}\n'.format(layer.name, v))
+                

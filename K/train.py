@@ -5,7 +5,7 @@ from keras.callbacks import ModelCheckpoint, EarlyStopping
 from utils.load import load_train_data_and_split
 from utils.metric import rmse
 from utils.data_augment_generator import DataAugmentGenerator
-from utils.cnn import create_cnn2
+from utils.cnn import create_cnn2, reset_model
 from utils.constant import *
 from utils.models import save_model
 from utils.loss_history import LossHistory
@@ -16,6 +16,9 @@ if not os.path.exists('models/{}'.format(modelname)):
     os.makedirs('models/{}'.format(modelname))
 
 def train(model, cnnname, submodelpath, cols, flip_indices, optimizer, epochs):
+    
+    reset_model(model)
+
     X_train, X_valid, Y_train, Y_valid = load_train_data_and_split(FILEPATH_TRAIN, cols, VALIDATION_RATIO)
 
     weightfile = os.path.join(submodelpath, cnnname + '.h5')
