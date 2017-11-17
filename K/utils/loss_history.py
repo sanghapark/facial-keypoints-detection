@@ -3,11 +3,11 @@ from keras.callbacks import Callback
 
 class LossHistory(Callback):
     def on_training_begin(self, logs={}):
-        print('on_epoch_begin')
+        print('on_training_begin')
         self.losses = pd.DataFrame(columns=['loss', 'val_loss', 'rmse', 'val_rmse'])
 
     def on_batch_end(self, batch, logs=None):
-        print('on_epoch_begin')
+        print('on_batch_end')
         cols = ['loss', 'val_loss', 'rmse', 'val_rmse']
         metrics = [
             logs.get('loss'),
