@@ -2,7 +2,7 @@ import os
 import datetime as dt
 from keras.optimizers import RMSprop, Adam
 from utils.metric import rmse
-from utils.cnn import create_cnn2
+from utils.cnn import create_cnn2, train
 from utils.constant import *
 from utils.models import save_model, reset_model
 
@@ -25,4 +25,3 @@ for i in range(10):
     cnnname = 'cnn2_dataset01_{:02}'.format(i)
     train(model, cnnname, submodelpath, COLS01, FLIP_INDICES01, optimizer, EPOCHS01)
     reset_model(model)
-

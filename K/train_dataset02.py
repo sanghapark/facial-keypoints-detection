@@ -2,7 +2,7 @@ import os
 import datetime as dt
 from keras.optimizers import RMSprop, Adam
 from utils.metric import rmse
-from utils.cnn import create_cnn2
+from utils.cnn import create_cnn2, train
 from utils.constant import *
 from utils.models import save_model, reset_model
 
