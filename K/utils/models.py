@@ -21,3 +21,14 @@ def save_model(dir, modelname, model):
     model_yaml = model.to_yaml()
     with open(dir + '/' + "{}.yaml".format(modelname), "w") as yaml_file:
         yaml_file.write(model_yaml)
+
+
+def reset_model(model):
+    session = K.get_session()
+    for layer in model.layers: 
+        for v in layer.__dict__:
+            v_arg = getattr(layer,v)
+            if hasattr(v_arg,'initializer'):
+                initializer_method = getattr(v_arg, 'initializer')
+                initializer_method.run(session=session)
+                print('reinitializing layer {}.{}\n'.format(layer.name, v))
