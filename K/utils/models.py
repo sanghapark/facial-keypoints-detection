@@ -3,12 +3,12 @@ from os.path import isfile, join
 from keras.models import model_from_yaml
 import keras.backend as K
 
-def load_pretrained_models_with_weights(model_name):
-    path = './models/{}/weights'.format(model_name)
-    weights = [join(path, w) for w in listdir(path) if isfile(join(path, w))]
+def load_models_with_weights(model_name, submodel_name):
+    path = './models/{}/'.format(model_name)
+    weights = [join(path, w) for w in listdir(path) if isfile(join(path, w) and w.endswith('.h5'))]
     models = []
     for idx, w in enumerate(weights):
-        model_path = './models/{}/{}.yaml'.format(model_name, model_name)
+        model_path = './models/{}/{}.yaml'.format(model_name, submodel_name)
         yaml_file = open(model_path, 'r')
         loaded_model_yaml = yaml_file.read()
         yaml_file.close()

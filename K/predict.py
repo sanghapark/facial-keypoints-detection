@@ -2,7 +2,7 @@ import os
 import matplotlib.pyplot as plt
 from utils.cnn import create_cnn2
 from utils.load import load_test_data
-from utils.models import load_pretrained_models_with_weights
+from utils.models import load_models_with_weights
 from utils.constant import FILEPATH_TEST
 
 ACTIVATION = 'elu'
@@ -32,7 +32,11 @@ def plot_models(models):
 
 
 
-models01 = load_models('cnn2_dataset01', 8)
-models02 = load_models('cnn2_dataset02', 22)
+# models01 = load_models('cnn2_dataset01', 8)
+# models02 = load_models('cnn2_dataset02', 22)
 
-print(len(models01), len(models02))
+# print(len(models01), len(models02))
+
+
+models01 = load_models_with_weights(model_path, 'cnn2_dataset01')
+models02 = load_models_with_weights(model_path, 'cnn2_dataset02')
