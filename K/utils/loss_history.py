@@ -16,8 +16,15 @@ class LossHistory(Callback):
         print('on_epoch_begin')
 
     def on_epoch_end(self, epoch, logs=None):
+        print('\n')
+        print('='*100)
         print('on_epoch_end\n')
         print(logs)
+        print('\n')
+        print(logs.get('val_rmse'))
+        print('\n')
+        print('='*100)
+        print('\n')
         # cols = ['loss', 'val_loss', 'rmse', 'val_rmse']
         # metrics = [
         #     logs.get('loss'),
