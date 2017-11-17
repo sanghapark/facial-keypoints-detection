@@ -19,7 +19,7 @@ def train(model, cnnname, submodelpath, cols, flip_indices, optimizer, epochs):
     X_train, X_valid, Y_train, Y_valid = load_train_data_and_split(FILEPATH_TRAIN, cols, VALIDATION_RATIO)
 
     weightfile = os.path.join(submodelpath, cnnname + '.h5')
-    histfile   = os.path.join(submodelpath, cnnname + '.history')
+    histfile   = os.path.join(submodelpath, cnnname + '.csv')
 
     history = LossHistory()
     checkpoint    = ModelCheckpoint(weightfile, monitor='val_loss', verbose=0, save_best_only=True, save_weights_only=True, mode='min')
