@@ -12,6 +12,6 @@ class LossHistory(Callback):
         file = open(self.modelfile, 'a+')
         file.write(
             ','.join(
-                [epoch, logs.get('loss'), logs.get('val_loss'), logs.get('rmse'), logs.get('val_rmse')]
+                [str(epoch), logs.get('loss'), logs.get('val_loss'), logs.get('rmse'), logs.get('val_rmse')]
             )
         )
