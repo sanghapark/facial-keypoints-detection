@@ -18,9 +18,10 @@ if not os.path.exists('models/{}'.format(modelname)):
 def train(model, cnnname, submodelpath, cols, flip_indices, optimizer, epochs):
     X_train, X_valid, Y_train, Y_valid = load_train_data_and_split(FILEPATH_TRAIN, cols, VALIDATION_RATIO)
 
-    weightfile = cnnname + '.h5'
-    weightfile = os.path.join(submodelpath, cnnfile)
-    checkpoint = ModelCheckpoint(weightfile, monitor='val_loss', verbose=0, save_best_only=True, save_weights_only=True, mode='min')
+    weightfile = os.path.join(submodelpath, cnnname + '.h5')
+    histfile   = os.path.join(submodelpath, cnnname + '.history')
+
+    checkpoint    = ModelCheckpoint(weightfile, monitor='val_loss', verbose=0, save_best_only=True, save_weights_only=True, mode='min')
     earlystopping = EarlyStopping(monitor='val_loss', min_delta=0, patience=50, verbose=0, mode='min')
     
     model.load_weights(weightfile) if os.path.exists(weightfile) else None
@@ -32,7 +33,7 @@ def train(model, cnnname, submodelpath, cols, flip_indices, optimizer, epochs):
                         callbacks=[checkpoint, earlystopping],
                         validation_data=[X_valid, Y_valid])
     
-    histfile = os.path.join(submodelpath, cnnname + '.history')
+    
     with open(histfile, 'wb') as f:
         pickle.dump(model.history, f)
     model.save_weights(weightfile)
