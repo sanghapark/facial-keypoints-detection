@@ -2,6 +2,7 @@ import os
 import matplotlib.pyplot as plt
 from utils.cnn import create_cnn2
 from utils.load import load_test_data
+from utils.models import load_pretrained_models_with_weights
 from utils.constant import FILEPATH_TEST
 
 ACTIVATION = 'elu'
