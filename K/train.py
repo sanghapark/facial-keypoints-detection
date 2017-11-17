@@ -37,6 +37,7 @@ def train(model, cnnname, submodelpath, cols, flip_indices, optimizer, epochs):
     
     with open(histfile, 'wb') as f:
         pickle.dump(history, f)
+    history.losses.to_csv(histfile)
     model.save_weights(weightfile)
     print('Weights and Loss History are saved as {} and {}'.format(weightfile, histfile))
 
