@@ -27,7 +27,10 @@ def plot_models(models):
         plt.plot(model.history['rmse'])
         plt.plot()
 
+path = 'models/ensemble01/'
+
 
 models01 = load_models('cnn2_dataset01', 8)
 models02 = load_models('cnn2_dataset02', 22)
 
+print(len(models01), len(models02))
