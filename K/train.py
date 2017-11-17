@@ -16,9 +16,6 @@ if not os.path.exists('models/{}'.format(modelname)):
     os.makedirs('models/{}'.format(modelname))
 
 def train(model, cnnname, submodelpath, cols, flip_indices, optimizer, epochs):
-    
-    reset_model(model)
-
     X_train, X_valid, Y_train, Y_valid = load_train_data_and_split(FILEPATH_TRAIN, cols, VALIDATION_RATIO)
 
     weightfile = os.path.join(submodelpath, cnnname + '.h5')
@@ -51,6 +48,8 @@ save_model(submodelpath, "cnn2_dataset01", model)
 for i in range(10):
     cnnname = 'cnn2_dataset01_{:02}'.format(i)
     train(model, cnnname, submodelpath, COLS01, FLIP_INDICES01, optimizer, EPOCHS01)
+    reset_model(model)
+
 
 
 # Dataset02에 대한 앙상블 만들기
@@ -64,3 +63,5 @@ save_model(submodelpath, "cnn2_dataset02", model)
 for i in range(20):
     cnnname = 'cnn2_dataset02_{:02}'.format(i)
     train(model, cnnname, submodelpath, COLS02, FLIP_INDICES02, optimizer, EPOCHS02)
+    reset_model(model)
+
