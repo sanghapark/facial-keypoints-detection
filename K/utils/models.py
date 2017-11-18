@@ -1,24 +1,24 @@
 import os
 from os import listdir
-from os.path import isfile, join
+from os.path import isfile, join, dirname, abspath
 from keras.models import model_from_yaml
 import keras.backend as K
 
 def load_models_with_weights(model_name):
     models = []
     submodel_dirs = []
-    for item in listdir('./models/{}'.format(model_name)):
-        if not item.startswith('.') and os.path.isdir(os.path.join('./models/{}'.format(model_name), item)):
+    parent_path = dirname(dirname(abspath(__file__)))
+    for item in listdir('{}/models/{}'.format(parent_path, model_name)):
+        if not item.startswith('.') and os.path.isdir('{}/models/{}'.format(parent_path, model_name)):
             submodel_dirs.append(item)
-
     for submodel in submodel_dirs:
-        path = './models/{}/{}'.format(model_name, submodel)
+        path = '{}/models/{}/{}'.format(parent_path, model_name, submodel)
         weights = [f for f in listdir(path) if f.endswith('.h5')]
 
         submodels = []
         for idx, w in enumerate(weights):
-            w = './models/{}/{}/{}'.format(model_name, submodel, w)
-            model_path = './models/{}/{}/{}.yaml'.format(model_name, submodel, submodel)
+            w = '{}/models/{}/{}/{}'.format(parent_path, model_name, submodel, w)
+            model_path = '{}/models/{}/{}/{}.yaml'.format(parent_path, model_name, submodel, submodel)
             yaml_file = open(model_path, 'r')
             loaded_model_yaml = yaml_file.read()
             yaml_file.close()
