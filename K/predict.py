@@ -1,42 +1,31 @@
-import os
-import matplotlib.pyplot as plt
-from utils.cnn import create_cnn2
+import cv2
+from PIL import Image
 from utils.load import load_test_data
 from utils.models import load_models_with_weights
 from utils.constant import FILEPATH_TEST
+from utils.constant import IMAGE_SIZE
 
-ACTIVATION = 'elu'
-LAST_ACTIVATION = 'tanh'
-
-model_path = 'models/ensemble01/'
+model_name = 'ensemble01'
 
 X_test = load_test_data(FILEPATH_TEST)
 
-def load_models(name, n_output):
-    models = []
-    i = 0
-    while True:
-        filepath = '{}_{:02}'.format(name, i)
-        model = create_cnn2(n_output, ACTIVATION, LAST_ACTIVATION)
-        if os.path.exists(filepath):
-            model.load_weights(filepath)
-        else:
-            break
-        models.append(model)
-    return models
-
-def plot_models(models):
-    for model in models:
-        plt.plot(model.history['rmse'])
-        plt.plot()
+# model = load_models_with_weights(model_name)
 
 
+def get_image(data):
+    img = Image.new("RGB", (IMAGE_SIZE, IMAGE_SIZE), "black") 
+    pixels = img.load()
+    for i in range(IMAGE_SIZE):
+        for j in range(IMAGE_SIZE):
+            pixels[i,j] = (data[i+j*IMAGE_SIZE], data[i+j*IMAGE_SIZE], data[i+j*IMAGE_SIZE])
+    return img
 
-# models01 = load_models('cnn2_dataset01', 8)
-# models02 = load_models('cnn2_dataset02', 22)
+def find_faces_by_opencv(image):
+    img_copied = np.array(image)[:, :, ::-1].copy()
+    face_classifier = cv2.CascadeClassifier('../opencv/haarcascades/haarcascade_frontalface_default.xml')
+    img_copied_grey = cv2.cvtColor(img_copied, cv2.COLOR_BGR2GRAY)
+    faces = face_classifier.detectMultiScale(img_copied_grey, 1.3, 5)
+    return faces
 
-# print(len(models01), len(models02))
+print(X_test.reshape(-1, 96*96).shape)
 
-
-models01 = load_models_with_weights(model_path, 'cnn2_dataset01')
-models02 = load_models_with_weights(model_path, 'cnn2_dataset02')
