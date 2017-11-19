@@ -78,11 +78,11 @@ def create_cnn(n_output, activation, last_activation):
         cnn_for_dataset02_elu_tanh_rmsprop_drop.h5
             RMSE 1.6~1.7 after 350 epochs
 """
-def create_cnn2(n_output, init, activation, last_activation):
+def create_cnn2(n_output, kernel_init, activation, last_activation):
     input_shape = (IMAGE_SIZE, IMAGE_SIZE, COLOR_CHANNEL)
     model = Sequential()
     model.add(BatchNormalization(input_shape=input_shape))
-    model.add(Convolution2D(24, 5, 5, border_mode='same', init=init, input_shape=input_shape, dim_ordering='tf'))
+    model.add(Convolution2D(24, 5, 5, border_mode='same', kernel_initializer=kernel_init, input_shape=input_shape, dim_ordering='tf'))
     model.add(Activation(activation))
     model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), border_mode='valid'))
     model.add(Dropout(0.3))
