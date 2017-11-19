@@ -1,6 +1,6 @@
 import os
 import datetime as dt
-from keras.optimizers import RMSprop, Adam
+from keras.optimizers import RMSprop, Adam, SGD, Nadam, Adamax, TFOptimizer
 from utils.metric import rmse
 from utils.cnn import create_cnn2, train
 from utils.constant import *
