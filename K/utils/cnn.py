@@ -85,30 +85,30 @@ def create_cnn2(n_output, kernel_init, activation, last_activation):
     model.add(Convolution2D(24, 5, 5, border_mode='same', kernel_initializer=kernel_init, input_shape=input_shape, dim_ordering='tf'))
     model.add(Activation(activation))
     model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), border_mode='valid'))
-    # model.add(Dropout(0.3))
+    model.add(Dropout(0.3))
 
     model.add(Convolution2D(36, 5, 5))
     model.add(Activation(activation))
     model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), border_mode='valid'))
-    # model.add(Dropout(0.3))
+    model.add(Dropout(0.3))
 
     model.add(Convolution2D(48, 5, 5))
     model.add(Activation(activation))
     model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), border_mode='valid'))
-    # model.add(Dropout(0.3))
+    model.add(Dropout(0.3))
 
     model.add(Convolution2D(64, 3, 3))
     model.add(Activation(activation))
     model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), border_mode='valid'))
-    # model.add(Dropout(0.3))
+    model.add(Dropout(0.3))
 
     model.add(Convolution2D(64, 3, 3))
     model.add(Activation(activation))
     model.add(GlobalAveragePooling2D());
-    # model.add(Dropout(0.3))
+    model.add(Dropout(0.3))
 
     model.add(Dense(500, activation=activation))
-    # model.add(Dropout(0.5))
+    model.add(Dropout(0.5))
     model.add(Dense(90, activation=last_activation))
     model.add(Dense(n_output))
 

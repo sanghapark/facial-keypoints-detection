@@ -19,7 +19,7 @@ if not os.path.exists(submodelpath):
     os.makedirs(submodelpath)
 for i in range(50):
     # model = create_cnn2(8, 'he_uniform', ACTIVATION, LAST_ACTIVATION)
-    model = create_cnn2(8, 'he_normal', 'elu', 'tanh')
+    model = create_cnn2(8, 'he_normal', 'relu', 'relu')
 
     # optimizer = RMSprop(0.001, 0.9, 1e-8, 0)
     # optimizer = Adam(lr=0.003, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
