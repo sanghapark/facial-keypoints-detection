@@ -147,7 +147,7 @@ def create_cnn3(n_output, activation, last_activation):
     return model
 
 
-def train(model, cnnname, submodelpath, cols, flip_indices, optimizer, epochs):
+def train(model, cnnname, submodelpath, cols, flip_indices, optimizer, epochs, batch_size):
     X_train, X_valid, Y_train, Y_valid = load_train_data_and_split(FILEPATH_TRAIN, cols, VALIDATION_RATIO)
 
     weightfile = os.path.join(submodelpath, cnnname + '.h5')
@@ -160,20 +160,20 @@ def train(model, cnnname, submodelpath, cols, flip_indices, optimizer, epochs):
     model.load_weights(weightfile) if os.path.exists(weightfile) else None
     generator = DataAugmentGenerator(X_train,
                                      Y_train,
-                                     BATCH_SIZE, 
+                                     batch_size, 
                                      flip_indices, 
                                      FLIP_RATIO, 
                                      ROTATE_RATIO, 
                                      CONTRAST_RATIO,
                                      PERSPECTIVE_TRANSFORM_RATIO,
                                      ELASTIC_TRANSFORM_RATIO)
-    model.fit_generator(generator.generate(BATCH_SIZE,
+    model.fit_generator(generator.generate(batch_size,
                                            FLIP,
                                            ROTATE,
                                            CONTRAST,
                                            PERSPECTIVE_TRANSFORM,
                                            ELASTIC_TRANSFORM), 
-                        steps_per_epoch=int(generator.size_train/BATCH_SIZE),
+                        steps_per_epoch=int(generator.size_train/batch_size),
                         epochs=epochs,
                         verbose=1,
                         callbacks=[checkpoint, earlystopping, history],

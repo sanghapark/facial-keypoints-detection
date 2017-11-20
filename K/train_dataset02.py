@@ -24,4 +24,4 @@ for i in range(50):
     if i == 0:
         save_model(submodelpath, "cnn2_dataset02", model)
     cnnname = 'cnn2_dataset02_{:02}'.format(i)
-    train(model, cnnname, submodelpath, COLS02, FLIP_INDICES02, optimizer, EPOCHS02)
+    train(model, cnnname, submodelpath, COLS02, FLIP_INDICES02, optimizer, EPOCHS02, 128)
