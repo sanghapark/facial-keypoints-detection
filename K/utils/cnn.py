@@ -164,11 +164,15 @@ def train(model, cnnname, submodelpath, cols, flip_indices, optimizer, epochs):
                                      flip_indices, 
                                      FLIP_RATIO, 
                                      ROTATE_RATIO, 
-                                     CONTRAST_RATIO)
+                                     CONTRAST_RATIO,
+                                     PERSPECTIVE_TRANSFORM_RATIO,
+                                     ELASTIC_TRANSFORM_RATIO)
     model.fit_generator(generator.generate(BATCH_SIZE,
                                            FLIP,
                                            ROTATE,
-                                           CONTRAST), 
+                                           CONTRAST,
+                                           PERSPECTIVE_TRANSFORM,
+                                           ELASTIC_TRANSFORM), 
                         steps_per_epoch=int(generator.size_train/BATCH_SIZE),
                         epochs=epochs,
                         verbose=1,
