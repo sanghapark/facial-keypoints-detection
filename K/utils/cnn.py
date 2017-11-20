@@ -158,8 +158,17 @@ def train(model, cnnname, submodelpath, cols, flip_indices, optimizer, epochs):
     earlystopping = EarlyStopping(monitor='val_loss', min_delta=0, patience=50, verbose=0, mode='min')
     
     model.load_weights(weightfile) if os.path.exists(weightfile) else None
-    generator = DataAugmentGenerator(X_train, Y_train, BATCH_SIZE, flip_indices, FLIP_RATIO, ROTATE_RATIO, CONTRAST_RATIO)
-    model.fit_generator(generator.generate(BATCH_SIZE, FLIP, ROTATE, CONTRAST), 
+    generator = DataAugmentGenerator(X_train,
+                                     Y_train,
+                                     BATCH_SIZE, 
+                                     flip_indices, 
+                                     FLIP_RATIO, 
+                                     ROTATE_RATIO, 
+                                     CONTRAST_RATIO)
+    model.fit_generator(generator.generate(BATCH_SIZE,
+                                           FLIP,
+                                           ROTATE,
+                                           CONTRAST), 
                         steps_per_epoch=int(generator.size_train/BATCH_SIZE),
                         epochs=epochs,
                         verbose=1,
