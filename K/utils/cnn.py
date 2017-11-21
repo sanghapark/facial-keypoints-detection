@@ -1,7 +1,7 @@
 import os
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 from keras.models import Sequential
-from keras.layers import Convolution2D, MaxPooling2D, Dropout, Flatten, Dense, Activation, GlobalAveragePooling2D
+from keras.layers import Conv2D, Convolution2D, MaxPooling2D, Dropout, Flatten, Dense, Activation, GlobalAveragePooling2D
 from keras.layers.normalization import BatchNormalization
 from utils.load import load_train_data_and_split
 from utils.data_augment_generator import DataAugmentGenerator
@@ -144,6 +144,29 @@ def create_cnn3(n_output, activation, last_activation):
         Dense(n_output),
     ])
     print(model.summary())
+    return model
+
+def cnn_kihoon():
+    model = Sequential()
+    model.add(Conv2D(128, kernel_size=(10,10),padding='same',activation='relu', input_shape=(1,96,96)))
+    model.add(Conv2D(128, kernel_size=(10,10),padding='same',activation='tanh', input_shape=(1,96,96)))
+    model.add(MaxPooling2D(pool_size=(2, 2), dim_ordering="th"))
+    model.add(Dropout(0.1))
+    model.add(Conv2D(32, (3, 3),padding='same', activation='relu'))
+    model.add(Conv2D(32, (3, 3),padding='same', activation='tanh'))
+    model.add(MaxPooling2D(pool_size=(2, 2), dim_ordering="th"))
+    model.add(Dropout(0.2))
+    model.add(Conv2D(128, (2, 2), padding = 'same',activation='relu'))
+    model.add(Conv2D(128, (2, 2), padding = 'same',activation='tanh'))
+    model.add(MaxPooling2D(pool_size=(2, 2), dim_ordering="th"))
+    model.add(Dropout(0.3))
+    model.add(Flatten())
+    model.add(Dense(1000))
+    model.add(Activation('relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(500))
+    model.add(Activation('tanh'))
+    model.add(Dense(30))
     return model
 
 
