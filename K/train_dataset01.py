@@ -21,7 +21,7 @@ for i in range(50):
     # model = create_cnn2(8, 'he_uniform', ACTIVATION, LAST_ACTIVATION)
     model = create_cnn2(8, 'he_normal', 'relu', 'relu')
 
-    optimizer = RMSprop(0.001, 0.9, 1e-8, 0)
+    optimizer = RMSprop(lr=0.001, rho=0.9, epsilson=1e-8, decay=0)
     # optimizer = Adam(lr=0.003, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
     # optimizer = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
     # optimizer = Nadam()
