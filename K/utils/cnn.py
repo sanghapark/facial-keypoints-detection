@@ -149,7 +149,7 @@ def create_cnn3(n_output, activation, last_activation):
 def cnn_kihoon():
     model = Sequential()
     model.add(Conv2D(128, kernel_size=(10,10),padding='same',activation='relu', input_shape=(96,96,1)))
-    model.add(Conv2D(128, kernel_size=(10,10),padding='same',activation='tanh', input_shape=(96,96,1)))
+    model.add(Conv2D(128, kernel_size=(10,10),padding='same',activation='tagit nh', input_shape=(96,96,1)))
     model.add(MaxPooling2D(pool_size=(2, 2), dim_ordering="th"))
     model.add(Dropout(0.1))
     model.add(Conv2D(32, (3, 3),padding='same', activation='relu'))
@@ -166,7 +166,7 @@ def cnn_kihoon():
     model.add(Dropout(0.5))
     model.add(Dense(500))
     model.add(Activation('tanh'))
-    model.add(Dense(30))
+    model.add(Dense(8))
     return model
 
 
