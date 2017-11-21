@@ -18,8 +18,11 @@ submodelpath = 'models/{}/{}'.format(modelname, 'cnn2_dataset02')
 if not os.path.exists(submodelpath):
     os.makedirs(submodelpath)
 for i in range(50):
-    model = create_cnn2(22, 'he_normal', ACTIVATION, LAST_ACTIVATION)
-    optimizer = Adam(lr=0.003, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+    model = create_cnn2(22, 'he_normal', 'relu', 'relu')
+
+    # optimizer = Adam(lr=0.003, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+    optimizer = RMSprop(0.001, 0.9, 1e-8, 0)
+    
     model.compile(loss='mean_squared_error', optimizer=optimizer, metrics=[rmse])
     if i == 0:
         save_model(submodelpath, "cnn2_dataset02", model)
