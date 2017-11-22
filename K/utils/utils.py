@@ -7,10 +7,10 @@ from pandas.io.parsers import read_csv
 import datetime as dt
 import time
 from PIL import Image
-from models import load_models_with_weights
-from constant import *
-from load import load_train_data_and_split, load_test_data
-from data_augment_generator import DataAugmentGenerator
+from .models import load_models_with_weights
+from .constant import *
+from .load import load_train_data_and_split, load_test_data
+from .data_augment_generator import DataAugmentGenerator
 
 COLS = [
     'left_eye_inner_corner_x',      'left_eye_inner_corner_y',
@@ -209,3 +209,59 @@ def to_img(x):
         for j in range(img_size):
             pixels[i,j] = (x[i+j*img_size], x[i+j*img_size], x[i+j*img_size])
     return img
+
+def generate_augmented_images(X, Y, flip=True, rotate=True, contrast=True, perspective_transform=True, elastic_transform=True):
+    generator = DataAugmentGenerator(X,
+                                    Y,
+                                    batchsize=100,
+                                    flip_indices=FLIP_INDICES,
+                                    flip_ratio=0.5,
+                                    rotate_ratio=0.5,
+                                    contrast_ratio=0.5,
+                                    perspective_transform_ratio=0.5,
+                                    elastic_transform_ratio=0.5)
+    batch = generator.generate(batchsize=100, flip=True, rotate=True, contrast=True, perspective_transform=perspective_transform, elastic_transform=elastic_transform)
+    for X, Y in batch:
+        fig = plt.figure(figsize=(10,10))
+        fig.subplots_adjust(left=0, right=1, bottom=0, top=1, hspace=0.05, wspace=0.05)
+        for i in range(16):
+            rnd_idx = random.randint(0, 99)
+            ax = fig.add_subplot(4, 4, i + 1, xticks=[], yticks=[])
+            plot_data(X[rnd_idx, :, :, 0], Y[rnd_idx], ax)
+        break
+
+def predict_and_make_submission_file(X, model):
+    predicted = predict(X, model)
+    submission = create_submission(predicted)
+    create_submission_file(submission)
+    return predicted
+
+def predict_with_cv2_and_make_submission_file(X, model):
+    predicted = predict_with_cv2(X, model)
+    submission = create_submission(predicted)
+    create_submission_file(submission)
+    return predicted
+
+def create_submission_file(submission):
+    datetime = dt.datetime.now().strftime("%Y%m%d_%H%M")
+    filename = 'submission_' + datetime + '.csv'
+    submission.to_csv(filename, index_label='RowId')
+    print('{} created for submission.'.format(filename))
+
+def plot_image_keypoints_with_cv2(x, model):
+
+    img = to_img(x.reshape(-1)*255)
+
+    cv2_img = np.array(img)[:, :, ::-1].copy()
+    cv2_img = cv2.cvtColor(cv2_img, cv2.COLOR_BGR2GRAY)
+    image_with_detections = np.copy(cv2_img)
+        
+    fig = plt.figure(figsize = (5,5))
+    ax1 = fig.add_subplot(111)
+    ax1.set_xticks([])
+    ax1.set_yticks([])
+    ax1.set_title('image')    
+
+    landmarks = predict_with_cv2(np.array([x]), model)
+    ax1.scatter(landmarks[0, 0::2], landmarks[0, 1::2], marker='o', c='c', s=15)
+    ax1.imshow(image_with_detections, cmap='gray')
