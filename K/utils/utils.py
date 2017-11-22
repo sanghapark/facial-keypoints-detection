@@ -198,7 +198,7 @@ def plot_loss_history(model_name, submodel_name, count):
         plt.xlabel('epoch')
         plt.legend(['train', 'validation'], loc='upper right')
         axes = plt.gca()
-        axes.set_ylim([0,3])
+        # axes.set_ylim([0,3])
         plt.show()
     
 def to_img(x):
