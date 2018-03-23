@@ -247,17 +247,17 @@ I had to test the model multiple times, changing the hyper parameters. If the co
 # 4. Learning Method: Gradient Descent Optimization
 
 * Stochastic Gradient Descent
-<br>
+
 ![SGD](https://latex.codecogs.com/gif.latex?%5Ctheta%20%5Cleftarrow%20%5Ctheta%20-%20%5Ceta%20%5Cnabla_%7B%5Ctheta%7DJ%28%5Ctheta%29)
 
 * Adagrad
-<br>
+
 ![adagrad1](https://latex.codecogs.com/gif.latex?G_t%20%5Cleftarrow%20G_%7Bt-1%7D%20&plus;%20%28%5Cnabla_%7B%5Ctheta%7DJ%28%5Ctheta_t%29%29%5E2)
 
 ![adagrad2](https://latex.codecogs.com/gif.latex?%5Ctheta_%7Bt&plus;1%7D%20%5Cleftarrow%20%5Ctheta_t%20-%20%5Cfrac%7B%5Ceta%7D%7B%5Csqrt%7BG_t&plus;%5Cepsilon%7D%7D%5Ccdot%20%5Cnabla_%7B%5Ctheta%7DJ%28%5Ctheta_t%29)
 
 * RMSProp
-<br>
+
 ![rmsprop1](https://latex.codecogs.com/gif.latex?G_t%20%5Cleftarrow%20%5Cgamma%7BG_%7Bt-1%7D%7D%20&plus;%20%281-%5Cgamma%29%28%5Cnabla_%7B%5Ctheta%7DJ%28%5Ctheta_t%29%29%5E2)
 
 ![rmsprop2](https://latex.codecogs.com/gif.latex?%5Ctheta_%7Bt&plus;1%7D%20%5Cleftarrow%20%5Ctheta_t%20-%20%5Cfrac%7B%5Ceta%7D%7B%5Csqrt%7BG_t&plus;%5Cepsilon%7D%7D%5Ccdot%20%5Cnabla_%7B%5Ctheta%7DJ%28%5Ctheta_t%29)
@@ -273,7 +273,7 @@ It is difficult to say which optimization method is the best. The performance of
 <a id="5.1"></a>
 ### Cost Function
   * Mean Squared Error
-  <br>
+
 ![mse](https://latex.codecogs.com/gif.latex?%5Ctext%7BMSE%7D%20%3D%20%5Cfrac%7B1%7D%7Bn%7D%5Csum%5E%7Bn%7D_%7Bi%3D1%7D%7B%28Y_i%20-%20%5Chat%7BY%7D_i%29%5E2%7D)
 
 <a id="5.2"></a>
@@ -304,7 +304,7 @@ It is difficult to say which optimization method is the best. The performance of
     * Contrast
     * Rotation
        * Transforming Matrix of Counter-clockwise Rotation
-<br>
+
 ![rotation](https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%20x%5E%7B%27%7D%20%5C%5C%20y%5E%7B%27%7D%20%5Cend%7Bbmatrix%7D%20%3D%20%5Cbegin%7Bbmatrix%7D%20%5Ccos%7B%5Ctheta%7D%20%26%20-%5Csin%7B%5Ctheta%7D%20%5C%5C%20%5Csin%7B%5Ctheta%7D%20%26%20%5Ccos%7B%5Ctheta%7D%20%5Cend%7Bbmatrix%7D%20%5Cbegin%7Bbmatrix%7D%20x%20%5C%5C%20y%20%5Cend%7Bbmatrix%7D)
 
 
