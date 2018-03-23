@@ -303,9 +303,7 @@ It is difficult to say which optimization method is the best. The performance of
     * Horizontal Flip
     * Contrast
     * Rotation
-       * Transforming Matrix of Counter-clockwise Rotation
-
-![rotation](https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%20x%5E%7B%27%7D%20%5C%5C%20y%5E%7B%27%7D%20%5Cend%7Bbmatrix%7D%20%3D%20%5Cbegin%7Bbmatrix%7D%20%5Ccos%7B%5Ctheta%7D%20%26%20-%5Csin%7B%5Ctheta%7D%20%5C%5C%20%5Csin%7B%5Ctheta%7D%20%26%20%5Ccos%7B%5Ctheta%7D%20%5Cend%7Bbmatrix%7D%20%5Cbegin%7Bbmatrix%7D%20x%20%5C%5C%20y%20%5Cend%7Bbmatrix%7D)
+       * Transforming Matrix of Counter-clockwise Rotation: ![rotation](https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%20x%5E%7B%27%7D%20%5C%5C%20y%5E%7B%27%7D%20%5Cend%7Bbmatrix%7D%20%3D%20%5Cbegin%7Bbmatrix%7D%20%5Ccos%7B%5Ctheta%7D%20%26%20-%5Csin%7B%5Ctheta%7D%20%5C%5C%20%5Csin%7B%5Ctheta%7D%20%26%20%5Ccos%7B%5Ctheta%7D%20%5Cend%7Bbmatrix%7D%20%5Cbegin%7Bbmatrix%7D%20x%20%5C%5C%20y%20%5Cend%7Bbmatrix%7D)
 
 
 ```python
