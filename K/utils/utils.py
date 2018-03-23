@@ -265,3 +265,31 @@ def plot_image_keypoints_with_cv2(x, model):
     landmarks = predict_with_cv2(np.array([x]), model)
     ax1.scatter(landmarks[0, 0::2], landmarks[0, 1::2], marker='o', c='c', s=15)
     ax1.imshow(image_with_detections, cmap='gray')
+
+
+def plot_keypoints_with_cv2(x, model):
+    face_classifier = cv2.CascadeClassifier('./opencv/haarcascades/haarcascade_frontalface_default.xml')
+
+    img = to_img(x.reshape(-1)*255)
+
+    cv2_img = np.array(img)[:, :, ::-1].copy()
+    cv2_img = cv2.cvtColor(cv2_img, cv2.COLOR_BGR2GRAY)
+    faces = face_classifier.detectMultiScale(cv2_img, 1.01, 9)
+    image_with_detections = np.copy(cv2_img)
+        
+    fig = plt.figure(figsize = (5,5))
+    ax1 = fig.add_subplot(111)
+    ax1.set_xticks([])
+    ax1.set_yticks([])
+    ax1.set_title('image')
+    
+    for (box_x,box_y,box_w,box_h) in faces:
+        detected_face = cv2_img[box_y:box_y+box_h,box_x:box_x+box_w]
+        scale = box_w/96
+        reshaped = np.reshape(cv2.resize(detected_face, (96, 96)), (1, 96, 96, 1)) # Reshape image
+        normalized = reshaped / 255 
+        cv2.rectangle(image_with_detections, (box_x,box_y), (box_x+box_w,box_y+box_h), (0,0,255), 1)
+
+    landmarks = predict_with_cv2(np.array([x]), model)
+    ax1.scatter(landmarks[0, 0::2], landmarks[0, 1::2], marker='o', c='c', s=15)
+    ax1.imshow(image_with_detections, cmap='gray')

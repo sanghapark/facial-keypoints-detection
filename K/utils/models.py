@@ -8,12 +8,12 @@ def load_models_with_weights(model_name):
     models = []
     submodel_dirs = []
     parent_path = dirname(dirname(abspath(__file__)))
-    for item in listdir('{}/models/{}'.format(parent_path, model_name)):
+    for item in sorted(listdir('{}/models/{}'.format(parent_path, model_name))):
         if not item.startswith('.') and os.path.isdir('{}/models/{}'.format(parent_path, model_name)):
             submodel_dirs.append(item)
     for submodel in submodel_dirs:
         path = '{}/models/{}/{}'.format(parent_path, model_name, submodel)
-        weights = [f for f in listdir(path) if f.endswith('.h5')]
+        weights = [f for f in sorted(listdir(path)) if f.endswith('.h5')]
 
         submodels = []
         for idx, w in enumerate(weights):
