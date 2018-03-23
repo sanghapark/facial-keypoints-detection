@@ -1131,14 +1131,12 @@ _ = predict_and_make_submission_file(X_test, final_selected_ensemble)
   * public:  <strong>1.87261</strong>
   * private: <strong>1.64578</strong>
   
-
-My final score is 6th and 7th out of the 175 participating teams according to the public and private learderboards, respectively.
-<br><br>
-
 The additional data augmentation techniques improved the performance by <strong>14.5%</strong>. This shows that more and more data is good for performance improvement.
-<br>
-<br>
+<br><br>
 One thing that impressed me was that there was no single overfitted CNN model out of 110 trained models even though I did not apply any normalization. This is because training-time data augmentation has allowed the model to be trained with almost infinite data.
+<br><br>
+My final score is <strong>6th</strong> and <strong>7th</strong> out of the 175 participating teams according to the public and private learderboards, respectively.
+
 
 <img src="img/finalscore.png" />
 
