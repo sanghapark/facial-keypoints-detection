@@ -235,7 +235,7 @@ I had to test the model multiple times, changing the hyper parameters. If the co
 * ### Kernel Initialization
   * The initial value of the kernel has a very large effect on the training speed and convergence, so I used the He Normal, which is the most recently used.
   * He Normal
-    * $ \text{Truncated Normal}(0, \sqrt{\text{# of input units}}) $
+    ![He Normal](https://latex.codecogs.com/gif.latex?%5Ctext%7BTruncated%20Normal%7D%280%2C%20%5Csqrt%7B%5Ctext%7B%23%20of%20input%20units%7D%7D%29)
 
 <a id="3.4"></a>
 * ### Batch Normalization
