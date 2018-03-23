@@ -1130,6 +1130,10 @@ _ = predict_and_make_submission_file(X_test, final_selected_ensemble)
 * score (RMSE): submission_20171122_0152.csv
   * public:  <strong>1.87261</strong>
   * private: <strong>1.64578</strong>
+  
+
+My final score is 6th and 7th out of the 175 participating teams according to the public and private learderboards, respectively.
+<br><br>
 
 The additional data augmentation techniques improved the performance by <strong>14.5%</strong>. This shows that more and more data is good for performance improvement.
 <br>
@@ -1144,4 +1148,3 @@ One thing that impressed me was that there was no single overfitted CNN model ou
 ### Public Leaderboard
 <img src="img/public.png" />
 
-My final score is about sixth and seventh out of the 175 participating teams according to the public and private learderboards, respectively.
