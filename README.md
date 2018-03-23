@@ -234,7 +234,7 @@ I had to test the model multiple times, changing the hyper parameters. If the co
 <a id="3.3"></a>
 * ### Kernel Initialization
   * The initial value of the kernel has a very large effect on the training speed and convergence, so I used the He Normal, which is the most recently used.
-  * He Normal
+  * He Normal: 
     ![He Normal](https://latex.codecogs.com/gif.latex?%5Ctext%7BTruncated%20Normal%7D%280%2C%20%5Csqrt%7B%5Ctext%7B%23%20of%20input%20units%7D%7D%29)
 
 <a id="3.4"></a>
@@ -244,7 +244,7 @@ I had to test the model multiple times, changing the hyper parameters. If the co
 
 <a id="3.5"></a>
 * ### Activation Function
-  * Rectified Linear Units (ReLU): $\max(0,Wx+b)$
+  * Rectified Linear Units (ReLU): ![](https://latex.codecogs.com/gif.latex?%5Cmax%280%2CWx&plus;b%29)
   * To avoid gradient vanishing, I used ReLU over sigmoid for the activation function.
 
 <a id="3.6"></a>
@@ -258,27 +258,17 @@ I had to test the model multiple times, changing the hyper parameters. If the co
 # 4. Learning Method: Gradient Descent Optimization
 
 * Stochastic Gradient Descent
-$$
-\theta \leftarrow \theta - \eta \nabla_{\theta}J(\theta)
-$$
+![](https://latex.codecogs.com/gif.latex?%5Ctheta%20%5Cleftarrow%20%5Ctheta%20-%20%5Ceta%20%5Cnabla_%7B%5Ctheta%7DJ%28%5Ctheta%29)
 
 * Adagrad
-$$
-G_t \leftarrow G_{t-1} + (\nabla_{\theta}J(\theta_t))^2
-$$
+![](https://latex.codecogs.com/gif.latex?G_t%20%5Cleftarrow%20G_%7Bt-1%7D%20&plus;%20%28%5Cnabla_%7B%5Ctheta%7DJ%28%5Ctheta_t%29%29%5E2)
 
-$$
-\theta_{t+1} \leftarrow \theta_t - \frac{\eta}{\sqrt{G_t+\epsilon}}\cdot \nabla_{\theta}J(\theta_t)
-$$
+![](https://latex.codecogs.com/gif.latex?%5Ctheta_%7Bt&plus;1%7D%20%5Cleftarrow%20%5Ctheta_t%20-%20%5Cfrac%7B%5Ceta%7D%7B%5Csqrt%7BG_t&plus;%5Cepsilon%7D%7D%5Ccdot%20%5Cnabla_%7B%5Ctheta%7DJ%28%5Ctheta_t%29)
 
 * RMSProp
-$$
-G_t \leftarrow \gamma{G_{t-1}} + (1-\gamma)(\nabla_{\theta}J(\theta_t))^2
-$$
+![](https://latex.codecogs.com/gif.latex?G_t%20%5Cleftarrow%20%5Cgamma%7BG_%7Bt-1%7D%7D%20&plus;%20%281-%5Cgamma%29%28%5Cnabla_%7B%5Ctheta%7DJ%28%5Ctheta_t%29%29%5E2)
 
-$$
-\theta_{t+1} \leftarrow \theta_t - \frac{\eta}{\sqrt{G_t+\epsilon}}\cdot \nabla_{\theta}J(\theta_t)
-$$
+![](https://latex.codecogs.com/gif.latex?%5Ctheta_%7Bt&plus;1%7D%20%5Cleftarrow%20%5Ctheta_t%20-%20%5Cfrac%7B%5Ceta%7D%7B%5Csqrt%7BG_t&plus;%5Cepsilon%7D%7D%5Ccdot%20%5Cnabla_%7B%5Ctheta%7DJ%28%5Ctheta_t%29)
 
 <img src="img/opts.gif" width=350/>
 Ref: http://i.imgur.com/2dKCQHh.gif?1
@@ -291,9 +281,7 @@ It is difficult to say which optimization method is the best. The performance of
 <a id="5.1"></a>
 ### Cost Function
   * Mean Squared Error
-$$
-    \text{MSE} = \frac{1}{n}\sum^{n}_{i=1}{(Y_i - \hat{Y}_i)^2}
-$$
+![](https://latex.codecogs.com/gif.latex?%5Ctext%7BMSE%7D%20%3D%20%5Cfrac%7B1%7D%7Bn%7D%5Csum%5E%7Bn%7D_%7Bi%3D1%7D%7B%28Y_i%20-%20%5Chat%7BY%7D_i%29%5E2%7D)
 
 <a id="5.2"></a>
 ### Mini-Batch Training
@@ -326,21 +314,7 @@ $$
     \text{Transforming Matrix of Counter-clockwise Rotation}
 $$
 <br>
-$$
-\begin{bmatrix} 
-x^{'} \\
-y^{'} 
-\end{bmatrix}
-=
-\begin{bmatrix} 
-\cos{\theta} & -\sin{\theta} \\
-\sin{\theta} & \cos{\theta} 
-\end{bmatrix}
-\begin{bmatrix} 
-x \\
-y 
-\end{bmatrix}
-$$
+![](https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%20x%5E%7B%27%7D%20%5C%5C%20y%5E%7B%27%7D%20%5Cend%7Bbmatrix%7D%20%3D%20%5Cbegin%7Bbmatrix%7D%20%5Ccos%7B%5Ctheta%7D%20%26%20-%5Csin%7B%5Ctheta%7D%20%5C%5C%20%5Csin%7B%5Ctheta%7D%20%26%20%5Ccos%7B%5Ctheta%7D%20%5Cend%7Bbmatrix%7D%20%5Cbegin%7Bbmatrix%7D%20x%20%5C%5C%20y%20%5Cend%7Bbmatrix%7D)
 
 
 ```python
