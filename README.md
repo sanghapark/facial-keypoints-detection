@@ -74,19 +74,7 @@ df.head(1)
 
 
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
 
-    .dataframe thead th {
-        text-align: left;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -245,7 +233,7 @@ I had to test the model multiple times, changing the hyper parameters. If the co
 <a id="3.5"></a>
 * ### Activation Function
   * Rectified Linear Units (ReLU): <br>
-  ![](https://latex.codecogs.com/gif.latex?%5Cmax%280%2CWx&plus;b%29)
+  ![ReLU](https://latex.codecogs.com/gif.latex?%5Cmax%280%2CWx&plus;b%29)
   * To avoid gradient vanishing, I used ReLU over sigmoid for the activation function.
 
 <a id="3.6"></a>
@@ -260,19 +248,19 @@ I had to test the model multiple times, changing the hyper parameters. If the co
 
 * Stochastic Gradient Descent
 <br>
-![](https://latex.codecogs.com/gif.latex?%5Ctheta%20%5Cleftarrow%20%5Ctheta%20-%20%5Ceta%20%5Cnabla_%7B%5Ctheta%7DJ%28%5Ctheta%29)
+![SGD](https://latex.codecogs.com/gif.latex?%5Ctheta%20%5Cleftarrow%20%5Ctheta%20-%20%5Ceta%20%5Cnabla_%7B%5Ctheta%7DJ%28%5Ctheta%29)
 
 * Adagrad
 <br>
-![](https://latex.codecogs.com/gif.latex?G_t%20%5Cleftarrow%20G_%7Bt-1%7D%20&plus;%20%28%5Cnabla_%7B%5Ctheta%7DJ%28%5Ctheta_t%29%29%5E2)
+![adagrad1](https://latex.codecogs.com/gif.latex?G_t%20%5Cleftarrow%20G_%7Bt-1%7D%20&plus;%20%28%5Cnabla_%7B%5Ctheta%7DJ%28%5Ctheta_t%29%29%5E2)
 
-![](https://latex.codecogs.com/gif.latex?%5Ctheta_%7Bt&plus;1%7D%20%5Cleftarrow%20%5Ctheta_t%20-%20%5Cfrac%7B%5Ceta%7D%7B%5Csqrt%7BG_t&plus;%5Cepsilon%7D%7D%5Ccdot%20%5Cnabla_%7B%5Ctheta%7DJ%28%5Ctheta_t%29)
+![adagrad2](https://latex.codecogs.com/gif.latex?%5Ctheta_%7Bt&plus;1%7D%20%5Cleftarrow%20%5Ctheta_t%20-%20%5Cfrac%7B%5Ceta%7D%7B%5Csqrt%7BG_t&plus;%5Cepsilon%7D%7D%5Ccdot%20%5Cnabla_%7B%5Ctheta%7DJ%28%5Ctheta_t%29)
 
 * RMSProp
 <br>
-![](https://latex.codecogs.com/gif.latex?G_t%20%5Cleftarrow%20%5Cgamma%7BG_%7Bt-1%7D%7D%20&plus;%20%281-%5Cgamma%29%28%5Cnabla_%7B%5Ctheta%7DJ%28%5Ctheta_t%29%29%5E2)
+![rmsprop1](https://latex.codecogs.com/gif.latex?G_t%20%5Cleftarrow%20%5Cgamma%7BG_%7Bt-1%7D%7D%20&plus;%20%281-%5Cgamma%29%28%5Cnabla_%7B%5Ctheta%7DJ%28%5Ctheta_t%29%29%5E2)
 
-![](https://latex.codecogs.com/gif.latex?%5Ctheta_%7Bt&plus;1%7D%20%5Cleftarrow%20%5Ctheta_t%20-%20%5Cfrac%7B%5Ceta%7D%7B%5Csqrt%7BG_t&plus;%5Cepsilon%7D%7D%5Ccdot%20%5Cnabla_%7B%5Ctheta%7DJ%28%5Ctheta_t%29)
+![rmsprop2](https://latex.codecogs.com/gif.latex?%5Ctheta_%7Bt&plus;1%7D%20%5Cleftarrow%20%5Ctheta_t%20-%20%5Cfrac%7B%5Ceta%7D%7B%5Csqrt%7BG_t&plus;%5Cepsilon%7D%7D%5Ccdot%20%5Cnabla_%7B%5Ctheta%7DJ%28%5Ctheta_t%29)
 
 <img src="img/opts.gif" width=350/>
 Ref: http://i.imgur.com/2dKCQHh.gif?1
@@ -286,7 +274,7 @@ It is difficult to say which optimization method is the best. The performance of
 ### Cost Function
   * Mean Squared Error
   <br>
-![](https://latex.codecogs.com/gif.latex?%5Ctext%7BMSE%7D%20%3D%20%5Cfrac%7B1%7D%7Bn%7D%5Csum%5E%7Bn%7D_%7Bi%3D1%7D%7B%28Y_i%20-%20%5Chat%7BY%7D_i%29%5E2%7D)
+![mse](https://latex.codecogs.com/gif.latex?%5Ctext%7BMSE%7D%20%3D%20%5Cfrac%7B1%7D%7Bn%7D%5Csum%5E%7Bn%7D_%7Bi%3D1%7D%7B%28Y_i%20-%20%5Chat%7BY%7D_i%29%5E2%7D)
 
 <a id="5.2"></a>
 ### Mini-Batch Training
@@ -317,7 +305,7 @@ It is difficult to say which optimization method is the best. The performance of
     * Rotation
        * Transforming Matrix of Counter-clockwise Rotation
 <br>
-![](https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%20x%5E%7B%27%7D%20%5C%5C%20y%5E%7B%27%7D%20%5Cend%7Bbmatrix%7D%20%3D%20%5Cbegin%7Bbmatrix%7D%20%5Ccos%7B%5Ctheta%7D%20%26%20-%5Csin%7B%5Ctheta%7D%20%5C%5C%20%5Csin%7B%5Ctheta%7D%20%26%20%5Ccos%7B%5Ctheta%7D%20%5Cend%7Bbmatrix%7D%20%5Cbegin%7Bbmatrix%7D%20x%20%5C%5C%20y%20%5Cend%7Bbmatrix%7D)
+![rotation](https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%20x%5E%7B%27%7D%20%5C%5C%20y%5E%7B%27%7D%20%5Cend%7Bbmatrix%7D%20%3D%20%5Cbegin%7Bbmatrix%7D%20%5Ccos%7B%5Ctheta%7D%20%26%20-%5Csin%7B%5Ctheta%7D%20%5C%5C%20%5Csin%7B%5Ctheta%7D%20%26%20%5Ccos%7B%5Ctheta%7D%20%5Cend%7Bbmatrix%7D%20%5Cbegin%7Bbmatrix%7D%20x%20%5C%5C%20y%20%5Cend%7Bbmatrix%7D)
 
 
 ```python
