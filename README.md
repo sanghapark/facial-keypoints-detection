@@ -325,7 +325,7 @@ generate_augmented_images(X_train, Y_train, True, True, True, False, False)
 <a id="6.1"></a>
 ## Best Single CNN Model vs. Ensemble
 * Not all models produce the same error for given test data.
-* Let's reduce generalization rrror through model averaging.
+* Let's reduce generalization error through model averaging.
 
 ### Ensemble
 
