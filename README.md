@@ -3,6 +3,11 @@
 ## Deep Learning Project by Sang-Ha Park
 
 ## Table of Contents
+
+### [Analysis Description](#desc)
+* [English](#eng)
+* [한국어](#kr)
+
 ### [1. Data Exploration](#1)
 
 ### [2. Problem Approach](#2)
@@ -31,6 +36,60 @@
 ### [7. Final Kaggle Submission](#7)
   * [Final Score](#7.1)
   
+
+<a id="desc"></a>
+# Analysis Description
+
+- - -
+
+<a id="eng"></a>
+## English
+
+### Data
+The problem is to detect 15 facial key points in black-and-white face images. The training data consists of clean background profile images and face images cropped from normal photos. In 7,000 training data, approximately 2000 images are labeled for all 15 key points, while the rest are labeled for only 4 keypoints. Instead of throwing the partially labeled picture, I split the dataset into two, 11 key points and 4 key points, and trained two CNN models for each dataset.
+
+### CNN Modeling
+Various CNN architectures are tested. Deeper models have more variables for fitting but took longer to train and did not significantly reduce MSE(Mean Squared Error). Since it is a relatively simple problem of finding facial key-points, I chose a simple model if the errors do not differ much. I tried a different number of layers, kernel size, kernel initializers, batch normalization and activation functions and chose the one with the best performance and fast convergence. 
+ 
+### Training
+MSE(Mean Squared Error) is used as the error metric. I trained using mini-batch gradient descent. For each batch, images are randomly augmented in training time. The advantage of this was that image data could be generated in almost infinite ways, but the training speed got slower. I used AWS Spot Instance to train on GPU and stored the model's weights after each batch and applied early-stopping if there was no improvement in performance. I used a variety of optimization methods and selected RMSProp which performed best. 
+
+### Data Augmentation
+The initial image augmentation methods were horizontal flip, contrast, and rotation. Parameters for each transformation were chosen randomly every batch. To further improve the performance, I added two other augmentation methods, elastic transformation and perspective transformation. These two methods improved performance by 14%. Elastic transformation moves pixels one or two spaces around and degrades the image quality. Perspective transformation transforms images as seen in other viewpoints.
+
+### Overfitting and Regularization
+Drop-out or L1, L2 regularization is not applied. I thought that by feeding randomly augmented images to each batch, the model could learn from near-infinite data and avoid over-fitting. When the first three augmentation methods were applied, the overfitting occurred in the probability of one out of ten. After adding two more augmentation methods, the training error and validation error of all models converged to same MSE with very little difference.
+
+### Model Tuning
+Before a model detects facial key points, I used OpenCV to find a face and look for the points in the detected area. Many false positives occurred in face detection because there are many non-frontal face images. So I stopped using OpenCV. In addition, I trained as many CNN models as possible to create an ensemble model and calculate the average value. There was 4% performance improvement. 
+
+### Result
+My score is about 6th among 175 teams. The images with large errors were either partial or small faces, making it difficult to detect faces. I can over-sample those unusual data to learn these rare cases for better performance.
+
+- - -
+
+<a id="kr"></a>
+## 한국어
+### Data
+딥러닝 프로젝트로 캐글에서 제공되는 얼굴 특징점 찾기를 선택하였습니다. 데이터들은 배경이 깨끗한 흑백 프로필 이미지와 일반 사진에서 얼굴만 크롭 된 사진들로 이루어져 있었습니다. 7000개의 트레이닝 데이터에서 대략 2000개의 이미지는 모든 15개의 특징점에 대해 레이블링 되어 있었지만, 나머지는 오직 11개의 특징점만이 레이블링 돼 있었습니다. 부분적으로 레이블링 된 사진을 버리지 않고 11개의 특징점 데이터와 4개의 특징점 데이터로 나누어 두 개의 모델을 트레이닝시키기고 합치기로 하였습니다.
+
+### CNN Modeling
+다양한 CNN 구조를 테스트하였습니다. 레이어를 깊게 가져보았지만, 트레이닝 시간은 오래 걸리고 변수가 많음에도 불구하고 MSE(Mean Squared Error)가 크게 줄어들지 않았습니다. 얼굴 특징점을 찾는 상대적으로 간단한 문제이기에 에러가 크게 차이가 없다면 단순한 모델을 선택하기로 하였습니다. Layer의 개수, 커널 사이즈, 커널 초기화, Batch Normalization, Activation Function을 다양하게 적용해보고 가장 좋은 퍼포먼스를 내는 것들로 선택하였습니다. 
+
+### Training
+Error Metric으로는 MSE(Mean Squared Error)를 사용 하였습니다. Mini-Batch Gradient Descent를 사용하여 트레이닝시켰습니다. 배치마다 사진들을 랜덤하게 증강해 트레이닝시켰고 이미지를 무한대로 증강할 수 있지만 트레이닝의 속도가 느려진다는 단점이 있었습니다. AWS Spot Instance를 통해 GPU Training을 시키면서 배치마다 모델의 변숫값들을 저장하고 퍼포먼스의 향상이 없다면 Early Stop을 적용하였습니다. 최적화 방법은 다양한 방법을 사용해보았고 RMSProp이 가장 좋은 성능을 보여 선택하였습니다.
+
+### Data Augmentation
+처음에 적용한 이미지 증강방법은 Horizontal Flip, Contrast, Rotation 이였습니다. 배치마다 증강변수들을 랜덤하게 적용하였습니다. 랜덤하게 변형된 데이터들을 트레이닝하니 데이터의 수가 적은 문제는 해소되었습니다. 퍼포먼스를 더 높이기 위해 더 다양한 증강방법을 적용하기로 하였습니다. Elastic Transformation과 Perspective Transformation을 추가적 적용하니 퍼포먼스가 14.5% 향상하였습니다. Elastic Transformation은 픽셀을 랜덤하게 한두 칸씩 이동시켜 화질을 떨어뜨리는 효과를 주었고 Perspective Transformation을 통해 다른 시점에서 보는 듯한 효과를 주었습니다.
+
+### Overfitting and Regularization
+Drop-out이나 L1, L2 정규화는 적용하지 않았습니다. 미니배치마다 데이터를 랜덤하게 증강 시키면 무한대에 가까운 데이터로 학습시킬 수 있고 과적합을 피할 수 있다고 생각했기 때문입니다. 처음 3가지 증강방법을 적용했을 때는 과적합이 열개 중 한개의 확률로 발생하였습니다. 증강방법 2가지를 추가하였더니 모든 모델의 train 에러와 validation 에러가 작은 오차로 수렴하였습니다.
+
+### Model Tuning
+특징점을 예측하기 전에 OpenCV를 사용하여 얼굴을 인식하고 인식된 부분에서 특징점을 찾도록 하였습니다. 나쁜 화질 및 얼굴 정면 모습이 아닌 이미지들이 많아서 얼굴 인식에서 false positives가 많이 발생해 퍼포먼스는 오히려 나빠졌습니다. 그래서 OpenCV 사용을 중지하였습니다. 추가로 다른 초깃값으로 세팅된 CNN 모델들을 최대한 많이 트레이닝시키고 평균값을 구하는 앙상블 모델을 구현하였습니다. 이것으로 인해 5%의 퍼포먼스 향상이 있는 것을 확인할 수 있었습니다. 또한, 위에 언급한 더 다양한 데이터 증강 방법을 적용하였습니다.
+
+### Result
+175팀 중에 6등에 해당하는 점수를 기록하였습니다. 에러가 크게 발생하는 이미지들은 얼굴의 부분이 잘려있거나 이미지 크기보다 얼굴 사이즈가 너무 작아 인식하기 힘든 사진들이었습니다. 이런 문제는 특이한 사진들을 좀 더 오버샘플링하여 트레이닝 시켜 볼 수 있을 것 같습니다.
 
 
 ```python
